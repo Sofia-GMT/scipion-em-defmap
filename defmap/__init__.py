@@ -25,10 +25,75 @@
 # **************************************************************************
 
 import pwem
+from pyworkflow import Config
+import pyworkflow.utils as pwutils
+from defmap.constants import *
+import os
 
-_logo = "icon.png"
-_references = ['you2019']
+
+_references = ['Matsumoto2021']
+_logo = "defmap_logo.png"
+
 
 
 class Plugin(pwem.Plugin):
-    pass
+
+    @classmethod
+    def defineBinaries(cls, env): 
+        # Clone external repository from Matsumoto2021
+        cls.addDefmapPackage(env)
+
+    
+    # @classmethod
+    # def _defineVariables(cls):
+    #     Create a variable in scipion.config of the external repository
+    #     cls._defineEmVar(DEFMAP_DIC['home'], DEFAULT_ENV_NAME)
+    
+    @classmethod
+    def getEnvActivationCommand(cls, packageDictionary, condaHook=True):
+        return '{}conda activate {}'.format(cls.getCondaActivationCmd() if condaHook else '', DEFAULT_ENV_NAME)
+
+
+    @classmethod
+    def addDefmapPackage(cls, env):
+        FLAG = f"defmap_{DEFAULT_VERSION}_installed"
+
+
+        installCmds = [
+            cls.getCondaActivationCmd(),
+            f'conda create -y -n {DEFAULT_ENV_NAME} &&',
+            f'conda update -n base -c conda-forge conda &&',
+            f'conda activate {DEFAULT_ENV_NAME} &&',
+            f'conda install numpy &&',
+            f'conda install -c acellera moleculekit &&',
+            f'conda install tqdm &&',
+            f'conda install joblib &&',
+            f'conda install scipy &&',
+            f'conda install -c conda-forge tensorflow &&',
+            f'touch {FLAG}'  # Flag installation finished
+        ]
+
+        envPath = os.environ.get('PATH', "")
+        # keep path since conda likely in there
+        installEnvVars = {'PATH': envPath} if envPath else None
+
+        branch = "tf29"
+        url = "https://github.com/clinfo/DEFMap.git"
+        gitCmds = [
+            'cd .. &&',
+            f'git clone -b {branch} {url} defmap-{DEFAULT_VERSION} &&',
+            f'cd defmap-{DEFAULT_VERSION};'
+        ]
+        gitCmds.extend(installCmds)
+        defmapCmds = [(" ".join(gitCmds), FLAG)]
+        env.addPackage('defmap', version=DEFAULT_VERSION,
+                       tar='void.tgz',
+                       commands=defmapCmds,
+                       default=False,
+                       vars=installEnvVars)
+    
+
+        
+    
+    
+            

@@ -5,17 +5,6 @@ Scipion DefMap plugin
 This is a plugin for **scipion** for DefMap, a program that predicts molecular dynamics properties from cryo-EM maps.
 
 ==========================
-Steps to adapt this plugin
-==========================
- 
-
-**Customize it**
-
-Replace icon.png with your logo.
-
-Get rid of this content and keep the readme informative
-
-==========================
 Steps to use this plugin
 ==========================
 
