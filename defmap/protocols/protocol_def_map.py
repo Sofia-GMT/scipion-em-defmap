@@ -31,7 +31,7 @@ Protocol to run DefMap neural network
 """
 from posixpath import basename
 from pyworkflow.protocol import Protocol, params
-from pyworkflow.utils import Message
+from pyworkflow.utils import Message, logger
 from os import system, mkdir
 from datetime import datetime
 from subprocess import call
@@ -100,45 +100,44 @@ class DefMapNeuralNetwork(Protocol):
 
     def createDatasetStep(self):
         volumesLocation = os.path.abspath(self.inputVolume.get().getFileName())
-        newFolderName=self._getExtraPath(str(datetime.now()))
-
-        print(Config.SCIPION_HOME)
+        newFolderName=os.path.abspath(self._getExtraPath("sample.jbl"))
+        logger.info(newFolderName)
 
         #  Create folder with the dataset
-        if not os.path.exists(newFolderName):
-            os.mkdir(newFolderName)
-        self.datasetFolderLocation = os.path.abspath(self.getWorkingDir())+"/"+newFolderName
+        # if not os.path.exists(newFolderName):
+        #     os.mkdir(newFolderName)
+        self.datasetFolderLocation = os.path.abspath(newFolderName) #self.getWorkingDir())
+        logger.info(self.datasetFolderLocation)
 
         # Set arguments to create-dataset command
         
         args = [
-                '-m %s ' % volumesLocation,
-                '-o %s' % self.datasetFolderLocation,
-                ' -p' 
+                '-m "%s"' % volumesLocation,
+                '-o "%s"' % self.datasetFolderLocation,
+                '-p' 
                 ]
 
         if self.inputThreshold.hasValue():
             args.append('-t %f ' % self.inputThreshold)
-        
-        print(args)
 
         # Execute create-dataset
-        createDatasetCommand ="python " + self.getScriptLocation("create-dataset") + " " + self.setArgs(args)
+        createDatasetCommand ="python " + self.getScriptLocation("create-dataset")
 
-        print(createDatasetCommand)
+        # print(createDatasetCommand)
+        
 
-        system("pip install tqdm")
-
-        system(createDatasetCommand)
+        #system("pip install tqdm")
+        self._enterDir(self.getScriptLocation())
+        self.runJob(Plugin.getEnvActivationCommand() + "&& " + createDatasetCommand, ' '.join(args))
     
     # --------------------------- UTILS functions -----------------------------------
 
-    def getScriptLocation(self,step):
-        commonPath = Config.SCIPION_HOME + "/software/em/"+ DEFAULT_ENV_NAME+"/DEFMap"
+    def getScriptLocation(self,step=None):
+        commonPath = Config.SCIPION_HOME + "/software/em/"+ DEFAULT_SCRIPT_FOLDER+"/DEFMap"
         specificPath = ""
-        if step.__eq__("create-dataset"):
+        if step == "create-dataset":
             specificPath = "/preprocessing/prep_dataset.py"
-        elif step.__eq__("inference") :
+        elif step == "inference" :
             specificPath = "/3dcnn_main.py"
 
         return commonPath + specificPath

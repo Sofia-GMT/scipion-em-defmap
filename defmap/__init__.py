@@ -50,8 +50,8 @@ class Plugin(pwem.Plugin):
     #     cls._defineEmVar(DEFMAP_DIC['home'], DEFAULT_ENV_NAME)
     
     @classmethod
-    def getEnvActivationCommand(cls, packageDictionary, condaHook=True):
-        return '{}conda activate {}'.format(cls.getCondaActivationCmd() if condaHook else '', DEFAULT_ENV_NAME)
+    def getEnvActivationCommand(cls, packageDictionary=None, condaHook=True):
+        return '{}conda activate {}'.format(cls.getCondaActivationCmd(), DEFAULT_ENV_NAME)
 
 
     @classmethod
