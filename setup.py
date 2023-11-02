@@ -25,17 +25,17 @@ with open('requirements.txt') as f:
 
 setup(
     name='scipion-em-defmap',  # Required
-    version='0.1',  # Required
+    version='3.0.1',  # Required
     description='Scipion defmap plugin.',  # Required
     long_description=long_description,  # Optional
-    url='https://github.com/scipion-em/scipion-em-defmap',  # Optional
-    author='you',  # Optional
+    url='https://github.com/Sofia-GMT/scipion-em-defmap',  # Optional
+    author='Sofía González Matatoros',  # Optional
     author_email='sofia.gonzalez.10147@gmail.com',  # Optional
     keywords='scipion cryoem imageprocessing scipion-3.0 molecular-dynamics',  # Optional
     packages=find_packages(),
     install_requires=[requirements],
     entry_points={'pyworkflow.plugin': 'defmap = defmap'},
     package_data={  # Optional
-       'defmap': ['icon.png', 'protocols.conf'],
+       'defmap': ['defmap_logo.png', 'protocols.conf'],
     }
 )

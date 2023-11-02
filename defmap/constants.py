@@ -42,9 +42,4 @@ def getScriptFolderName(version):
 DEFAULT_ENV_NAME = getEnvName(DEFAULT_VERSION)
 DEFAULT_SCRIPT_FOLDER = getScriptFolderName(DEFAULT_VERSION)
 
-#Constant dictionaries 
-DEFMAP_DIC = {'name':'defmap', 'version':DEFAULT_VERSION, 'home':'DEFMAP_HOME'}
-
-DEFAULT_ACTIVATION_CMD = 'conda activate ' + DEFAULT_ENV_NAME
-
     

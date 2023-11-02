@@ -37,17 +37,39 @@ _logo = "defmap_logo.png"
 
 
 class Plugin(pwem.Plugin):
+    _supportedVersions = VERSIONS
 
     @classmethod
     def defineBinaries(cls, env): 
         # Clone external repository from Matsumoto2021
-        cls.addDefmapPackage(env)
+        for ver in VERSIONS:
+            cls.addDefmapPackage(env, ver, default=ver==DEFAULT_VERSION)
+
+    @classmethod
+    def getEnviron(cls):
+        """ Setup the environment variables needed to launch cryoDRGN. """
+        environ = pwutils.Environ(os.environ)
+        if 'PYTHONPATH' in environ:
+            # this is required for python virtual env to work
+            del environ['PYTHONPATH']
+        return environ
 
     
     # @classmethod
     # def _defineVariables(cls):
     #     Create a variable in scipion.config of the external repository
     #     cls._defineEmVar(DEFMAP_DIC['home'], DEFAULT_ENV_NAME)
+
+    @classmethod
+    def getDependencies(cls):
+        """ Return a list of dependencies. Include conda if
+        activation command was not found. """
+        condaActivationCmd = cls.getCondaActivationCmd()
+        neededProgs = []
+        if not condaActivationCmd:
+            neededProgs.append('conda')
+
+        return neededProgs
     
     @classmethod
     def getEnvActivationCommand(cls, packageDictionary=None, condaHook=True):
@@ -55,15 +77,16 @@ class Plugin(pwem.Plugin):
 
 
     @classmethod
-    def addDefmapPackage(cls, env):
-        FLAG = f"defmap_{DEFAULT_VERSION}_installed"
+    def addDefmapPackage(cls, env, version, default=False):
+        ENV_NAME = getEnvName(version)
+        FLAG = f"defmap_{version}_installed"
 
 
         installCmds = [
             cls.getCondaActivationCmd(),
-            f'conda create -y -n {DEFAULT_ENV_NAME} &&',
+            f'conda create -y -n {ENV_NAME} &&',
             f'conda update -n base -c conda-forge conda &&',
-            f'conda activate {DEFAULT_ENV_NAME} &&',
+            f'conda activate {ENV_NAME} &&',
             f'conda install numpy &&',
             f'conda install -c acellera moleculekit &&',
             f'conda install tqdm &&',
@@ -81,12 +104,12 @@ class Plugin(pwem.Plugin):
         url = "https://github.com/clinfo/DEFMap.git"
         gitCmds = [
             'cd .. &&',
-            f'git clone -b {branch} {url} defmap-{DEFAULT_VERSION} &&',
-            f'cd defmap-{DEFAULT_VERSION};'
+            f'git clone -b {branch} {url} defmap-{version} &&',
+            f'cd defmap-{version};'
         ]
         gitCmds.extend(installCmds)
         defmapCmds = [(" ".join(gitCmds), FLAG)]
-        env.addPackage('defmap', version=DEFAULT_VERSION,
+        env.addPackage('defmap', version=version,
                        tar='void.tgz',
                        commands=defmapCmds,
                        default=False,
