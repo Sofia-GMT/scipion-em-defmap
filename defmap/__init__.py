@@ -86,6 +86,7 @@ class Plugin(pwem.Plugin):
             cls.getCondaActivationCmd(),
             f'conda create -y -n {ENV_NAME} python="3.8" &&',
             f'conda activate {ENV_NAME} &&',
+            f'conda install -c anaconda libopenblas -y &&',
             f'conda install numpy -y &&',
             f'conda install -c acellera moleculekit -y &&',
             f'conda install tqdm -y &&',
