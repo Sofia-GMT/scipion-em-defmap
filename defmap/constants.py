@@ -32,7 +32,7 @@ VERSIONS = [V1_0_0]
 DEFAULT_VERSION = V1_0_0
 
 def getEnvName(version):
-    return "defmap" #-%s" % version
+    return "defmap-%s" % version
 
 def getScriptFolderName(version):
     return "defmap-%s" % version
