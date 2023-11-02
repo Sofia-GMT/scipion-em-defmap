@@ -108,6 +108,10 @@ class Plugin(pwem.Plugin):
                 f'git clone -b {branch} {url} defmap-{version} &&',
                 f'cd defmap-{version};'
             ]
+        else:
+            gitCmds = [
+                f'cd ../defmap-{version};'
+            ]            
         gitCmds.extend(installCmds)
         defmapCmds = [(" ".join(gitCmds), FLAG)]
         env.addPackage('defmap', version=version,
