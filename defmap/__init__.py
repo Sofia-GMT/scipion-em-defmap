@@ -84,15 +84,14 @@ class Plugin(pwem.Plugin):
 
         installCmds = [
             cls.getCondaActivationCmd(),
-            f'conda create -y -n {ENV_NAME} &&',
-            f'conda update -n base -c conda-forge conda &&',
-            f'conda activate {ENV_NAME} &&',
-            f'conda install numpy &&',
-            f'conda install -c acellera moleculekit &&',
-            f'conda install tqdm &&',
-            f'conda install joblib &&',
-            f'conda install scipy &&',
-            f'conda install -c conda-forge tensorflow &&',
+            f'conda create -y -n {ENV_NAME} python="3.8" &&',
+            f'conda activate {ENV_NAME} -y &&',
+            f'conda install numpy -y &&',
+            f'conda install -c acellera moleculekit -y &&',
+            f'conda install tqdm -y &&',
+            f'conda install joblib -y &&',
+            f'conda install scipy -y &&',
+            f'conda install -c conda-forge tensorflow -y &&',
             f'touch {FLAG}'  # Flag installation finished
         ]
 
@@ -102,11 +101,13 @@ class Plugin(pwem.Plugin):
 
         branch = "tf29"
         url = "https://github.com/clinfo/DEFMap.git"
-        gitCmds = [
-            'cd .. &&',
-            f'git clone -b {branch} {url} defmap-{version} &&',
-            f'cd defmap-{version};'
-        ]
+
+        if not os.path.exists(os.path.join(pwem.Config.EM_ROOT, "defmap-%s" % version)):
+            gitCmds = [
+                'cd .. &&',
+                f'git clone -b {branch} {url} defmap-{version} &&',
+                f'cd defmap-{version};'
+            ]
         gitCmds.extend(installCmds)
         defmapCmds = [(" ".join(gitCmds), FLAG)]
         env.addPackage('defmap', version=version,
