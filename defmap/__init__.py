@@ -103,16 +103,15 @@ class Plugin(pwem.Plugin):
         branch = "tf29"
         url = "https://github.com/clinfo/DEFMap.git"
 
-        if not os.path.exists(os.path.join(pwem.Config.EM_ROOT, "defmap-%s" % version)):
+        if not os.path.exists(os.path.join(pwem.Config.EM_ROOT, ENV_NAME, 'img')):
             gitCmds = [
                 'cd .. &&',
-                f'git clone -b {branch} {url} defmap-{version} &&',
-                f'cd defmap-{version};'
+                f'git clone -b {branch} {url} {ENV_NAME} &&',
+                f'cd {ENV_NAME};'
             ]
         else:
             gitCmds = [
-                f'cd ../defmap-{version};'
-            ]            
+            ]
         gitCmds.extend(installCmds)
         defmapCmds = [(" ".join(gitCmds), FLAG)]
         env.addPackage('defmap', version=version,
