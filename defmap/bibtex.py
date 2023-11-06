@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # **************************************************************************
 # *
-# * Authors:     you (you@yourinstitution.email)
+# * Authors:     Sofia Gonzalez Matatoros (sofia.gonzalezm@estudiante.uam.es)
 # *
 # * your institution
 # *

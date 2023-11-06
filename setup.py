@@ -30,7 +30,7 @@ setup(
     long_description=long_description,  # Optional
     url='https://github.com/Sofia-GMT/scipion-em-defmap',  # Optional
     author='Sofía González Matatoros',  # Optional
-    author_email='sofia.gonzalez.10147@gmail.com',  # Optional
+    author_email='sofia.gonzalezm@estudiante.uam.com',  # Optional
     keywords='scipion cryoem imageprocessing scipion-3.0 molecular-dynamics',  # Optional
     packages=find_packages(),
     install_requires=[requirements],

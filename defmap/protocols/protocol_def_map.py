@@ -54,6 +54,7 @@ class DefMapNeuralNetwork(Protocol):
     # -------------------------- CONSTANTS ----------------------
 
     datasetFolderLocation = ""
+    inferenceFolderLocation = ""
 
     createDatasetCommand = "python prep_dataset.py -m /home/usuario/ScipionUserData/projects/defmap_prep/Runs/000390_XmippProtCropResizeVolumes/extra/output_volume.mrc -o ../data/sample.jbl -p -t 0.2"
 
@@ -81,7 +82,7 @@ class DefMapNeuralNetwork(Protocol):
         #               pointerClass="Structure",
         #               allowsPointers=True)
 
-        # form.addParam('resolution', params.EnumParam,
+        # form.addParam('inputResolution', params.EnumParam,
         #               allowsNull=True,
         #               label='Resolution',
         #               help='Resolution model for the inference step',
@@ -95,19 +96,16 @@ class DefMapNeuralNetwork(Protocol):
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('createDatasetStep')
-        #self._insertFunctionStep('inferenceStep')
+        self._insertFunctionStep('inferenceStep')
 
 
     def createDatasetStep(self):
-        volumesLocation = os.path.abspath(self.inputVolume.get().getFileName())
-        newFolderName=os.path.abspath(self._getExtraPath("sample.jbl"))
-        logger.info(newFolderName)
 
-        #  Create folder with the dataset
-        # if not os.path.exists(newFolderName):
-        #     os.mkdir(newFolderName)
-        self.datasetFolderLocation = os.path.abspath(newFolderName) #self.getWorkingDir())
-        logger.info(self.datasetFolderLocation)
+        logger.info("Create dataset step")
+
+        # Get paths
+        volumesLocation = os.path.abspath(self.inputVolume.get().getFileName())
+        self.datasetFolderLocation=os.path.abspath(self._getExtraPath("sample.jbl"))
 
         # Set arguments to create-dataset command
         
@@ -121,47 +119,71 @@ class DefMapNeuralNetwork(Protocol):
             args.append('-t %f ' % self.inputThreshold)
 
         # Execute create-dataset
-        createDatasetCommand ="python " + self.getScriptLocation("create-dataset")
-
-        # print(createDatasetCommand)
+        createDatasetCommand ="python " + self.getScriptLocation("create-dataset-script")
         
-
-        #system("pip install tqdm")
-        self._enterDir(self.getScriptLocation())
+        self._enterDir(self.getScriptLocation("create-dataset-folder"))
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + createDatasetCommand, ' '.join(args))
+
+    def inferenceStep(self):
+
+        logger.info("Inference step")
+
+        # Get pahts
+
+        self.inferenceFolderLocation = os.path.abspath(self._getExtraPath("prediction.jbl"))
+        modelLocation = os.path.abspath(self._getExtraPath("model.h5"))
+
+        # Set arguments to create-dataset command
+
+        args = [
+                '-t "%s"' % self.datasetFolderLocation,
+                '-p "%s"' % self.inferenceFolderLocation,
+                '-o "%s"' % modelLocation
+                ]
+
+        # execute inference
+
+        inferenceCommand = "python " + self.getScriptLocation("inference")
+
+        self._enterDir(self.getScriptLocation(""))
+        self.runJob(inferenceCommand, ' '.join(args))
+
+
     
     # --------------------------- UTILS functions -----------------------------------
 
     def getScriptLocation(self,step=None):
-        commonPath = Config.SCIPION_HOME + "/software/em/"+ DEFAULT_SCRIPT_FOLDER+"/DEFMap"
+
+        commonPath = Config.SCIPION_HOME + "/software/em/"+ DEFAULT_SCRIPT_FOLDER
         specificPath = ""
-        if step == "create-dataset":
-            specificPath = "/preprocessing/prep_dataset.py"
+
+        if step == "create-dataset-folder":
+            specificPath = "/preprocessing"
+
+        elif step == "create-dataset-script":
+            commonPath = ""
+            specificPath = "prep_dataset.py"
+
         elif step == "inference" :
             specificPath = "/3dcnn_main.py"
 
         return commonPath + specificPath
-    
-    def setArgs(self, args):
-        result=''
-        for item in args:
-            result+=item
-        return result
 
     # --------------------------- INFO functions -----------------------------------
     def _summary(self):
         summary = []
 
         if self.isFinished():
-            sum = "This protocol has run DefMap Neural Network branch tf29, created by Shigeyuki Matsumoto and Shoichi Ishida."
-            summary.append(sum)
+            sum1 = "This protocol has run DefMap Neural Network branch tf29, created by Shigeyuki Matsumoto and Shoichi Ishida."
+            summary.append(sum1)
+            sum2 = ("Prediction saved in %s " % self.inferenceFolderLocation)
+            summary.append(sum2)
         return summary
     
     def _methods(self):
         methods = []
 
         if self.isFinished():
-            methods.append("1. Activate or prepare DefMap env in conda")
-            methods.append("2. Create dataset step")
-            methods.append("3. Inferce step")
+            methods.append("1. Create dataset to test")
+            methods.append("2. Dynamics prediction")
         return methods

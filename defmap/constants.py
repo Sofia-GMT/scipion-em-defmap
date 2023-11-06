@@ -1,6 +1,6 @@
 # **************************************************************************
 # *
-# * Authors:     Grigory Sharov (gsharov@mrc-lmb.cam.ac.uk)
+# * Authors:     Sofia Gonzalez Matatoros (sofia.gonzalezm@estudiante.uam.es)
 # *
 # * MRC Laboratory of Molecular Biology (MRC-LMB)
 # *
@@ -27,19 +27,17 @@
 
 # Versions
 
-V1_0_0 = "1.0.0"
-VERSIONS = [V1_0_0]
-DEFAULT_VERSION = V1_0_0
+V1_0_1 = "1.0.1"
+VERSIONS = [V1_0_1]
+DEFAULT_VERSION = V1_0_1
 
 def getEnvName(version):
     return "defmap-%s" % version
 
-def getScriptFolderName(version):
-    return "defmap-%s" % version
 
 # Environment
 
 DEFAULT_ENV_NAME = getEnvName(DEFAULT_VERSION)
-DEFAULT_SCRIPT_FOLDER = getScriptFolderName(DEFAULT_VERSION)
+DEFAULT_SCRIPT_FOLDER = getEnvName(DEFAULT_VERSION)
 
     

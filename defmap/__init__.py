@@ -1,6 +1,6 @@
 # **************************************************************************
 # *
-# * Authors:     you (you@yourinstitution.email)
+# * Authors:     Sofia Gonzalez Matatoros (sofia.gonzalezm@estudiante.uam.es)
 # *
 # * your institution
 # *
@@ -84,15 +84,9 @@ class Plugin(pwem.Plugin):
 
         installCmds = [
             cls.getCondaActivationCmd(),
-            f'conda create -y -n {ENV_NAME} python="3.8" &&',
+            f'conda create -y -n {ENV_NAME} &&',
             f'conda activate {ENV_NAME} &&',
-            f'conda install -c anaconda libopenblas -y &&',
-            f'conda install numpy=1.23.5 -y &&',
-            f'conda install -c acellera moleculekit -y &&',
-            f'conda install tqdm -y &&',
-            f'conda install joblib -y &&',
-            f'conda install scipy -y &&',
-            f'conda install -c conda-forge tensorflow -y &&',
+            f'conda install python=3.8 moleculekit=1.5.6 tensorflow=2.9.1 joblib -c acellera -c conda-forge -y &&',
             f'touch {FLAG}'  # Flag installation finished
         ]
 
@@ -105,9 +99,7 @@ class Plugin(pwem.Plugin):
 
         if not os.path.exists(os.path.join(pwem.Config.EM_ROOT, ENV_NAME, 'img')):
             gitCmds = [
-                'cd .. &&',
-                f'git clone -b {branch} {url} {ENV_NAME} &&',
-                f'cd {ENV_NAME};'
+                f'git clone -b {branch} {url} ./{ENV_NAME} &&', 
             ]
         else:
             gitCmds = [
