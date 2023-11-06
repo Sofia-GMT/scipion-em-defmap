@@ -87,6 +87,7 @@ class Plugin(pwem.Plugin):
             f'conda create -y -n {ENV_NAME} &&',
             f'conda activate {ENV_NAME} &&',
             f'conda install python=3.8 moleculekit=1.5.6 tensorflow=2.9.1 joblib -c acellera -c conda-forge -y &&',
+            f'conda install scikit-learn -y'
             f'touch {FLAG}'  # Flag installation finished
         ]
 
