@@ -109,7 +109,7 @@ class Plugin(pwem.Plugin):
         env.addPackage('defmap', version=version,
                        tar='void.tgz',
                        commands=defmapCmds,
-                       default=False,
+                       default=default,
                        vars=installEnvVars)
     
 
