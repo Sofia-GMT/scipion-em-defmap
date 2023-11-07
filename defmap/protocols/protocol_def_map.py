@@ -138,7 +138,7 @@ class DefMapNeuralNetwork(Protocol):
         # Set arguments to create-dataset command
 
         args = [
-                'infer'
+                'infer',
                 '-t "%s"' % self.datasetFolderLocation,
                 '-p "%s"' % self.inferenceFolderLocation,
                 '-o "%s"' % trainedModelLocation,
