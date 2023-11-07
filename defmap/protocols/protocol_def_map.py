@@ -68,6 +68,13 @@ class DefMapNeuralNetwork(Protocol):
             * resolution: resolution model for the inference step. Options: 5A, 6A o 7A.
             * threshold: top threshold to drop sub-voxels with a standardized intensity.
         """
+        form.addHidden(params.GPU_LIST, params.StringParam, default='0',
+                       expertLevel=params.LEVEL_ADVANCED,
+                       label="Choose GPU IDs",
+                       help="GPU may have several cores. Set it to zero"
+                            " if you do not know what we are talking about."
+                            " First core index is 0, second 1 and so on.")
+
         form.addSection(label=Message.LABEL_INPUT)
 
         form.addParam('inputVolume', params.PointerParam,
@@ -142,6 +149,7 @@ class DefMapNeuralNetwork(Protocol):
                 '-t "%s"' % self.datasetFolderLocation,
                 '-p "%s"' % self.inferenceFolderLocation,
                 '-o "%s"' % trainedModelLocation,
+                '-g "%s"' % self.gpuList.get(),
                 ]
 
         # execute inference
