@@ -138,17 +138,18 @@ class DefMapNeuralNetwork(Protocol):
         # Set arguments to create-dataset command
 
         args = [
+                'infer'
                 '-t "%s"' % self.datasetFolderLocation,
                 '-p "%s"' % self.inferenceFolderLocation,
-                '-o "%s"' % trainedModelLocation
+                '-o "%s"' % trainedModelLocation,
                 ]
 
         # execute inference
 
-        inferenceCommand = "python " + self.getScriptLocation("inference") +" infer"
+        inferenceCommand = "python " + self.getScriptLocation("inference")
 
         self._enterDir(self.getScriptLocation(""))
-        self.runJob(inferenceCommand, ' '.join(args))
+        self.runJob(Plugin.getEnvActivationCommand() + "&& " + inferenceCommand, ' '.join(args))
 
 
     
