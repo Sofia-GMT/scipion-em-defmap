@@ -130,9 +130,9 @@ class DefMapNeuralNetwork(Protocol):
 
         # Get pahts
 
-        resultsFolder = self.datasetFolderLocation
+        resultsFolder = os.path.split(self.datasetFolderLocation)[0]
 
-        self.inferenceFolderLocation = os.path.abspath(self._getExtraPath("prediction.jbl"))
+        self.inferenceFolderLocation = resultsFolder + "/prediction.jbl"
         trainedModelLocation = self.getScriptLocation(str(self.inputResolution))
 
         # Set arguments to create-dataset command
