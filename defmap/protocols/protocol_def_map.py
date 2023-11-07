@@ -133,7 +133,7 @@ class DefMapNeuralNetwork(Protocol):
         resultsFolder = self.datasetFolderLocation
 
         self.inferenceFolderLocation = os.path.abspath(self._getExtraPath("prediction.jbl"))
-        trainedModelLocation = self.getScriptLocation(self.inputResolution)
+        trainedModelLocation = self.getScriptLocation(str(self.inputResolution))
 
         # Set arguments to create-dataset command
 
@@ -165,13 +165,13 @@ class DefMapNeuralNetwork(Protocol):
         elif step == "inference" :
             specificPath = "/3dcnn_main.py"
 
-        elif step == 0:
+        elif step == "0":
             specificPath="/model/model_res5A.h5"
 
-        elif step == 1:
+        elif step == "1":
             specificPath="/model/model_res6A.h5"
 
-        elif step == 2:
+        elif step == "2":
             specificPath="/model/model_res7A.h5"
 
         return commonPath + specificPath
