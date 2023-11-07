@@ -82,11 +82,11 @@ class DefMapNeuralNetwork(Protocol):
         #               pointerClass="Structure",
         #               allowsPointers=True)
 
-        # form.addParam('inputResolution', params.EnumParam,
-        #               allowsNull=True,
-        #               label='Resolution',
-        #               help='Resolution model for the inference step',
-        #               default="5A", choices=["5A","6A","7A"]),
+        form.addParam('inputResolution', params.EnumParam,
+                      allowsNull=True,
+                      label='Resolution',
+                      help='Resolution model for the inference step. There are three models according to three possible resolutions',
+                      default=0, choices=["5 Å","6 Å","7 Å"]),
         
         form.addParam('inputThreshold', params.FloatParam,
                         allowsNull=True, important = False,
@@ -119,7 +119,7 @@ class DefMapNeuralNetwork(Protocol):
             args.append('-t %f ' % self.inputThreshold)
 
         # Execute create-dataset
-        createDatasetCommand ="python " + self.getScriptLocation("create-dataset-script")
+        createDatasetCommand ="python prep_dataset.py"
         
         self._enterDir(self.getScriptLocation("create-dataset-folder"))
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + createDatasetCommand, ' '.join(args))
@@ -130,20 +130,22 @@ class DefMapNeuralNetwork(Protocol):
 
         # Get pahts
 
+        resultsFolder = self.datasetFolderLocation
+
         self.inferenceFolderLocation = os.path.abspath(self._getExtraPath("prediction.jbl"))
-        modelLocation = os.path.abspath(self._getExtraPath("model.h5"))
+        trainedModelLocation = self.getScriptLocation(self.inputResolution)
 
         # Set arguments to create-dataset command
 
         args = [
                 '-t "%s"' % self.datasetFolderLocation,
                 '-p "%s"' % self.inferenceFolderLocation,
-                '-o "%s"' % modelLocation
+                '-o "%s"' % trainedModelLocation
                 ]
 
         # execute inference
 
-        inferenceCommand = "python " + self.getScriptLocation("inference")
+        inferenceCommand = "python " + self.getScriptLocation("inference") +" infer"
 
         self._enterDir(self.getScriptLocation(""))
         self.runJob(inferenceCommand, ' '.join(args))
@@ -160,12 +162,17 @@ class DefMapNeuralNetwork(Protocol):
         if step == "create-dataset-folder":
             specificPath = "/preprocessing"
 
-        elif step == "create-dataset-script":
-            commonPath = ""
-            specificPath = "prep_dataset.py"
-
         elif step == "inference" :
             specificPath = "/3dcnn_main.py"
+
+        elif step == 0:
+            specificPath="/model/model_res5A.h5"
+
+        elif step == 1:
+            specificPath="/model/model_res6A.h5"
+
+        elif step == 2:
+            specificPath="/model/model_res7A.h5"
 
         return commonPath + specificPath
 
