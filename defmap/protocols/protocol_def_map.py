@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # **************************************************************************
 # *
-# * Authors:     you (you@yourinstitution.email)
+# * Authors:     Sofía González Matatoros (sofia.gonzalezm@estudiante.uam.es)
 # *
-# * your institution
+# * Centro Nacional de Biotecnología CNB - Universidad Autónoma de Madrid UAM
 # *
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 # * 02111-1307  USA
 # *
 # *  All comments concerning this program package may be sent to the
-# *  e-mail address 'you@yourinstitution.email'
+# *  e-mail address 'scipion@cnb.csic.es'
 # *
 # **************************************************************************
 
@@ -29,19 +29,14 @@
 """
 Protocol to run DefMap neural network
 """
-from posixpath import basename
-from pyworkflow.protocol import Protocol, params
-from pyworkflow.utils import Message, logger
-from os import system, mkdir
-from datetime import datetime
-from subprocess import call
-import os
-import pyworkflow.utils as pwutils
-from pyworkflow import Config
-from pyworkflow.utils import path
 
+from pyworkflow.protocol import Protocol, params, constants
+from pyworkflow.utils import Message, logger
+from os.path import abspath, split, exists
+from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
+from pwem.objects import AtomStruct
 
 
 class DefMapNeuralNetwork(Protocol):
@@ -51,12 +46,7 @@ class DefMapNeuralNetwork(Protocol):
         return "defmap"
 
     _label = 'Defmap prediction'
-    # -------------------------- CONSTANTS ----------------------
-
-    datasetFolderLocation = ""
-    inferenceFolderLocation = ""
-
-    createDatasetCommand = "python prep_dataset.py -m /home/usuario/ScipionUserData/projects/defmap_prep/Runs/000390_XmippProtCropResizeVolumes/extra/output_volume.mrc -o ../data/sample.jbl -p -t 0.2"
+    _possibleOutputs = {'outputStructure': AtomStruct}
 
     # -------------------------- INPUT PARAMETERS ----------------------
     def _defineParams(self, form):
@@ -68,8 +58,8 @@ class DefMapNeuralNetwork(Protocol):
             * resolution: resolution model for the inference step. Options: 5A, 6A o 7A.
             * threshold: top threshold to drop sub-voxels with a standardized intensity.
         """
-        form.addHidden(params.GPU_LIST, params.StringParam, default='0',
-                       expertLevel=params.LEVEL_ADVANCED,
+        form.addHidden(params.GPU_LIST, params.StringParam, default='',
+                       expertLevel=constants.LEVEL_ADVANCED,
                        label="Choose GPU IDs",
                        help="GPU may have several cores. Set it to zero"
                             " if you do not know what we are talking about."
@@ -98,26 +88,27 @@ class DefMapNeuralNetwork(Protocol):
         form.addParam('inputThreshold', params.FloatParam,
                         allowsNull=True, important = False,
                         label='Threshold',
-                        help='Top threshold to drop sub-voxels with a standardized intensity')
+                        help='Top threshold to drop voxels with a standardized intensity.\n'
+                              'If not given, a threshold of 0 will be used for visualization.')
 
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('createDatasetStep')
         self._insertFunctionStep('inferenceStep')
+        self._insertFunctionStep('postprocStep')
+        self._insertFunctionStep('createOutputStep')
 
 
     def createDatasetStep(self):
 
-        logger.info("Create dataset step")
-
         # Get paths
-        volumesLocation = os.path.abspath(self.inputVolume.get().getFileName())
-        self.datasetFolderLocation=os.path.abspath(self._getExtraPath("sample.jbl"))
+        self.volumesLocation = abspath(self.inputVolume.get().getFileName())
+        self.datasetFolderLocation = abspath(self._getExtraPath("sample.jbl"))
 
         # Set arguments to create-dataset command
         
         args = [
-                '-m "%s"' % volumesLocation,
+                '-m "%s"' % self.volumesLocation,
                 '-o "%s"' % self.datasetFolderLocation,
                 '-p' 
                 ]
@@ -133,24 +124,24 @@ class DefMapNeuralNetwork(Protocol):
 
     def inferenceStep(self):
 
-        logger.info("Inference step")
-
         # Get pahts
 
-        resultsFolder = os.path.split(self.datasetFolderLocation)[0]
+        self.resultsFolder = split(self.datasetFolderLocation)[0]
 
-        self.inferenceFolderLocation = resultsFolder + "/prediction.jbl"
+        self.inferenceFolderLocation = self.resultsFolder + "/prediction.jbl"
         trainedModelLocation = self.getScriptLocation(str(self.inputResolution))
 
-        # Set arguments to create-dataset command
+        # Set arguments to infer command
 
         args = [
                 'infer',
                 '-t "%s"' % self.datasetFolderLocation,
                 '-p "%s"' % self.inferenceFolderLocation,
-                '-o "%s"' % trainedModelLocation,
-                '-g "%s"' % self.gpuList.get(),
+                '-o "%s"' % trainedModelLocation
                 ]
+        
+        if self.gpuList.get() != '':
+            args.append('-g "%s"' % self.gpuList.get())
 
         # execute inference
 
@@ -159,6 +150,31 @@ class DefMapNeuralNetwork(Protocol):
         self._enterDir(self.getScriptLocation(""))
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + inferenceCommand, ' '.join(args))
 
+    def postprocStep(self):
+
+        # Set arguments to Postprocessing command
+        args = [
+                '-m "%s"' % self.volumesLocation,
+                '-p "%s"' % self.inferenceFolderLocation,
+                ]
+        
+        if self.inputThreshold.hasValue():
+            args.append('-t %f ' % self.inputThreshold)
+        else:
+            args.append('-t %f ' % 0.0)
+
+        command = "python " + self.getScriptLocation("postprocessing")
+
+        self._enterDir(self.getScriptLocation(""))
+        self.runJob(Plugin.getEnvActivationCommand() + "&& " + command, ' '.join(args))
+
+    
+    def createOutputStep(self):
+        self.pdbFileName = self.getPdbFile()
+        if exists(self.pdbFileName):
+            outputPdb = AtomStruct()
+            outputPdb.setFileName(self.pdbFileName)
+            self._defineOutputs(outputStructure=outputPdb)
 
     
     # --------------------------- UTILS functions -----------------------------------
@@ -183,7 +199,14 @@ class DefMapNeuralNetwork(Protocol):
         elif step == "2":
             specificPath="/model/model_res7A.h5"
 
+        elif step == "postprocessing":
+            specificPath = "/postprocessing/rmsf_map2grid.py"
+
         return commonPath + specificPath
+    
+    def getPdbFile(self):
+        filename = split(self.volumesLocation)[1]
+        return self.resultsFolder + "/" + filename
 
     # --------------------------- INFO functions -----------------------------------
     def _summary(self):
@@ -192,7 +215,7 @@ class DefMapNeuralNetwork(Protocol):
         if self.isFinished():
             sum1 = "This protocol has run DefMap Neural Network branch tf29, created by Shigeyuki Matsumoto and Shoichi Ishida."
             summary.append(sum1)
-            sum2 = ("Prediction saved in %s " % self.inferenceFolderLocation)
+            sum2 = ("Output saved in %s " % self.resultsFolder)
             summary.append(sum2)
         return summary
     
@@ -202,4 +225,5 @@ class DefMapNeuralNetwork(Protocol):
         if self.isFinished():
             methods.append("1. Create dataset to test")
             methods.append("2. Dynamics prediction")
+            methods.append("3. Postprocessing")
         return methods
