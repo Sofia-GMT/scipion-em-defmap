@@ -32,8 +32,7 @@ Protocol to run DefMap neural network
 
 from pyworkflow.protocol import Protocol, params, constants
 from pyworkflow.utils import Message, logger
-from os.path import abspath, split, exists
-from os import rename
+from os import path, rename 
 from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
@@ -103,8 +102,8 @@ class DefMapNeuralNetwork(Protocol):
     def createDatasetStep(self):
 
         # Get paths
-        self.volumesLocation = abspath(self.inputVolume.get().getFileName())
-        self.datasetFolderLocation = abspath(self._getExtraPath("sample.jbl"))
+        self.volumesLocation = path.abspath(self.inputVolume.get().getFileName())
+        self.datasetFolderLocation = path.abspath(self._getExtraPath("sample.jbl"))
 
         # Set arguments to create-dataset command
         
@@ -127,7 +126,7 @@ class DefMapNeuralNetwork(Protocol):
 
         # Get pahts
 
-        self.resultsFolder = split(self.datasetFolderLocation)[0]
+        self.resultsFolder = path.split(self.datasetFolderLocation)[0]
 
         self.inferenceFolderLocation = self.resultsFolder + "/prediction.jbl"
         trainedModelLocation = self.getScriptLocation(str(self.inputResolution))
@@ -173,7 +172,7 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        self.postprocResultName = split(self.volumesLocation)[1]
+        self.postprocResultName = path.split(self.volumesLocation)[1][:-4] + ".pdb"
 
         rename(self.getScriptLocation("postprocResult"), self.getPdbFile())
 
@@ -183,7 +182,7 @@ class DefMapNeuralNetwork(Protocol):
     
     def createOutputStep(self):
         self.pdbFileName = self.getPdbFile()
-        if exists(self.pdbFileName):
+        if path.exists(self.pdbFileName):
             outputPdb = AtomStruct()
             outputPdb.setFileName(self.pdbFileName)
             self._defineOutputs(outputStructure=outputPdb)
