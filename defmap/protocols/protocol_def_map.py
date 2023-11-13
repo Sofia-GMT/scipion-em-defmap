@@ -176,6 +176,8 @@ class DefMapNeuralNetwork(Protocol):
         self.postprocResultName = split(self.volumesLocation)[1]
 
         rename(self.getScriptLocation("postprocResult"), self.getPdbFile())
+
+        logger.info("Results in %s" % self.resultsFolder)
         
 
     
@@ -228,8 +230,6 @@ class DefMapNeuralNetwork(Protocol):
         if self.isFinished():
             sum1 = "This protocol has run DefMap Neural Network branch tf29, created by Shigeyuki Matsumoto and Shoichi Ishida."
             summary.append(sum1)
-            sum2 = ("Output saved in %s " % self.resultsFolder)
-            summary.append(sum2)
         return summary
     
     def _methods(self):
