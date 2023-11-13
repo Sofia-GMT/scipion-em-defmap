@@ -33,6 +33,7 @@ Protocol to run DefMap neural network
 from pyworkflow.protocol import Protocol, params, constants
 from pyworkflow.utils import Message, logger
 from os.path import abspath, split, exists
+from os import rename
 from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
@@ -60,7 +61,7 @@ class DefMapNeuralNetwork(Protocol):
         """
         form.addHidden(params.GPU_LIST, params.StringParam, default='',
                        expertLevel=constants.LEVEL_ADVANCED,
-                       label="Choose GPU IDs",
+                       label='Choose GPU IDs',
                        help="GPU may have several cores. Set it to zero"
                             " if you do not know what we are talking about."
                             " First core index is 0, second 1 and so on.")
@@ -165,8 +166,17 @@ class DefMapNeuralNetwork(Protocol):
 
         command = "python " + self.getScriptLocation("postprocessing")
 
+        # call command
+
         self._enterDir(self.getScriptLocation(""))
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + command, ' '.join(args))
+
+        # move result to working directory
+
+        self.postprocResultName = split(self.volumesLocation)[1]
+
+        rename(self.getScriptLocation("postprocResult"), self.getPdbFile())
+        
 
     
     def createOutputStep(self):
@@ -202,11 +212,14 @@ class DefMapNeuralNetwork(Protocol):
         elif step == "postprocessing":
             specificPath = "/postprocessing/rmsf_map2grid.py"
 
+        elif step == "postprocResult":
+            specificPath="/" + self.postprocResultName
+
         return commonPath + specificPath
     
     def getPdbFile(self):
-        filename = split(self.volumesLocation)[1]
-        return self.resultsFolder + "/" + filename
+        return self.resultsFolder + "/" + self.postprocResultName
+
 
     # --------------------------- INFO functions -----------------------------------
     def _summary(self):
