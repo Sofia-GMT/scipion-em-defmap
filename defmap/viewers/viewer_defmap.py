@@ -25,7 +25,7 @@
 # *
 # **************************************************************************
 
-from pwem.viewers import ChimeraViewer
+#from pwem.viewers import ChimeraViewer
 from pyworkflow.viewer import ProtocolViewer
 from defmap.protocols import DefMapNeuralNetwork
 from pyworkflow.protocol import params
