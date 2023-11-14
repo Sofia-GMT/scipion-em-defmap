@@ -31,8 +31,10 @@ from defmap.protocols import DefMapNeuralNetwork
 from pyworkflow.protocol import params
 from pwchem.viewers import PyMolViewer
 
+from pwem.objects import AtomStruct
+
 class DefmapViewer(ProtocolViewer):
-  _targets = [DefMapNeuralNetwork]
+  _targets = [DefMapNeuralNetwork, AtomStruct]
 
   _label = 'Structure and predictions viewer'
 
@@ -48,9 +50,13 @@ class DefmapViewer(ProtocolViewer):
         return {'openPymol': self._viewPymol}
                 #'openChimeraX': self._viewChimeraX}
   
-  def _viewPymol(self):
+  def _viewPymol(self, *args):
+    if isinstance(self.protocol, DefMapNeuralNetwork):
+       files = self.protocol.getOutputFiles()
+    else:
+       files = self.protocol.getFileName()
     view = PyMolViewer(project=self.getProject())
-    return view._visualize(DefMapNeuralNetwork.getOutputFiles())
+    return view._visualize(files)
   
   # def _viewChimeraX(self):
   #   view = ChimeraViewer(project=self.getProject())

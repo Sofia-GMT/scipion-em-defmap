@@ -5,7 +5,5 @@
 # **************************************************************************
 
 from .protocol_def_map import DefMapNeuralNetwork
-from xmipp3.protocols.protocol_preprocess.protocol_crop_resize import XmippProtCropResizeVolumes
-from xmipp3.protocols.protocol_preprocess.protocol_filter import XmippProtFilterVolumes
 from pwem.protocols.protocol_import import ProtImportVolumes
 from pwem.protocols.protocol_import import ProtImportPdb
