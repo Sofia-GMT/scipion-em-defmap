@@ -52,7 +52,7 @@ class DefmapViewer(ProtocolViewer):
   
   def _viewPymol(self, *args):
     if isinstance(self.protocol, DefMapNeuralNetwork):
-       files = self.protocol.getOutputFiles()
+       files = self.protocol.outputStructure.getFileName()
     else:
        files = self.protocol.getFileName()
     view = PyMolViewer(project=self.getProject())
