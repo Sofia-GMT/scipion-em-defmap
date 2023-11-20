@@ -32,11 +32,12 @@ Protocol to run DefMap neural network
 
 from pyworkflow.protocol import Protocol, params, constants
 from pyworkflow.utils import Message, logger
-from os import path, rename 
+from os import path, rename, readlink,symlink
 from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
 from pwem.objects import AtomStruct
+import pyworkflow.utils as pwutils
 
 
 class DefMapNeuralNetwork(Protocol):
@@ -94,22 +95,29 @@ class DefMapNeuralNetwork(Protocol):
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('createDatasetStep')
-        self._insertFunctionStep('inferenceStep')
-        self._insertFunctionStep('postprocStep')
-        self._insertFunctionStep('createOutputStep')
+        # self._insertFunctionStep('inferenceStep')
+        # self._insertFunctionStep('postprocStep')
+        # self._insertFunctionStep('createOutputStep')
 
 
     def createDatasetStep(self):
 
-        # Get paths
-        self.volumesLocation = path.abspath(self.inputVolume.get().getFileName())
-        self.datasetFolderLocation = path.abspath(self._getExtraPath("sample.jbl"))
+        # Get paths and create symbolic links
+        
+        self.resultsFolder = path.abspath(self.getWorkingDir()) + "/extra"
+        volumesLink = self.getResult('volumes')
+        volumesLocation = path.abspath(self.inputVolume.get().getFileName())
+
+        if path.islink(volumesLocation):
+            self.copyLink(volumesLocation, volumesLink)
+        else:
+            symlink(volumesLocation, volumesLink)
 
         # Set arguments to create-dataset command
         
         args = [
-                '-m "%s"' % self.volumesLocation,
-                '-o "%s"' % self.datasetFolderLocation,
+                '-m "%s"' % volumesLink,
+                '-o "%s"' % self.getResult('dataset'),
                 '-p' 
                 ]
 
@@ -124,19 +132,16 @@ class DefMapNeuralNetwork(Protocol):
 
     def inferenceStep(self):
 
-        # Get pahts
+        # Get path to trained model
 
-        self.resultsFolder = path.split(self.datasetFolderLocation)[0]
-
-        self.inferenceFolderLocation = self.resultsFolder + "/prediction.jbl"
         trainedModelLocation = self.getScriptLocation(str(self.inputResolution))
 
         # Set arguments to infer command
 
         args = [
                 'infer',
-                '-t "%s"' % self.datasetFolderLocation,
-                '-p "%s"' % self.inferenceFolderLocation,
+                '-t "%s"' % self.getResult('dataset'),
+                '-p "%s"' % self.getResult('prediction'),
                 '-o "%s"' % trainedModelLocation
                 ]
         
@@ -152,25 +157,35 @@ class DefMapNeuralNetwork(Protocol):
 
     def postprocStep(self):
 
-        # Prepare the file that points to the Atomic Structure and the Volumes
+        # Create Atomic Structure link
+
         structureLocation = path.abspath(self.inputStructure.get().getFileName())
-        pointerFileLocation = self.resultsFolder+"/sample_for_visual.list"
+        structureLink = self.getResult('atomic-structure')
+
+        if path.islink(structureLocation):
+            self.copyLink(structureLocation, structureLink)
+        else:
+            symlink(structureLocation, structureLink)
+
+        # Prepare the file that points to the Atomic Structure and the Volumes
+
+        pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
 
         with open(pointerFileLocation,"w") as pointerFile:
-            pointerFile.write(structureLocation +" " +self.volumesLocation)
+            pointerFile.write(structureLink + " " +self.getResult('volumes'))
 
         # Set arguments to Postprocessing command
         args = [
                 '-l "%s"' % pointerFileLocation,
-                '-p "%s"' % self.inferenceFolderLocation,
+                '-p "%s"' % self.getResult('prediction'),
                 '-n'
                 ]
 
-        command = "python " + self.getScriptLocation("postprocessing")
+        command = "python " + self.getScriptLocation("postprocessing-script")
 
         # call command
 
-        self._enterDir(self.getScriptLocation(""))
+        self._enterDir(self.getScriptLocation("postprocessing-folder"))
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + command, ' '.join(args))
 
         # move result to working directory
@@ -184,7 +199,7 @@ class DefMapNeuralNetwork(Protocol):
 
     
     def createOutputStep(self):
-        self.pdbFileName = self.getPdbFile()
+        self.pdbFileName = self.getResult()
         if path.exists(self.pdbFileName):
             outputPdb = AtomStruct()
             outputPdb.setFileName(self.pdbFileName)
@@ -213,17 +228,30 @@ class DefMapNeuralNetwork(Protocol):
         elif step == "2":
             specificPath="/model/model_res7A.h5"
 
-        elif step == "postprocessing":
+        elif step == "postprocessing-script":
             specificPath = "/postprocessing/rmsf_map2model_for_defmap.py"
 
-        # elif step == "postprocResult":
-        #     specificPath="/" + self.postprocResultName
+        elif step == "postprocessing-folder":
+            specificPath="/postprocessing"
 
         return commonPath + specificPath
     
-    # def getPdbFile(self):
-    #     return self.resultsFolder + "/" + self.postprocResultName
+    def copyLink(self, oldLink, destination):
+        source = readlink(oldLink)
+        symlink(source, destination)
 
+    def getResult(self, name):
+        if name == 'volumes':
+            file = '/volumes.mrc'
+        elif name == 'dataset':
+            file = '/sample.jbl'
+        elif name == 'prediction':
+            file = '/prediction.jbl'
+        elif name == 'atomic-structure':
+            file = '/structure.pdb'
+        else:
+            file = 'visual_output.pdb'
+        return  self.resultsFolder + file
 
     # --------------------------- INFO functions -----------------------------------
     def _summary(self):
