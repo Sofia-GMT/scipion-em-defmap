@@ -172,7 +172,7 @@ class DefMapNeuralNetwork(Protocol):
         pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
 
         with open(pointerFileLocation,"w") as pointerFile:
-            pointerFile.write(structureLink + " " +self.getResult('volumes'))
+            pointerFile.write("structure.pdb volumes.mrc")
 
         # Set arguments to Postprocessing command
         args = [
