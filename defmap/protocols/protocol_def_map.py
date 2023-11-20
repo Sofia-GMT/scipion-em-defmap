@@ -73,11 +73,11 @@ class DefMapNeuralNetwork(Protocol):
                       pointerClass="Volume",
                       allowsPointers=True)
 
-        # form.addParam('structure', params.PointerParam,
-        #               label='Atomic structure', important=True,
-        #               help='Atomic structure of the protein from PDB',
-        #               pointerClass="Structure",
-        #               allowsPointers=True)
+        form.addParam('inputStructure', params.PointerParam,
+                      label='Atomic structure', important=True,
+                      help='Atomic structure of the molecule',
+                      pointerClass="Structure",
+                      allowsPointers=True)
 
         form.addParam('inputResolution', params.EnumParam,
                       allowsNull=True,
@@ -152,16 +152,19 @@ class DefMapNeuralNetwork(Protocol):
 
     def postprocStep(self):
 
+        # Prepare the file that points to the Atomic Structure and the Volumes
+        structureLocation = path.abspath(self.inputStructure.get().getFileName())
+        pointerFileLocation = self.resultsFolder+"/sample_for_visual.list"
+
+        with open(pointerFileLocation,"w") as pointerFile:
+            pointerFile.write(structureLocation +" " +self.volumesLocation)
+
         # Set arguments to Postprocessing command
         args = [
-                '-m "%s"' % self.volumesLocation,
+                '-l "%s"' % pointerFileLocation,
                 '-p "%s"' % self.inferenceFolderLocation,
+                '-n'
                 ]
-        
-        if self.inputThreshold.hasValue():
-            args.append('-t %f ' % self.inputThreshold)
-        else:
-            args.append('-t %f ' % 0.0)
 
         command = "python " + self.getScriptLocation("postprocessing")
 
@@ -172,9 +175,9 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        self.postprocResultName = path.split(self.volumesLocation)[1][:-4] + ".pdb"
+        # self.postprocResultName = path.split(self.volumesLocation)[1][:-4] + ".pdb"
 
-        rename(self.getScriptLocation("postprocResult"), self.getPdbFile())
+        # rename(self.getScriptLocation("postprocResult"), self.getPdbFile())
 
         logger.info("Results in %s" % self.resultsFolder)
         
@@ -211,15 +214,15 @@ class DefMapNeuralNetwork(Protocol):
             specificPath="/model/model_res7A.h5"
 
         elif step == "postprocessing":
-            specificPath = "/postprocessing/rmsf_map2grid.py"
+            specificPath = "/postprocessing/rmsf_map2model_for_defmap.py"
 
-        elif step == "postprocResult":
-            specificPath="/" + self.postprocResultName
+        # elif step == "postprocResult":
+        #     specificPath="/" + self.postprocResultName
 
         return commonPath + specificPath
     
-    def getPdbFile(self):
-        return self.resultsFolder + "/" + self.postprocResultName
+    # def getPdbFile(self):
+    #     return self.resultsFolder + "/" + self.postprocResultName
 
 
     # --------------------------- INFO functions -----------------------------------
