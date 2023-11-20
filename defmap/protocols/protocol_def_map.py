@@ -76,7 +76,7 @@ class DefMapNeuralNetwork(Protocol):
         form.addParam('inputStructure', params.PointerParam,
                       label='Atomic structure', important=True,
                       help='Atomic structure of the molecule',
-                      pointerClass="Structure",
+                      pointerClass="AtomStruct",
                       allowsPointers=True)
 
         form.addParam('inputResolution', params.EnumParam,
