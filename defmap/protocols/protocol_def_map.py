@@ -95,9 +95,9 @@ class DefMapNeuralNetwork(Protocol):
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('createDatasetStep')
-        # self._insertFunctionStep('inferenceStep')
-        # self._insertFunctionStep('postprocStep')
-        # self._insertFunctionStep('createOutputStep')
+        self._insertFunctionStep('inferenceStep')
+        self._insertFunctionStep('postprocStep')
+        self._insertFunctionStep('createOutputStep')
 
 
     def createDatasetStep(self):
