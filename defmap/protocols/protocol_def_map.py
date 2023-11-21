@@ -94,29 +94,28 @@ class DefMapNeuralNetwork(Protocol):
 
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
+        self._insertFunctionStep('createLinks')
         self._insertFunctionStep('createDatasetStep')
         self._insertFunctionStep('inferenceStep')
         self._insertFunctionStep('postprocStep')
         self._insertFunctionStep('createOutputStep')
 
+    def createLinks(self):
 
-    def createDatasetStep(self):
-
-        # Get paths and create symbolic links
+        # Create symbolic links for next steps
         
         self.resultsFolder = path.abspath(self.getWorkingDir()) + "/extra"
-        volumesLink = self.getResult('volumes')
         volumesLocation = path.abspath(self.inputVolume.get().getFileName())
+        self.obtainLink(volumesLocation, self.getResult('volumes') )
+        structureLocation = path.abspath(self.inputStructure.get().getFileName())
+        self.obtainLink(structureLocation, self.getResult('atomic-structure') )
 
-        if path.islink(volumesLocation):
-            self.copyLink(volumesLocation, volumesLink)
-        else:
-            symlink(volumesLocation, volumesLink)
+    def createDatasetStep(self):
 
         # Set arguments to create-dataset command
         
         args = [
-                '-m "%s"' % volumesLink,
+                '-m "%s"' % self.getResult('volumes'),
                 '-o "%s"' % self.getResult('dataset'),
                 '-p' 
                 ]
@@ -156,16 +155,6 @@ class DefMapNeuralNetwork(Protocol):
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + inferenceCommand, ' '.join(args))
 
     def postprocStep(self):
-
-        # Create Atomic Structure link
-
-        structureLocation = path.abspath(self.inputStructure.get().getFileName())
-        structureLink = self.getResult('atomic-structure')
-
-        if path.islink(structureLocation):
-            self.copyLink(structureLocation, structureLink)
-        else:
-            symlink(structureLocation, structureLink)
 
         # Prepare the file that points to the Atomic Structure and the Volumes
 
@@ -236,9 +225,13 @@ class DefMapNeuralNetwork(Protocol):
 
         return commonPath + specificPath
     
-    def copyLink(self, oldLink, destination):
-        source = readlink(oldLink)
-        symlink(source, destination)
+    def obtainLink(self,location, destination):
+        if path.islink(location):
+            source = readlink(location)
+            symlink(source, destination)
+        else:
+            symlink(location, destination)
+
 
     def getResult(self, name):
         if name == 'volumes':
