@@ -179,16 +179,14 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        # self.postprocResultName = path.split(self.volumesLocation)[1][:-4] + ".pdb"
-
-        # rename(self.getScriptLocation("postprocResult"), self.getPdbFile())
+        rename(self.getResult(""), path.abspath('defmap_norm_model.pdb'))
 
         logger.info("Results in %s" % self.resultsFolder)
         
 
     
     def createOutputStep(self):
-        self.pdbFileName = self.getResult()
+        self.pdbFileName = self.getResult("")
         if path.exists(self.pdbFileName):
             outputPdb = AtomStruct()
             outputPdb.setFileName(self.pdbFileName)
@@ -243,7 +241,7 @@ class DefMapNeuralNetwork(Protocol):
         elif name == 'atomic-structure':
             file = '/structure.pdb'
         else:
-            file = 'visual_output.pdb'
+            file = '/defmap_norm_model.pdb'
         return  self.resultsFolder + file
 
     # --------------------------- INFO functions -----------------------------------
