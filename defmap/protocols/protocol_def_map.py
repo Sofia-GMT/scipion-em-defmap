@@ -179,7 +179,7 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        rename(self.getResult(""), path.abspath('defmap_norm_model.pdb'))
+        rename(path.abspath('defmap_norm_model.pdb'), self.getResult(''))
 
         logger.info("Results in %s" % self.resultsFolder)
         
