@@ -81,7 +81,6 @@ class DefMapNeuralNetwork(Protocol):
                       allowsPointers=True)
 
         form.addParam('inputResolution', params.EnumParam,
-                      allowsNull=True,
                       label='Resolution',
                       help='Resolution model for the inference step. There are three models according to three possible resolutions',
                       default=0, choices=["5 Å","6 Å","7 Å"]),
