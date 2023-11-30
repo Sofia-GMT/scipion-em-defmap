@@ -102,7 +102,7 @@ class Plugin(pwem.Plugin):
 
         if not os.path.exists(os.path.join(pwem.Config.EM_ROOT, ENV_NAME, 'img')):
             gitCmds = [
-                f'git clone -b {branch} {url} ./{ENV_NAME} &&', 
+                f'git clone -b {branch} {url} ./ &&', 
             ]
         else:
             gitCmds = [
