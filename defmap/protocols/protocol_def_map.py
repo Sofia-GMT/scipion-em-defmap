@@ -192,6 +192,14 @@ class DefMapNeuralNetwork(Protocol):
             outputPdb.setFileName(self.pdbFileName)
             self._defineOutputs(outputStructure=outputPdb)
 
+            # create file with pymol commands:
+            pointerFileLocation = self.resultsFolder + "/pointer_for_pymol.pml"
+
+            with open(pointerFileLocation,"w") as pointerFile:
+                pointerFile.write("load " + self.pdbFileName + "\n"
+                                  "spectrum b, blue_white_red \n"
+                                  "cartoon tube")
+
     
     # --------------------------- UTILS functions -----------------------------------
 
