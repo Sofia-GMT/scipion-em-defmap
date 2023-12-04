@@ -176,7 +176,7 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        rename(path.abspath('volumes.mrc'), self.getResult('output-voxel'))
+        rename(readlink(self.getResult('volumes')), self.getResult('output-voxel'))
 
 
     def postprocStepPdb(self):
@@ -300,7 +300,7 @@ class DefMapNeuralNetwork(Protocol):
         elif name == 'atomic-structure':
             file = '/structure.pdb'
         elif name == 'output-voxel':
-            file = '/volumes.pdb'
+            file = '/voxel-visualization.pdb'
         elif name == 'output-pdb':
             file = '/defmap_norm_model.pdb'
         else:
