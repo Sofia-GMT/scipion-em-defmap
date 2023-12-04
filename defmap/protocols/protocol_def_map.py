@@ -47,7 +47,7 @@ class DefMapNeuralNetwork(Protocol):
         return "defmap"
 
     _label = 'Defmap prediction'
-    _possibleOutputs = {'outputStructure': AtomStruct}
+    _possibleOutputs = {'outputStructure': AtomStruct, 'outputStructureVoxel':AtomStruct}
 
     # -------------------------- INPUT PARAMETERS ----------------------
     def _defineParams(self, form):
@@ -75,7 +75,7 @@ class DefMapNeuralNetwork(Protocol):
                       allowsPointers=True)
 
         form.addParam('inputStructure', params.PointerParam,
-                      label='Atomic structure', important=True,
+                      label='Atomic structure', 
                       help='Atomic structure of the molecule',
                       pointerClass="AtomStruct",
                       allowsPointers=True)
@@ -96,7 +96,8 @@ class DefMapNeuralNetwork(Protocol):
         self._insertFunctionStep('createLinks')
         self._insertFunctionStep('createDatasetStep')
         self._insertFunctionStep('inferenceStep')
-        self._insertFunctionStep('postprocStep')
+        self._insertFunctionStep('postprocStepVoxel')
+        self._insertFunctionStep('postprocStepPdb')
         self._insertFunctionStep('createOutputStep')
 
     def createLinks(self):
@@ -153,23 +154,20 @@ class DefMapNeuralNetwork(Protocol):
         self._enterDir(self.getScriptLocation(""))
         self.runJob(Plugin.getEnvActivationCommand() + "&& " + inferenceCommand, ' '.join(args))
 
-    def postprocStep(self):
-
-        # Prepare the file that points to the Atomic Structure and the Volumes
-
-        pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
-
-        with open(pointerFileLocation,"w") as pointerFile:
-            pointerFile.write("structure.pdb volumes.mrc")
+    def postprocStepVoxel(self):
 
         # Set arguments to Postprocessing command
         args = [
-                '-l "%s"' % pointerFileLocation,
-                '-p "%s"' % self.getResult('prediction'),
-                '-n'
+                '-m "%s"' % self.getResult('volumes'),
+                '-p "%s"' % self.getResult('prediction')
                 ]
+        
+        if self.inputThreshold.hasValue():
+            args.append('-t %f ' % self.inputThreshold)
+        else:
+            args.append('-t 0.0')
 
-        command = "python " + self.getScriptLocation("postprocessing-script")
+        command = "python " + self.getScriptLocation("postprocessing-voxel")
 
         # call command
 
@@ -178,26 +176,77 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        rename(path.abspath('defmap_norm_model.pdb'), self.getResult(''))
+        rename(path.abspath('volumes.mrc'), self.getResult('output-voxel'))
 
-        logger.info("Results in %s" % self.resultsFolder)
-        
 
-    
-    def createOutputStep(self):
-        self.pdbFileName = self.getResult("")
-        if path.exists(self.pdbFileName):
-            outputPdb = AtomStruct()
-            outputPdb.setFileName(self.pdbFileName)
-            self._defineOutputs(outputStructure=outputPdb)
+    def postprocStepPdb(self):
 
-            # create file with pymol commands:
-            pointerFileLocation = self.resultsFolder + "/pointer_for_pymol.pml"
+        if(self.inputStructure.hasValue()):
+
+            # Prepare the file that points to the Atomic Structure and the Volumes
+
+            pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
 
             with open(pointerFileLocation,"w") as pointerFile:
-                pointerFile.write("load " + self.pdbFileName + "\n"
-                                  "spectrum b, blue_white_red \n"
-                                  "cartoon tube")
+                pointerFile.write("structure.pdb volumes.mrc")
+
+            # Set arguments to Postprocessing command
+            args = [
+                    '-l "%s"' % pointerFileLocation,
+                    '-p "%s"' % self.getResult('prediction'),
+                    '-n'
+                    ]
+
+            command = "python " + self.getScriptLocation("postprocessing-pdb")
+
+            # call command
+
+            self._enterDir(self.getScriptLocation("postprocessing-folder"))
+            self.runJob(Plugin.getEnvActivationCommand() + "&& " + command, ' '.join(args))
+
+            # move result to working directory
+
+            rename(path.abspath('defmap_norm_model.pdb'), self.getResult('output-pdb'))
+        
+        else:
+            logger.info("No Atomic Structure detected - only visualization by voxels")
+
+        
+    
+    def createOutputStep(self):
+        self.voxelFileName = self.getResult("output-voxel")
+        self.pdbFileName = self.getResult("output-pdb")
+
+        if path.exists(self.pdbFileName) and path.exists(self.voxelFileName):
+            outputPdbVoxel = AtomStruct()
+            outputPdbVoxel.setFileName(self.voxelFileName)
+            self.definePdbOutput(outputPdbVoxel)
+
+        elif path.exists(self.voxelFileName):
+            outputPdbVoxel = AtomStruct()
+            outputPdbVoxel.setFileName(self.voxelFileName)
+            self._defineOutputs(outputStructure=None,outputStructureVoxel=outputPdbVoxel)
+
+        elif path.exists(self.pdbFileName):
+            self.definePdbOutput()
+
+        else:
+            self._defineOutputs(outputStructure=None, outputStructureVoxel=None)
+        
+        logger.info("Results in %s" % self.resultsFolder)
+
+    def definePdbOutput(self,otherStructure = None):
+        outputPdb = AtomStruct()
+        outputPdb.setFileName(self.pdbFileName)
+        self._defineOutputs(outputStructure=outputPdb,outputStructureVoxel=otherStructure)
+
+        # create file with pymol commands:
+        pointerFileLocation = self.resultsFolder + "/pointer_for_pymol.pml"
+
+        with open(pointerFileLocation,"w") as pointerFile:
+            pointerFile.write("load " + self.pdbFileName + "\n"
+                                "spectrum b, blue_white_red \n"
+                                "cartoon tube")
 
     
     # --------------------------- UTILS functions -----------------------------------
@@ -222,8 +271,11 @@ class DefMapNeuralNetwork(Protocol):
         elif step == "2":
             specificPath="/model/model_res7A.h5"
 
-        elif step == "postprocessing-script":
+        elif step == "postprocessing-pdb":
             specificPath = "/postprocessing/rmsf_map2model_for_defmap.py"
+        
+        elif step == "postprocessing-voxel":
+            specificPath = "/postprocessing/rmsf_map2grid.py"
 
         elif step == "postprocessing-folder":
             specificPath="/postprocessing"
@@ -247,8 +299,12 @@ class DefMapNeuralNetwork(Protocol):
             file = '/prediction.jbl'
         elif name == 'atomic-structure':
             file = '/structure.pdb'
-        else:
+        elif name == 'output-voxel':
+            file = '/volumes.pdb'
+        elif name == 'output-pdb':
             file = '/defmap_norm_model.pdb'
+        else:
+            file = ''
         return  self.resultsFolder + file
 
     # --------------------------- INFO functions -----------------------------------
