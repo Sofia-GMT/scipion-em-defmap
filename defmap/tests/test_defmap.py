@@ -27,18 +27,18 @@ class TestDefmap(BaseTest):
 
         setupTestProject(cls)
 
-        cls.ds = DataSet.getDataSet('nma_V2.0')
+        cls.ds = DataSet.getDataSet('resmap')
         # Import Target EM map
-        protImportVol = cls.newProtocol(ProtImportVolumes, importFrom=ProtImportVolumes.IMPORT_FROM_FILES,
-                                       filesPath=cls.ds.getFile('1ake_vol'),  samplingRate=2.0)
-        protImportVol.setObjLabel('EM map')
-        cls.launchProtocol(protImportVol)
+        cls.protImportVol = cls.newProtocol(ProtImportVolumes, importFrom=ProtImportVolumes.IMPORT_FROM_FILES,
+                                       filesPath=cls.ds.getFile('betagal'),  samplingRate=2.0)
+        cls.protImportVol.setObjLabel('EM map')
+        cls.launchProtocol(cls.protImportVol)
 
-        cls.protImportVol = protImportVol
-        cls.protPdb4ake = cls.newProtocol(ProtImportPdb, inputPdbData=1,
-                                         pdbFile=cls.ds.getFile('4ake_aa_pdb'))
-        cls.protPdb4ake.setObjLabel('Input PDB')
-        cls.launchProtocol(cls.protPdb4ake)
+        # cls.protImportVol = protImportVol
+        # cls.protImportPdb = cls.newProtocol(ProtImportPdb, inputPdbData=1,
+        #                                  pdbFile=cls.ds.getFile('pdb'))
+        # cls.protImportPdb.setObjLabel('Input PDB')
+        # cls.launchProtocol(cls.protImportPdb)
 
 
     def testNothing(self):
@@ -47,7 +47,7 @@ class TestDefmap(BaseTest):
     def testDefmapOk(self):
         defmap = self.newProtocol(DefMapNeuralNetwork,
                                      inputVolume=self.protImportVol.outputVolume,
-                                     inputStructure=self.protImportPdb.outputPdb,
+                                     # inputStructure=self.protImportPdb.outputPdb,
                                      )
         self.launchProtocol(defmap)
         self.assertTrue(hasattr(defmap, "outputStructure"))

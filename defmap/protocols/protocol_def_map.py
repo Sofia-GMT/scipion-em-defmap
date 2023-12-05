@@ -75,7 +75,7 @@ class DefMapNeuralNetwork(Protocol):
                       allowsPointers=True)
 
         form.addParam('inputStructure', params.PointerParam,
-                      label='Atomic structure', 
+                      label='Atomic structure', allowsNull=True,
                       help='Atomic structure of the molecule',
                       pointerClass="AtomStruct",
                       allowsPointers=True)
@@ -107,8 +107,10 @@ class DefMapNeuralNetwork(Protocol):
         self.resultsFolder = path.abspath(self.getWorkingDir()) + "/extra"
         volumesLocation = path.abspath(self.inputVolume.get().getFileName())
         self.obtainLink(volumesLocation, self.getResult('volumes') )
-        structureLocation = path.abspath(self.inputStructure.get().getFileName())
-        self.obtainLink(structureLocation, self.getResult('atomic-structure') )
+
+        if self.inputStructure.hasValue():
+            structureLocation = path.abspath(self.inputStructure.get().getFileName())
+            self.obtainLink(structureLocation, self.getResult('atomic-structure') )
 
     def createDatasetStep(self):
 
