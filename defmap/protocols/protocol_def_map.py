@@ -32,7 +32,7 @@ Protocol to run DefMap neural network
 
 from pyworkflow.protocol import Protocol, params, constants
 from pyworkflow.utils import Message, logger
-from os import path, rename, readlink,symlink
+from os import path, rename, readlink, symlink
 from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
@@ -176,7 +176,10 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        rename(readlink(self.getResult('volumes')), self.getResult('output-voxel'))
+        filename = path.split(readlink(self.getResult('volumes')))[1]
+        filenameWithExtension = path.splitext(filename)[0]+".pdb"
+
+        rename(filenameWithExtension, self.getResult('output-voxel'))
 
 
     def postprocStepPdb(self):
@@ -186,6 +189,7 @@ class DefMapNeuralNetwork(Protocol):
             # Prepare the file that points to the Atomic Structure and the Volumes
 
             pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
+            # content = readlink(self.getResult('atomic-structure')) + " " + readlink(self.getResult('volumes'))
 
             with open(pointerFileLocation,"w") as pointerFile:
                 pointerFile.write("structure.pdb volumes.mrc")
