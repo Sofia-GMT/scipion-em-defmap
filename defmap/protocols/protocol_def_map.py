@@ -176,9 +176,6 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        # filename = path.split(readlink(self.getResult('volumes')))[1]
-        # filenameWithExtension = path.splitext(filename)[0]+".pdb"
-
         rename("volumes.pdb", self.getResult('output-voxel'))
 
 
@@ -189,7 +186,6 @@ class DefMapNeuralNetwork(Protocol):
             # Prepare the file that points to the Atomic Structure and the Volumes
 
             pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
-            # content = readlink(self.getResult('atomic-structure')) + " " + readlink(self.getResult('volumes'))
 
             with open(pointerFileLocation,"w") as pointerFile:
                 pointerFile.write("structure.pdb volumes.mrc")

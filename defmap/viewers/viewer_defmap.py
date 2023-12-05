@@ -32,10 +32,8 @@ from pyworkflow.protocol import params
 from pwchem.viewers import PyMolViewer
 from os import path
 
-from pwem.objects import AtomStruct
-
 class DefmapViewer(ProtocolViewer):
-  _targets = [DefMapNeuralNetwork, AtomStruct]
+  _targets = [DefMapNeuralNetwork]
 
   _label = 'Structure and predictions viewer'
 
@@ -52,12 +50,8 @@ class DefmapViewer(ProtocolViewer):
                 #'openChimeraX': self._viewChimeraX}
   
   def _viewPymol(self, *args):
-    if isinstance(self.protocol, DefMapNeuralNetwork):
-       # files = self.protocol.outputStructure.getFileName()
-       folder = path.split(self.protocol.outputStructure.getFileName())[0]
-       files = folder + "/pointer_for_pymol.pml"
-    else:
-       files = self.protocol.getFileName()
-    view = PyMolViewer(project=self.getProject())
-    return view._visualize(files)
+   folder = path.split(self.protocol.outputStructure.getFileName())[0]
+   files = folder + "/pointer_for_pymol.pml"
+   view = PyMolViewer(project=self.getProject())
+   return view._visualize(files)
   
