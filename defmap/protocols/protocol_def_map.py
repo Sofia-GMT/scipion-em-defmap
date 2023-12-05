@@ -176,10 +176,10 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        filename = path.split(readlink(self.getResult('volumes')))[1]
-        filenameWithExtension = path.splitext(filename)[0]+".pdb"
+        # filename = path.split(readlink(self.getResult('volumes')))[1]
+        # filenameWithExtension = path.splitext(filename)[0]+".pdb"
 
-        rename(filenameWithExtension, self.getResult('output-voxel'))
+        rename("volumes.pdb", self.getResult('output-voxel'))
 
 
     def postprocStepPdb(self):
