@@ -37,7 +37,10 @@ from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
 from pwem.objects import AtomStruct
+from pwem.convert.atom_struct import cifToPdb
+from pwem.emlib.image import ImageHandler
 import pyworkflow.utils as pwutils
+from pathlib import Path
 
 
 class DefMapNeuralNetwork(Protocol):
@@ -85,32 +88,43 @@ class DefMapNeuralNetwork(Protocol):
                       help='Resolution model for the inference step. There are three models according to three possible resolutions',
                       default=0, choices=["5 Å","6 Å","7 Å"]),
         
-        form.addParam('inputThreshold', params.FloatParam,
-                        allowsNull=True, important = False,
-                        label='Threshold',
-                        help='Top threshold to drop voxels with a standardized intensity.\n'
-                              'If not given, a threshold of 0 will be used for visualization.')
+        # form.addParam('inputThreshold', params.FloatParam,
+        #                 allowsNull=True, important = False,
+        #                 label='Threshold',
+        #                 help='Top threshold to drop voxels with a standardized intensity.\n'
+        #                       'If not given, a threshold of 0 will be used for visualization.')
 
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
-        self._insertFunctionStep('createLinks')
+        self._insertFunctionStep('validateFormats')
         self._insertFunctionStep('createDatasetStep')
         self._insertFunctionStep('inferenceStep')
         self._insertFunctionStep('postprocStepVoxel')
         self._insertFunctionStep('postprocStepPdb')
         self._insertFunctionStep('createOutputStep')
 
-    def createLinks(self):
+    def validateFormats(self):
 
-        # Create symbolic links for next steps
-        
         self.resultsFolder = path.abspath(self.getWorkingDir()) + "/extra"
-        volumesLocation = path.abspath(self.inputVolume.get().getFileName())
-        self.obtainLink(volumesLocation, self.getResult('volumes') )
 
-        if self.inputStructure.hasValue():
-            structureLocation = path.abspath(self.inputStructure.get().getFileName())
-            self.obtainLink(structureLocation, self.getResult('atomic-structure') )
+        # validate volumes
+
+        volumesName = self.inputVolume.get().getFileName()
+
+        if self.checkExtension(volumesName, ".mrc"):
+            self.obtainLink(self.volumesLocation, self.getResult('volumes') )
+        else:
+            raise Exception('The extension of the volumes is not supported')
+
+        # validate atomic structure
+
+        if self.inputStructure.hasValue() :
+            filename = self.inputStructure.get().getFileName()
+            if self.checkExtension(filename,".pdb"):
+                self.obtainLink(self.structureLocation, self.getResult('atomic-structure') )
+
+            else:
+                raise Exception('The extension of the atomic structure is not suported')
 
     def createDatasetStep(self):
 
@@ -122,8 +136,8 @@ class DefMapNeuralNetwork(Protocol):
                 '-p' 
                 ]
 
-        if self.inputThreshold.hasValue():
-            args.append('-t %f ' % self.inputThreshold)
+        # if self.inputThreshold.hasValue():
+        #     args.append('-t %f ' % self.inputThreshold)
 
         # Execute create-dataset
         createDatasetCommand ="python prep_dataset.py"
@@ -164,10 +178,10 @@ class DefMapNeuralNetwork(Protocol):
                 '-p "%s"' % self.getResult('prediction')
                 ]
         
-        if self.inputThreshold.hasValue():
-            args.append('-t %f ' % self.inputThreshold)
-        else:
-            args.append('-t 0.0')
+        # if self.inputThreshold.hasValue():
+        #     args.append('-t %f ' % self.inputThreshold)
+        # else:
+        args.append('-t 0.0')
 
         command = "python " + self.getScriptLocation("postprocessing-voxel")
 
@@ -308,6 +322,33 @@ class DefMapNeuralNetwork(Protocol):
         else:
             file = ''
         return  self.resultsFolder + file
+    
+    def checkExtension(self,file,extension):
+        file_extension = path.splitext(file)[1]
+        
+        logger.info("file extension: " +file_extension)
+        logger.info("extension: "+extension)
+        
+        if file_extension == extension:
+            if extension == ".pdb":
+                self.structureLocation = path.abspath(file) 
+            else:
+                self.volumesLocation = path.abspath(file)
+            return True
+        elif file_extension == '.cif' and extension == '.pdb':
+            file_renamed = path.join(self.resultsFolder, path.splitext(path.split(file)[1])[0] + ".pdb")
+            cifToPdb(file,file_renamed)
+            self.structureLocation = path.abspath(file_renamed)
+            return True
+        elif extension == '.mrc':
+            file_renamed = path.join(self.resultsFolder, path.splitext(path.split(file)[1])[0] + ".mrc")
+            imgh = ImageHandler()
+            imgh.convert(file,file_renamed)
+            self.volumesLocation = path.abspath(file_renamed)
+            return True
+        else:
+            return False
+
 
     # --------------------------- INFO functions -----------------------------------
     def _summary(self):

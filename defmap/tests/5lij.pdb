@@ -1,0 +1,999 @@
+HEADER    VIRAL PROTEIN                           14-JUL-16   5LIJ              
+TITLE     POLYALANINE CHAIN BUILT IN BACTERIOPHAGE PHI812K1-420 CEMENT PROTEIN  
+TITLE    2 DENSITY MAP                                                          
+COMPND    MOL_ID: 1;                                                            
+COMPND   2 MOLECULE: POLYALANINE CHAIN BUILT IN BACTERIOPHAGE PHI812K1-420      
+COMPND   3 CEMENT PROTEIN DENSITY MAP;                                          
+COMPND   4 CHAIN: P;                                                            
+COMPND   5 ENGINEERED: YES                                                      
+SOURCE    MOL_ID: 1;                                                            
+SOURCE   2 ORGANISM_SCIENTIFIC: STAPHYLOCOCCUS PHAGE 812;                       
+SOURCE   3 ORGANISM_TAXID: 307898;                                              
+SOURCE   4 EXPRESSION_SYSTEM: STAPHYLOCOCCACEAE;                                
+SOURCE   5 EXPRESSION_SYSTEM_TAXID: 90964                                       
+KEYWDS    POLYVALENT STAPHYLOCOCCAL BACTORIOPHAGE, MYOVIRIDAE, TAIL SHEATH,     
+KEYWDS   2 TAIL CONTRACTION, VIRAL PROTEIN                                      
+EXPDTA    ELECTRON MICROSCOPY                                                   
+AUTHOR    J.NOVACEK,M.SIBOROVA,M.BENESIK,R.PANTUCEK,J.DOSKAR,P.PLEVKA           
+REVDAT   3   11-DEC-19 5LIJ    1       SCALE                                    
+REVDAT   2   02-AUG-17 5LIJ    1                                                
+REVDAT   1   26-JUL-17 5LIJ    0                                                
+JRNL        AUTH   J.NOVACEK,M.SIBOROVA,M.BENESIK,R.PANTUCEK,J.DOSKAR,P.PLEVKA  
+JRNL        TITL   STRUCTURE AND GENOME RELEASE OF TWORT-LIKE MYOVIRIDAE PHAGE  
+JRNL        TITL 2 WITH A DOUBLE-LAYERED BASEPLATE.                             
+JRNL        REF    PROC. NATL. ACAD. SCI.        V. 113  9351 2016              
+JRNL        REF  2 U.S.A.                                                       
+JRNL        REFN                   ESSN 1091-6490                               
+JRNL        PMID   27469164                                                     
+JRNL        DOI    10.1073/PNAS.1605883113                                      
+REMARK   2                                                                      
+REMARK   2 RESOLUTION.    4.20 ANGSTROMS.                                       
+REMARK   3                                                                      
+REMARK   3 REFINEMENT.                                                          
+REMARK   3   SOFTWARE PACKAGES      : EPU, CTFFIND, JALIGN, JALIGN, RELION,     
+REMARK   3                            J3DR                                      
+REMARK   3   RECONSTRUCTION SCHEMA  : FOURIER SPACE                             
+REMARK   3                                                                      
+REMARK   3 EM MAP-MODEL FITTING AND REFINEMENT                                  
+REMARK   3   PDB ENTRY                    : NULL                                
+REMARK   3   REFINEMENT SPACE             : NULL                                
+REMARK   3   REFINEMENT PROTOCOL          : NULL                                
+REMARK   3   REFINEMENT TARGET            : NULL                                
+REMARK   3   OVERALL ANISOTROPIC B VALUE  : NULL                                
+REMARK   3                                                                      
+REMARK   3 FITTING PROCEDURE : NULL                                             
+REMARK   3                                                                      
+REMARK   3 EM IMAGE RECONSTRUCTION STATISTICS                                   
+REMARK   3   NOMINAL PIXEL SIZE (ANGSTROMS)    : NULL                           
+REMARK   3   ACTUAL PIXEL SIZE  (ANGSTROMS)    : NULL                           
+REMARK   3   EFFECTIVE RESOLUTION (ANGSTROMS)  : 4.200                          
+REMARK   3   NUMBER OF PARTICLES               : 12018                          
+REMARK   3   CTF CORRECTION METHOD             : PHASE FLIPPING ONLY            
+REMARK   3                                                                      
+REMARK   3 EM RECONSTRUCTION MAGNIFICATION CALIBRATION: NULL                    
+REMARK   3                                                                      
+REMARK   3 OTHER DETAILS: NULL                                                  
+REMARK   4                                                                      
+REMARK   4 5LIJ COMPLIES WITH FORMAT V. 3.30, 13-JUL-11                         
+REMARK 100                                                                      
+REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY PDBE ON 14-JUL-16.                  
+REMARK 100 THE DEPOSITION ID IS D_1200000799.                                   
+REMARK 245                                                                      
+REMARK 245 EXPERIMENTAL DETAILS                                                 
+REMARK 245   RECONSTRUCTION METHOD          : SINGLE PARTICLE                   
+REMARK 245   SPECIMEN TYPE                  : NULL                              
+REMARK 245                                                                      
+REMARK 245 ELECTRON MICROSCOPE SAMPLE                                           
+REMARK 245   SAMPLE TYPE                    : PARTICLE                          
+REMARK 245   PARTICLE TYPE                  : HELICAL                           
+REMARK 245   NAME OF SAMPLE                 : STAPHYLOCOCCUS PHAGE 812          
+REMARK 245   SAMPLE CONCENTRATION (MG ML-1) : 1.00                              
+REMARK 245   SAMPLE SUPPORT DETAILS         : NULL                              
+REMARK 245   SAMPLE VITRIFICATION DETAILS   : NULL                              
+REMARK 245   SAMPLE BUFFER                  : NULL                              
+REMARK 245   PH                             : 8.00                              
+REMARK 245   SAMPLE DETAILS                 : NULL                              
+REMARK 245                                                                      
+REMARK 245 DATA ACQUISITION                                                     
+REMARK 245   DATE OF EXPERIMENT                : NULL                           
+REMARK 245   NUMBER OF MICROGRAPHS-IMAGES      : NULL                           
+REMARK 245   TEMPERATURE (KELVIN)              : NULL                           
+REMARK 245   MICROSCOPE MODEL                  : FEI TITAN KRIOS                
+REMARK 245   DETECTOR TYPE                     : FEI FALCON II (4K X 4K)        
+REMARK 245   MINIMUM DEFOCUS (NM)              : NULL                           
+REMARK 245   MAXIMUM DEFOCUS (NM)              : NULL                           
+REMARK 245   MINIMUM TILT ANGLE (DEGREES)      : NULL                           
+REMARK 245   MAXIMUM TILT ANGLE (DEGREES)      : NULL                           
+REMARK 245   NOMINAL CS                        : 2.70                           
+REMARK 245   IMAGING MODE                      : BRIGHT FIELD                   
+REMARK 245   ELECTRON DOSE (ELECTRONS NM**-2)  : 20.00                          
+REMARK 245   ILLUMINATION MODE                 : FLOOD BEAM                     
+REMARK 245   NOMINAL MAGNIFICATION             : NULL                           
+REMARK 245   CALIBRATED MAGNIFICATION          : NULL                           
+REMARK 245   SOURCE                            : FIELD EMISSION GUN             
+REMARK 245   ACCELERATION VOLTAGE (KV)         : 300                            
+REMARK 245   IMAGING DETAILS                   : NULL                           
+REMARK 247                                                                      
+REMARK 247 ELECTRON MICROSCOPY                                                  
+REMARK 247  THE COORDINATES IN THIS ENTRY WERE GENERATED FROM ELECTRON          
+REMARK 247  MICROSCOPY DATA. PROTEIN DATA BANK CONVENTIONS REQUIRE              
+REMARK 247  THAT CRYST1 AND SCALE RECORDS BE INCLUDED, BUT THE VALUES           
+REMARK 247  ON THESE RECORDS ARE MEANINGLESS EXCEPT FOR THE CALCULATION         
+REMARK 247  OF THE STRUCTURE FACTORS.                                           
+REMARK 300                                                                      
+REMARK 300 BIOMOLECULE: 1                                                       
+REMARK 300 SEE REMARK 350 FOR THE AUTHOR PROVIDED AND/OR PROGRAM                
+REMARK 300 GENERATED ASSEMBLY INFORMATION FOR THE STRUCTURE IN                  
+REMARK 300 THIS ENTRY. THE REMARK MAY ALSO PROVIDE INFORMATION ON               
+REMARK 300 BURIED SURFACE AREA.                                                 
+REMARK 350                                                                      
+REMARK 350 COORDINATES FOR A COMPLETE MULTIMER REPRESENTING THE KNOWN           
+REMARK 350 BIOLOGICALLY SIGNIFICANT OLIGOMERIZATION STATE OF THE                
+REMARK 350 MOLECULE CAN BE GENERATED BY APPLYING BIOMT TRANSFORMATIONS          
+REMARK 350 GIVEN BELOW.  BOTH NON-CRYSTALLOGRAPHIC AND                          
+REMARK 350 CRYSTALLOGRAPHIC OPERATIONS ARE GIVEN.                               
+REMARK 350                                                                      
+REMARK 350 BIOMOLECULE: 1                                                       
+REMARK 350 AUTHOR DETERMINED BIOLOGICAL UNIT: MONOMERIC                         
+REMARK 350 APPLY THE FOLLOWING TO CHAINS: P                                     
+REMARK 350   BIOMT1   1  1.000000  0.000000  0.000000        0.00000            
+REMARK 350   BIOMT2   1  0.000000  1.000000  0.000000        0.00000            
+REMARK 350   BIOMT3   1  0.000000  0.000000  1.000000        0.00000            
+REMARK 500                                                                      
+REMARK 500 GEOMETRY AND STEREOCHEMISTRY                                         
+REMARK 500 SUBTOPIC: COVALENT BOND ANGLES                                       
+REMARK 500                                                                      
+REMARK 500 THE STEREOCHEMICAL PARAMETERS OF THE FOLLOWING RESIDUES              
+REMARK 500 HAVE VALUES WHICH DEVIATE FROM EXPECTED VALUES BY MORE               
+REMARK 500 THAN 6*RMSD (M=MODEL NUMBER; RES=RESIDUE NAME; C=CHAIN               
+REMARK 500 IDENTIFIER; SSEQ=SEQUENCE NUMBER; I=INSERTION CODE).                 
+REMARK 500                                                                      
+REMARK 500 STANDARD TABLE:                                                      
+REMARK 500 FORMAT: (10X,I3,1X,A3,1X,A1,I4,A1,3(1X,A4,2X),12X,F5.1)              
+REMARK 500                                                                      
+REMARK 500 EXPECTED VALUES PROTEIN: ENGH AND HUBER, 1999                        
+REMARK 500 EXPECTED VALUES NUCLEIC ACID: CLOWNEY ET AL 1996                     
+REMARK 500                                                                      
+REMARK 500  M RES CSSEQI ATM1   ATM2   ATM3                                     
+REMARK 500    ALA P   1   CB  -  CA  -  C   ANGL. DEV. = -13.3 DEGREES          
+REMARK 500    ALA P   2   N   -  CA  -  CB  ANGL. DEV. =  -9.7 DEGREES          
+REMARK 500    ALA P   2   N   -  CA  -  C   ANGL. DEV. =  22.8 DEGREES          
+REMARK 500    ALA P   3   N   -  CA  -  CB  ANGL. DEV. =   8.8 DEGREES          
+REMARK 500    ALA P  40   N   -  CA  -  CB  ANGL. DEV. =   8.8 DEGREES          
+REMARK 500    ALA P  66   CB  -  CA  -  C   ANGL. DEV. = -19.1 DEGREES          
+REMARK 500    ALA P  66   N   -  CA  -  C   ANGL. DEV. =  38.2 DEGREES          
+REMARK 500    ALA P  67   N   -  CA  -  CB  ANGL. DEV. =  27.6 DEGREES          
+REMARK 500    ALA P  71   CB  -  CA  -  C   ANGL. DEV. =  -9.2 DEGREES          
+REMARK 500    ALA P  88   N   -  CA  -  CB  ANGL. DEV. =   9.4 DEGREES          
+REMARK 500    ALA P 124   N   -  CA  -  CB  ANGL. DEV. = -15.4 DEGREES          
+REMARK 500                                                                      
+REMARK 500 REMARK: NULL                                                         
+REMARK 500                                                                      
+REMARK 500 GEOMETRY AND STEREOCHEMISTRY                                         
+REMARK 500 SUBTOPIC: TORSION ANGLES                                             
+REMARK 500                                                                      
+REMARK 500 TORSION ANGLES OUTSIDE THE EXPECTED RAMACHANDRAN REGIONS:            
+REMARK 500 (M=MODEL NUMBER; RES=RESIDUE NAME; C=CHAIN IDENTIFIER;               
+REMARK 500 SSEQ=SEQUENCE NUMBER; I=INSERTION CODE).                             
+REMARK 500                                                                      
+REMARK 500 STANDARD TABLE:                                                      
+REMARK 500 FORMAT:(10X,I3,1X,A3,1X,A1,I4,A1,4X,F7.2,3X,F7.2)                    
+REMARK 500                                                                      
+REMARK 500 EXPECTED VALUES: GJ KLEYWEGT AND TA JONES (1996). PHI/PSI-           
+REMARK 500 CHOLOGY: RAMACHANDRAN REVISITED. STRUCTURE 4, 1395 - 1400            
+REMARK 500                                                                      
+REMARK 500  M RES CSSEQI        PSI       PHI                                   
+REMARK 500    ALA P   3     -171.56   -179.67                                   
+REMARK 500    ALA P   5     -159.66   -156.82                                   
+REMARK 500    ALA P   8     -164.12   -172.93                                   
+REMARK 500    ALA P  46      -73.46    -56.39                                   
+REMARK 500    ALA P  55      -70.38    -46.48                                   
+REMARK 500    ALA P  59      -65.56   -134.13                                   
+REMARK 500    ALA P  67      -35.40   -145.94                                   
+REMARK 500    ALA P  71      -30.85   -141.57                                   
+REMARK 500    ALA P  82       19.36     59.24                                   
+REMARK 500    ALA P  85       -3.13    -57.14                                   
+REMARK 500    ALA P 109     -176.59    -63.21                                   
+REMARK 500    ALA P 110       88.70    -65.62                                   
+REMARK 500    ALA P 111     -162.74   -171.37                                   
+REMARK 500    ALA P 123     -123.03   -140.13                                   
+REMARK 500    ALA P 124      -63.68    -90.85                                   
+REMARK 500    ALA P 138     -175.64   -179.57                                   
+REMARK 500    ALA P 139     -169.78   -127.50                                   
+REMARK 500                                                                      
+REMARK 500 REMARK: NULL                                                         
+REMARK 500                                                                      
+REMARK 500 GEOMETRY AND STEREOCHEMISTRY                                         
+REMARK 500 SUBTOPIC: NON-CIS, NON-TRANS                                         
+REMARK 500                                                                      
+REMARK 500 THE FOLLOWING PEPTIDE BONDS DEVIATE SIGNIFICANTLY FROM BOTH          
+REMARK 500 CIS AND TRANS CONFORMATION.  CIS BONDS, IF ANY, ARE LISTED           
+REMARK 500 ON CISPEP RECORDS.  TRANS IS DEFINED AS 180 +/- 30 AND               
+REMARK 500 CIS IS DEFINED AS 0 +/- 30 DEGREES.                                  
+REMARK 500                                 MODEL     OMEGA                      
+REMARK 500 ALA P   32     ALA P   33                 -149.86                    
+REMARK 500 ALA P   66     ALA P   67                 -125.82                    
+REMARK 500 ALA P   77     ALA P   78                 -145.27                    
+REMARK 500 ALA P   78     ALA P   79                 -149.41                    
+REMARK 500 ALA P   86     ALA P   87                 -149.84                    
+REMARK 500 ALA P   98     ALA P   99                 -142.61                    
+REMARK 500 ALA P  125     ALA P  126                 -143.53                    
+REMARK 500 ALA P  130     ALA P  131                 -134.27                    
+REMARK 500 ALA P  142     ALA P  143                 -143.48                    
+REMARK 500                                                                      
+REMARK 500 REMARK: NULL                                                         
+REMARK 900                                                                      
+REMARK 900 RELATED ENTRIES                                                      
+REMARK 900 RELATED ID: EMD-4054   RELATED DB: EMDB                              
+DBREF  5LIJ P    1   152  PDB    5LIJ     5LIJ             1    152             
+SEQRES   1 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   2 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   3 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   4 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   5 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   6 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   7 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   8 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES   9 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES  10 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES  11 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA ALA          
+SEQRES  12 P  152  ALA ALA ALA ALA ALA ALA ALA ALA ALA                          
+HELIX    1 AA1 ALA P   42  ALA P   56  1                                  15    
+HELIX    2 AA2 ALA P  142  ALA P  148  5                                   7    
+SHEET    1 AA1 2 ALA P  12  ALA P  13  0                                        
+SHEET    2 AA1 2 ALA P  95  ALA P  96  1  O  ALA P  95   N  ALA P  13           
+SHEET    1 AA2 4 ALA P  21  ALA P  23  0                                        
+SHEET    2 AA2 4 ALA P 132  ALA P 135 -1  O  ALA P 134   N  ALA P  22           
+SHEET    3 AA2 4 ALA P 114  ALA P 118 -1  N  ALA P 115   O  ALA P 135           
+SHEET    4 AA2 4 ALA P 104  ALA P 106 -1  N  ALA P 106   O  ALA P 114           
+CRYST1    1.000    1.000    1.000  90.00  90.00  90.00 P 1           1          
+ORIGX1      1.000000  0.000000  0.000000        0.00000                         
+ORIGX2      0.000000  1.000000  0.000000        0.00000                         
+ORIGX3      0.000000  0.000000  1.000000        0.00000                         
+SCALE1      1.000000  0.000000  0.000000        0.00000                         
+SCALE2      0.000000  1.000000  0.000000        0.00000                         
+SCALE3      0.000000  0.000000  1.000000        0.00000                         
+ATOM      1  N   ALA P   1      54.835  30.225  38.287  1.00  1.00           N  
+ATOM      2  CA  ALA P   1      53.411  30.373  38.508  1.00  1.00           C  
+ATOM      3  C   ALA P   1      52.963  31.516  39.384  1.00  1.00           C  
+ATOM      4  O   ALA P   1      53.519  31.715  40.444  1.00  1.00           O  
+ATOM      5  CB  ALA P   1      52.909  29.281  39.373  1.00  1.00           C  
+ATOM      6  N   ALA P   2      51.999  32.308  38.927  1.00  2.00           N  
+ATOM      7  CA  ALA P   2      51.449  33.375  39.754  1.00  2.00           C  
+ATOM      8  C   ALA P   2      50.450  33.410  40.911  1.00  2.00           C  
+ATOM      9  O   ALA P   2      50.807  33.832  42.010  1.00  2.00           O  
+ATOM     10  CB  ALA P   2      50.896  34.296  38.680  1.00  2.00           C  
+ATOM     11  N   ALA P   3      49.217  32.926  40.744  1.00  3.00           N  
+ATOM     12  CA  ALA P   3      48.187  33.184  41.749  1.00  3.00           C  
+ATOM     13  C   ALA P   3      46.893  32.513  41.309  1.00  3.00           C  
+ATOM     14  O   ALA P   3      46.843  31.770  40.329  1.00  3.00           O  
+ATOM     15  CB  ALA P   3      47.914  34.626  42.172  1.00  3.00           C  
+ATOM     16  N   ALA P   4      45.840  32.823  42.051  1.00  4.00           N  
+ATOM     17  CA  ALA P   4      44.635  32.030  42.238  1.00  4.00           C  
+ATOM     18  C   ALA P   4      43.813  31.847  40.967  1.00  4.00           C  
+ATOM     19  O   ALA P   4      44.048  32.471  39.935  1.00  4.00           O  
+ATOM     20  CB  ALA P   4      43.752  32.657  43.308  1.00  4.00           C  
+ATOM     21  N   ALA P   5      42.873  30.910  41.059  1.00  5.00           N  
+ATOM     22  CA  ALA P   5      41.995  30.456  39.988  1.00  5.00           C  
+ATOM     23  C   ALA P   5      40.755  29.849  40.628  1.00  5.00           C  
+ATOM     24  O   ALA P   5      40.411  30.166  41.766  1.00  5.00           O  
+ATOM     25  CB  ALA P   5      42.694  29.453  39.072  1.00  5.00           C  
+ATOM     26  N   ALA P   6      40.045  29.023  39.873  1.00  6.00           N  
+ATOM     27  CA  ALA P   6      38.889  28.334  40.423  1.00  6.00           C  
+ATOM     28  C   ALA P   6      39.230  27.571  41.693  1.00  6.00           C  
+ATOM     29  O   ALA P   6      40.260  26.903  41.768  1.00  6.00           O  
+ATOM     30  CB  ALA P   6      38.365  27.317  39.419  1.00  6.00           C  
+ATOM     31  N   ALA P   7      38.342  27.661  42.707  1.00  7.00           N  
+ATOM     32  CA  ALA P   7      38.738  27.407  44.096  1.00  7.00           C  
+ATOM     33  C   ALA P   7      38.156  26.328  45.006  1.00  7.00           C  
+ATOM     34  O   ALA P   7      38.934  25.664  45.693  1.00  7.00           O  
+ATOM     35  CB  ALA P   7      38.493  28.677  44.906  1.00  7.00           C  
+ATOM     36  N   ALA P   8      36.842  26.161  45.104  1.00  8.00           N  
+ATOM     37  CA  ALA P   8      36.264  25.470  46.250  1.00  8.00           C  
+ATOM     38  C   ALA P   8      34.764  25.212  46.130  1.00  8.00           C  
+ATOM     39  O   ALA P   8      34.180  25.260  45.050  1.00  8.00           O  
+ATOM     40  CB  ALA P   8      36.651  26.007  47.624  1.00  8.00           C  
+ATOM     41  N   ALA P   9      34.158  24.893  47.271  1.00  9.00           N  
+ATOM     42  CA  ALA P   9      32.779  24.437  47.413  1.00  9.00           C  
+ATOM     43  C   ALA P   9      31.724  25.399  46.908  1.00  9.00           C  
+ATOM     44  O   ALA P   9      31.630  26.530  47.381  1.00  9.00           O  
+ATOM     45  CB  ALA P   9      32.478  24.262  48.895  1.00  9.00           C  
+ATOM     46  N   ALA P  10      30.880  24.931  45.997  1.00 10.00           N  
+ATOM     47  CA  ALA P  10      29.814  25.761  45.464  1.00 10.00           C  
+ATOM     48  C   ALA P  10      28.633  24.956  44.938  1.00 10.00           C  
+ATOM     49  O   ALA P  10      28.492  23.766  45.197  1.00 10.00           O  
+ATOM     50  CB  ALA P  10      30.410  26.607  44.355  1.00 10.00           C  
+ATOM     51  N   ALA P  11      27.777  25.645  44.183  1.00 11.00           N  
+ATOM     52  CA  ALA P  11      26.611  25.072  43.525  1.00 11.00           C  
+ATOM     53  C   ALA P  11      26.789  25.215  42.025  1.00 11.00           C  
+ATOM     54  O   ALA P  11      27.607  26.016  41.572  1.00 11.00           O  
+ATOM     55  CB  ALA P  11      25.322  25.756  43.964  1.00 11.00           C  
+ATOM     56  N   ALA P  12      26.042  24.433  41.252  1.00 12.00           N  
+ATOM     57  CA  ALA P  12      26.435  24.192  39.874  1.00 12.00           C  
+ATOM     58  C   ALA P  12      25.229  24.187  38.947  1.00 12.00           C  
+ATOM     59  O   ALA P  12      24.088  24.372  39.368  1.00 12.00           O  
+ATOM     60  CB  ALA P  12      27.184  22.867  39.771  1.00 12.00           C  
+ATOM     61  N   ALA P  13      25.516  24.025  37.659  1.00 13.00           N  
+ATOM     62  CA  ALA P  13      24.550  23.619  36.650  1.00 13.00           C  
+ATOM     63  C   ALA P  13      25.338  23.138  35.435  1.00 13.00           C  
+ATOM     64  O   ALA P  13      26.535  23.398  35.328  1.00 13.00           O  
+ATOM     65  CB  ALA P  13      23.603  24.762  36.294  1.00 13.00           C  
+ATOM     66  N   ALA P  14      24.673  22.408  34.532  1.00 14.00           N  
+ATOM     67  CA  ALA P  14      25.197  22.190  33.173  1.00 14.00           C  
+ATOM     68  C   ALA P  14      24.084  22.342  32.151  1.00 14.00           C  
+ATOM     69  O   ALA P  14      23.215  21.474  32.055  1.00 14.00           O  
+ATOM     70  CB  ALA P  14      25.811  20.815  32.969  1.00 14.00           C  
+ATOM     71  N   ALA P  15      24.151  23.404  31.357  1.00 15.00           N  
+ATOM     72  CA  ALA P  15      23.111  23.655  30.374  1.00 15.00           C  
+ATOM     73  C   ALA P  15      23.512  24.793  29.452  1.00 15.00           C  
+ATOM     74  O   ALA P  15      24.528  25.467  29.638  1.00 15.00           O  
+ATOM     75  CB  ALA P  15      21.802  24.011  31.077  1.00 15.00           C  
+ATOM     76  N   ALA P  16      22.669  24.988  28.450  1.00 16.00           N  
+ATOM     77  CA  ALA P  16      22.820  26.106  27.543  1.00 16.00           C  
+ATOM     78  C   ALA P  16      21.852  27.245  27.790  1.00 16.00           C  
+ATOM     79  O   ALA P  16      22.256  28.408  27.874  1.00 16.00           O  
+ATOM     80  CB  ALA P  16      22.593  25.638  26.111  1.00 16.00           C  
+ATOM     81  N   ALA P  17      20.573  26.925  27.921  1.00 17.00           N  
+ATOM     82  CA  ALA P  17      19.526  27.934  28.014  1.00 17.00           C  
+ATOM     83  C   ALA P  17      19.754  28.652  29.328  1.00 17.00           C  
+ATOM     84  O   ALA P  17      19.825  28.028  30.384  1.00 17.00           O  
+ATOM     85  CB  ALA P  17      18.150  27.290  27.986  1.00 17.00           C  
+ATOM     86  N   ALA P  18      19.859  29.974  29.259  1.00 18.00           N  
+ATOM     87  CA  ALA P  18      20.268  30.801  30.383  1.00 18.00           C  
+ATOM     88  C   ALA P  18      19.889  32.236  30.077  1.00 18.00           C  
+ATOM     89  O   ALA P  18      19.177  32.522  29.113  1.00 18.00           O  
+ATOM     90  CB  ALA P  18      21.773  30.682  30.647  1.00 18.00           C  
+ATOM     91  N   ALA P  19      20.368  33.148  30.898  1.00 19.00           N  
+ATOM     92  CA  ALA P  19      20.275  34.538  30.527  1.00 19.00           C  
+ATOM     93  C   ALA P  19      21.337  34.833  29.484  1.00 19.00           C  
+ATOM     94  O   ALA P  19      22.125  33.970  29.106  1.00 19.00           O  
+ATOM     95  CB  ALA P  19      20.444  35.429  31.747  1.00 19.00           C  
+ATOM     96  N   ALA P  20      21.382  36.077  29.035  1.00 20.00           N  
+ATOM     97  CA  ALA P  20      22.458  36.508  28.169  1.00 20.00           C  
+ATOM     98  C   ALA P  20      23.652  36.830  29.047  1.00 20.00           C  
+ATOM     99  O   ALA P  20      23.699  36.478  30.220  1.00 20.00           O  
+ATOM    100  CB  ALA P  20      22.046  37.741  27.376  1.00 20.00           C  
+ATOM    101  N   ALA P  21      24.680  37.408  28.464  1.00 21.00           N  
+ATOM    102  CA  ALA P  21      25.683  38.058  29.282  1.00 21.00           C  
+ATOM    103  C   ALA P  21      26.079  39.409  28.730  1.00 21.00           C  
+ATOM    104  O   ALA P  21      26.542  39.507  27.595  1.00 21.00           O  
+ATOM    105  CB  ALA P  21      26.903  37.179  29.373  1.00 21.00           C  
+ATOM    106  N   ALA P  22      25.914  40.446  29.541  1.00 22.00           N  
+ATOM    107  CA  ALA P  22      26.577  41.705  29.250  1.00 22.00           C  
+ATOM    108  C   ALA P  22      28.052  41.350  29.172  1.00 22.00           C  
+ATOM    109  O   ALA P  22      28.611  40.693  30.049  1.00 22.00           O  
+ATOM    110  CB  ALA P  22      26.283  42.741  30.319  1.00 22.00           C  
+ATOM    111  N   ALA P  23      28.682  41.741  28.072  1.00 23.00           N  
+ATOM    112  CA  ALA P  23      30.046  41.299  27.824  1.00 23.00           C  
+ATOM    113  C   ALA P  23      31.051  42.397  27.537  1.00 23.00           C  
+ATOM    114  O   ALA P  23      30.782  43.326  26.777  1.00 23.00           O  
+ATOM    115  CB  ALA P  23      30.121  40.485  26.537  1.00 23.00           C  
+ATOM    116  N   ALA P  24      32.217  42.286  28.150  1.00 24.00           N  
+ATOM    117  CA  ALA P  24      33.195  43.333  27.948  1.00 24.00           C  
+ATOM    118  C   ALA P  24      33.975  43.549  26.678  1.00 24.00           C  
+ATOM    119  O   ALA P  24      33.863  44.615  26.082  1.00 24.00           O  
+ATOM    120  CB  ALA P  24      34.254  43.173  29.027  1.00 24.00           C  
+ATOM    121  N   ALA P  25      34.733  42.580  26.214  1.00 25.00           N  
+ATOM    122  CA  ALA P  25      35.477  42.776  24.987  1.00 25.00           C  
+ATOM    123  C   ALA P  25      34.641  42.183  23.880  1.00 25.00           C  
+ATOM    124  O   ALA P  25      34.569  40.964  23.741  1.00 25.00           O  
+ATOM    125  CB  ALA P  25      36.814  42.057  24.950  1.00 25.00           C  
+ATOM    126  N   ALA P  26      33.998  43.037  23.108  1.00 26.00           N  
+ATOM    127  CA  ALA P  26      33.152  42.554  22.040  1.00 26.00           C  
+ATOM    128  C   ALA P  26      33.822  41.927  20.837  1.00 26.00           C  
+ATOM    129  O   ALA P  26      33.561  40.768  20.522  1.00 26.00           O  
+ATOM    130  CB  ALA P  26      32.275  43.711  21.557  1.00 26.00           C  
+ATOM    131  N   ALA P  27      34.668  42.676  20.144  1.00 27.00           N  
+ATOM    132  CA  ALA P  27      35.227  42.226  18.877  1.00 27.00           C  
+ATOM    133  C   ALA P  27      36.747  42.318  18.915  1.00 27.00           C  
+ATOM    134  O   ALA P  27      37.316  43.410  18.887  1.00 27.00           O  
+ATOM    135  CB  ALA P  27      34.661  43.022  17.713  1.00 27.00           C  
+ATOM    136  N   ALA P  28      37.398  41.164  18.975  1.00 28.00           N  
+ATOM    137  CA  ALA P  28      38.779  41.008  18.548  1.00 28.00           C  
+ATOM    138  C   ALA P  28      39.763  41.914  19.275  1.00 28.00           C  
+ATOM    139  O   ALA P  28      40.833  42.207  18.752  1.00 28.00           O  
+ATOM    140  CB  ALA P  28      38.902  41.236  17.045  1.00 28.00           C  
+ATOM    141  N   ALA P  29      39.454  42.387  20.467  1.00 29.00           N  
+ATOM    142  CA  ALA P  29      40.498  42.976  21.294  1.00 29.00           C  
+ATOM    143  C   ALA P  29      40.309  42.487  22.719  1.00 29.00           C  
+ATOM    144  O   ALA P  29      39.363  42.903  23.391  1.00 29.00           O  
+ATOM    145  CB  ALA P  29      40.457  44.495  21.220  1.00 29.00           C  
+ATOM    146  N   ALA P  30      41.235  41.670  23.207  1.00 30.00           N  
+ATOM    147  CA  ALA P  30      41.101  41.082  24.529  1.00 30.00           C  
+ATOM    148  C   ALA P  30      42.342  41.392  25.331  1.00 30.00           C  
+ATOM    149  O   ALA P  30      43.400  41.671  24.772  1.00 30.00           O  
+ATOM    150  CB  ALA P  30      40.901  39.573  24.482  1.00 30.00           C  
+ATOM    151  N   ALA P  31      42.221  41.327  26.639  1.00 31.00           N  
+ATOM    152  CA  ALA P  31      43.196  41.976  27.492  1.00 31.00           C  
+ATOM    153  C   ALA P  31      44.152  40.942  28.054  1.00 31.00           C  
+ATOM    154  O   ALA P  31      43.804  40.210  28.975  1.00 31.00           O  
+ATOM    155  CB  ALA P  31      42.462  42.710  28.600  1.00 31.00           C  
+ATOM    156  N   ALA P  32      45.343  40.844  27.477  1.00 32.00           N  
+ATOM    157  CA  ALA P  32      46.471  40.196  28.127  1.00 32.00           C  
+ATOM    158  C   ALA P  32      47.610  41.132  28.477  1.00 32.00           C  
+ATOM    159  O   ALA P  32      48.636  40.653  28.953  1.00 32.00           O  
+ATOM    160  CB  ALA P  32      47.015  39.062  27.271  1.00 32.00           C  
+ATOM    161  N   ALA P  33      47.474  42.430  28.229  1.00 33.00           N  
+ATOM    162  CA  ALA P  33      48.620  43.279  27.911  1.00 33.00           C  
+ATOM    163  C   ALA P  33      49.768  43.112  28.891  1.00 33.00           C  
+ATOM    164  O   ALA P  33      49.571  43.146  30.102  1.00 33.00           O  
+ATOM    165  CB  ALA P  33      48.176  44.733  27.889  1.00 33.00           C  
+ATOM    166  N   ALA P  34      50.966  42.896  28.359  1.00 34.00           N  
+ATOM    167  CA  ALA P  34      52.097  42.452  29.158  1.00 34.00           C  
+ATOM    168  C   ALA P  34      53.098  43.534  29.517  1.00 34.00           C  
+ATOM    169  O   ALA P  34      54.064  43.242  30.216  1.00 34.00           O  
+ATOM    170  CB  ALA P  34      52.831  41.336  28.433  1.00 34.00           C  
+ATOM    171  N   ALA P  35      52.942  44.754  29.043  1.00 35.00           N  
+ATOM    172  CA  ALA P  35      53.976  45.718  29.377  1.00 35.00           C  
+ATOM    173  C   ALA P  35      53.817  46.208  30.798  1.00 35.00           C  
+ATOM    174  O   ALA P  35      54.768  46.174  31.577  1.00 35.00           O  
+ATOM    175  CB  ALA P  35      53.942  46.889  28.414  1.00 35.00           C  
+ATOM    176  N   ALA P  36      52.620  46.663  31.147  1.00 36.00           N  
+ATOM    177  CA  ALA P  36      52.280  47.011  32.517  1.00 36.00           C  
+ATOM    178  C   ALA P  36      52.031  45.772  33.378  1.00 36.00           C  
+ATOM    179  O   ALA P  36      51.688  45.914  34.554  1.00 36.00           O  
+ATOM    180  CB  ALA P  36      51.027  47.882  32.528  1.00 36.00           C  
+ATOM    181  N   ALA P  37      52.202  44.568  32.807  1.00 37.00           N  
+ATOM    182  CA  ALA P  37      52.287  43.275  33.519  1.00 37.00           C  
+ATOM    183  C   ALA P  37      51.044  42.849  34.283  1.00 37.00           C  
+ATOM    184  O   ALA P  37      51.133  42.233  35.339  1.00 37.00           O  
+ATOM    185  CB  ALA P  37      53.487  43.269  34.466  1.00 37.00           C  
+ATOM    186  N   ALA P  38      49.873  43.125  33.737  1.00 38.00           N  
+ATOM    187  CA  ALA P  38      48.677  42.552  34.330  1.00 38.00           C  
+ATOM    188  C   ALA P  38      47.677  42.251  33.233  1.00 38.00           C  
+ATOM    189  O   ALA P  38      47.427  43.096  32.373  1.00 38.00           O  
+ATOM    190  CB  ALA P  38      48.087  43.491  35.376  1.00 38.00           C  
+ATOM    191  N   ALA P  39      47.076  41.074  33.288  1.00 39.00           N  
+ATOM    192  CA  ALA P  39      46.177  40.686  32.216  1.00 39.00           C  
+ATOM    193  C   ALA P  39      44.717  40.415  32.512  1.00 39.00           C  
+ATOM    194  O   ALA P  39      43.855  41.072  31.942  1.00 39.00           O  
+ATOM    195  CB  ALA P  39      46.642  39.367  31.590  1.00 39.00           C  
+ATOM    196  N   ALA P  40      44.402  39.532  33.433  1.00 40.00           N  
+ATOM    197  CA  ALA P  40      43.009  39.348  33.761  1.00 40.00           C  
+ATOM    198  C   ALA P  40      42.981  39.556  35.253  1.00 40.00           C  
+ATOM    199  O   ALA P  40      41.948  39.294  35.867  1.00 40.00           O  
+ATOM    200  CB  ALA P  40      42.341  38.017  33.426  1.00 40.00           C  
+ATOM    201  N   ALA P  41      44.090  39.956  35.870  1.00 41.00           N  
+ATOM    202  CA  ALA P  41      44.044  40.269  37.292  1.00 41.00           C  
+ATOM    203  C   ALA P  41      43.418  41.614  37.608  1.00 41.00           C  
+ATOM    204  O   ALA P  41      42.422  41.693  38.331  1.00 41.00           O  
+ATOM    205  CB  ALA P  41      45.445  40.264  37.909  1.00 41.00           C  
+ATOM    206  N   ALA P  42      43.953  42.682  37.037  1.00 42.00           N  
+ATOM    207  CA  ALA P  42      43.589  43.962  37.606  1.00 42.00           C  
+ATOM    208  C   ALA P  42      42.418  44.688  36.975  1.00 42.00           C  
+ATOM    209  O   ALA P  42      41.415  44.952  37.646  1.00 42.00           O  
+ATOM    210  CB  ALA P  42      44.717  44.986  37.518  1.00 42.00           C  
+ATOM    211  N   ALA P  43      42.500  44.933  35.681  1.00 43.00           N  
+ATOM    212  CA  ALA P  43      41.542  45.813  35.051  1.00 43.00           C  
+ATOM    213  C   ALA P  43      40.316  44.959  34.916  1.00 43.00           C  
+ATOM    214  O   ALA P  43      39.230  45.369  35.333  1.00 43.00           O  
+ATOM    215  CB  ALA P  43      42.001  46.281  33.675  1.00 43.00           C  
+ATOM    216  N   ALA P  44      40.510  43.745  34.426  1.00 44.00           N  
+ATOM    217  CA  ALA P  44      39.405  42.829  34.236  1.00 44.00           C  
+ATOM    218  C   ALA P  44      38.562  42.745  35.490  1.00 44.00           C  
+ATOM    219  O   ALA P  44      37.351  42.983  35.454  1.00 44.00           O  
+ATOM    220  CB  ALA P  44      39.943  41.457  33.854  1.00 44.00           C  
+ATOM    221  N   ALA P  45      39.187  42.432  36.621  1.00 45.00           N  
+ATOM    222  CA  ALA P  45      38.427  42.441  37.857  1.00 45.00           C  
+ATOM    223  C   ALA P  45      37.884  43.834  38.107  1.00 45.00           C  
+ATOM    224  O   ALA P  45      36.685  44.016  38.329  1.00 45.00           O  
+ATOM    225  CB  ALA P  45      39.287  41.961  39.019  1.00 45.00           C  
+ATOM    226  N   ALA P  46      38.741  44.842  37.987  1.00 46.00           N  
+ATOM    227  CA  ALA P  46      38.330  46.192  38.333  1.00 46.00           C  
+ATOM    228  C   ALA P  46      37.106  46.621  37.553  1.00 46.00           C  
+ATOM    229  O   ALA P  46      36.000  46.661  38.097  1.00 46.00           O  
+ATOM    230  CB  ALA P  46      39.470  47.157  38.074  1.00 46.00           C  
+ATOM    231  N   ALA P  47      37.278  46.907  36.265  1.00 47.00           N  
+ATOM    232  CA  ALA P  47      36.182  47.476  35.496  1.00 47.00           C  
+ATOM    233  C   ALA P  47      34.917  46.675  35.688  1.00 47.00           C  
+ATOM    234  O   ALA P  47      33.820  47.238  35.717  1.00 47.00           O  
+ATOM    235  CB  ALA P  47      36.538  47.542  34.021  1.00 47.00           C  
+ATOM    236  N   ALA P  48      35.054  45.362  35.861  1.00 48.00           N  
+ATOM    237  CA  ALA P  48      33.884  44.539  36.108  1.00 48.00           C  
+ATOM    238  C   ALA P  48      33.058  45.135  37.230  1.00 48.00           C  
+ATOM    239  O   ALA P  48      31.829  45.200  37.142  1.00 48.00           O  
+ATOM    240  CB  ALA P  48      34.297  43.107  36.426  1.00 48.00           C  
+ATOM    241  N   ALA P  49      33.725  45.641  38.265  1.00 49.00           N  
+ATOM    242  CA  ALA P  49      32.988  46.288  39.338  1.00 49.00           C  
+ATOM    243  C   ALA P  49      32.058  47.335  38.782  1.00 49.00           C  
+ATOM    244  O   ALA P  49      30.873  47.374  39.129  1.00 49.00           O  
+ATOM    245  CB  ALA P  49      33.942  46.931  40.336  1.00 49.00           C  
+ATOM    246  N   ALA P  50      32.576  48.165  37.881  1.00 50.00           N  
+ATOM    247  CA  ALA P  50      31.816  49.301  37.397  1.00 50.00           C  
+ATOM    248  C   ALA P  50      30.435  48.867  36.964  1.00 50.00           C  
+ATOM    249  O   ALA P  50      29.434  49.499  37.316  1.00 50.00           O  
+ATOM    250  CB  ALA P  50      32.550  49.981  36.248  1.00 50.00           C  
+ATOM    251  N   ALA P  51      30.361  47.759  36.234  1.00 51.00           N  
+ATOM    252  CA  ALA P  51      29.060  47.267  35.823  1.00 51.00           C  
+ATOM    253  C   ALA P  51      28.138  47.175  37.022  1.00 51.00           C  
+ATOM    254  O   ALA P  51      27.096  47.839  37.069  1.00 51.00           O  
+ATOM    255  CB  ALA P  51      29.212  45.917  35.139  1.00 51.00           C  
+ATOM    256  N   ALA P  52      28.547  46.425  38.039  1.00 52.00           N  
+ATOM    257  CA  ALA P  52      27.799  46.444  39.281  1.00 52.00           C  
+ATOM    258  C   ALA P  52      27.707  47.862  39.799  1.00 52.00           C  
+ATOM    259  O   ALA P  52      26.617  48.374  40.061  1.00 52.00           O  
+ATOM    260  CB  ALA P  52      28.453  45.529  40.305  1.00 52.00           C  
+ATOM    261  N   ALA P  53      28.849  48.538  39.897  1.00 53.00           N  
+ATOM    262  CA  ALA P  53      28.837  49.906  40.397  1.00 53.00           C  
+ATOM    263  C   ALA P  53      27.871  50.753  39.612  1.00 53.00           C  
+ATOM    264  O   ALA P  53      27.313  51.718  40.138  1.00 53.00           O  
+ATOM    265  CB  ALA P  53      30.228  50.517  40.334  1.00 53.00           C  
+ATOM    266  N   ALA P  54      27.657  50.406  38.354  1.00 54.00           N  
+ATOM    267  CA  ALA P  54      26.534  50.981  37.651  1.00 54.00           C  
+ATOM    268  C   ALA P  54      25.254  50.282  38.045  1.00 54.00           C  
+ATOM    269  O   ALA P  54      24.212  50.925  38.179  1.00 54.00           O  
+ATOM    270  CB  ALA P  54      26.750  50.886  36.150  1.00 54.00           C  
+ATOM    271  N   ALA P  55      25.320  48.971  38.260  1.00 55.00           N  
+ATOM    272  CA  ALA P  55      24.104  48.174  38.339  1.00 55.00           C  
+ATOM    273  C   ALA P  55      23.069  48.834  39.227  1.00 55.00           C  
+ATOM    274  O   ALA P  55      22.050  49.335  38.749  1.00 55.00           O  
+ATOM    275  CB  ALA P  55      24.425  46.777  38.853  1.00 55.00           C  
+ATOM    276  N   ALA P  56      23.310  48.860  40.519  1.00 56.00           N  
+ATOM    277  CA  ALA P  56      22.464  49.706  41.319  1.00 56.00           C  
+ATOM    278  C   ALA P  56      22.706  51.131  40.873  1.00 56.00           C  
+ATOM    279  O   ALA P  56      23.850  51.570  40.751  1.00 56.00           O  
+ATOM    280  CB  ALA P  56      22.757  49.536  42.804  1.00 56.00           C  
+ATOM    281  N   ALA P  57      21.627  51.828  40.549  1.00 57.00           N  
+ATOM    282  CA  ALA P  57      21.725  53.236  40.197  1.00 57.00           C  
+ATOM    283  C   ALA P  57      22.294  54.015  41.376  1.00 57.00           C  
+ATOM    284  O   ALA P  57      21.770  53.928  42.490  1.00 57.00           O  
+ATOM    285  CB  ALA P  57      20.357  53.785  39.808  1.00 57.00           C  
+ATOM    286  N   ALA P  58      23.346  54.794  41.122  1.00 58.00           N  
+ATOM    287  CA  ALA P  58      24.227  55.237  42.194  1.00 58.00           C  
+ATOM    288  C   ALA P  58      23.450  55.954  43.280  1.00 58.00           C  
+ATOM    289  O   ALA P  58      22.755  56.937  43.026  1.00 58.00           O  
+ATOM    290  CB  ALA P  58      25.313  56.149  41.638  1.00 58.00           C  
+ATOM    291  N   ALA P  59      23.554  55.423  44.491  1.00 59.00           N  
+ATOM    292  CA  ALA P  59      22.977  56.014  45.685  1.00 59.00           C  
+ATOM    293  C   ALA P  59      24.016  55.986  46.788  1.00 59.00           C  
+ATOM    294  O   ALA P  59      24.480  57.033  47.240  1.00 59.00           O  
+ATOM    295  CB  ALA P  59      21.718  55.268  46.106  1.00 59.00           C  
+ATOM    296  N   ALA P  60      24.388  54.789  47.225  1.00 60.00           N  
+ATOM    297  CA  ALA P  60      25.529  54.630  48.110  1.00 60.00           C  
+ATOM    298  C   ALA P  60      26.689  54.147  47.259  1.00 60.00           C  
+ATOM    299  O   ALA P  60      26.812  52.958  46.963  1.00 60.00           O  
+ATOM    300  CB  ALA P  60      25.202  53.645  49.225  1.00 60.00           C  
+ATOM    301  N   ALA P  61      27.549  55.077  46.895  1.00 61.00           N  
+ATOM    302  CA  ALA P  61      28.550  54.849  45.880  1.00 61.00           C  
+ATOM    303  C   ALA P  61      29.958  54.715  46.419  1.00 61.00           C  
+ATOM    304  O   ALA P  61      30.881  54.477  45.641  1.00 61.00           O  
+ATOM    305  CB  ALA P  61      28.493  55.972  44.860  1.00 61.00           C  
+ATOM    306  N   ALA P  62      30.167  54.901  47.713  1.00 62.00           N  
+ATOM    307  CA  ALA P  62      31.525  54.952  48.245  1.00 62.00           C  
+ATOM    308  C   ALA P  62      32.220  53.627  47.960  1.00 62.00           C  
+ATOM    309  O   ALA P  62      31.733  52.540  48.265  1.00 62.00           O  
+ATOM    310  CB  ALA P  62      31.520  55.266  49.730  1.00 62.00           C  
+ATOM    311  N   ALA P  63      33.387  53.737  47.353  1.00 63.00           N  
+ATOM    312  CA  ALA P  63      34.069  52.561  46.858  1.00 63.00           C  
+ATOM    313  C   ALA P  63      35.165  52.124  47.811  1.00 63.00           C  
+ATOM    314  O   ALA P  63      36.167  52.817  47.976  1.00 63.00           O  
+ATOM    315  CB  ALA P  63      34.652  52.845  45.482  1.00 63.00           C  
+ATOM    316  N   ALA P  64      34.981  50.967  48.426  1.00 64.00           N  
+ATOM    317  CA  ALA P  64      36.069  50.327  49.151  1.00 64.00           C  
+ATOM    318  C   ALA P  64      36.806  49.460  48.145  1.00 64.00           C  
+ATOM    319  O   ALA P  64      36.174  48.893  47.253  1.00 64.00           O  
+ATOM    320  CB  ALA P  64      35.534  49.501  50.303  1.00 64.00           C  
+ATOM    321  N   ALA P  65      38.124  49.392  48.252  1.00 65.00           N  
+ATOM    322  CA  ALA P  65      38.909  48.385  47.561  1.00 65.00           C  
+ATOM    323  C   ALA P  65      39.422  47.381  48.579  1.00 65.00           C  
+ATOM    324  O   ALA P  65      39.356  47.611  49.782  1.00 65.00           O  
+ATOM    325  CB  ALA P  65      40.105  49.025  46.863  1.00 65.00           C  
+ATOM    326  N   ALA P  66      39.919  46.240  48.128  1.00 66.00           N  
+ATOM    327  CA  ALA P  66      40.452  45.351  49.131  1.00 66.00           C  
+ATOM    328  C   ALA P  66      41.579  44.454  49.613  1.00 66.00           C  
+ATOM    329  O   ALA P  66      41.749  44.312  50.823  1.00 66.00           O  
+ATOM    330  CB  ALA P  66      39.442  44.206  49.276  1.00 66.00           C  
+ATOM    331  N   ALA P  67      42.415  43.942  48.717  1.00 67.00           N  
+ATOM    332  CA  ALA P  67      42.610  42.495  48.697  1.00 67.00           C  
+ATOM    333  C   ALA P  67      44.048  42.192  48.310  1.00 67.00           C  
+ATOM    334  O   ALA P  67      44.590  41.216  48.824  1.00 67.00           O  
+ATOM    335  CB  ALA P  67      41.793  41.248  48.349  1.00 67.00           C  
+ATOM    336  N   ALA P  68      44.693  42.941  47.439  1.00 68.00           N  
+ATOM    337  CA  ALA P  68      45.958  42.407  46.963  1.00 68.00           C  
+ATOM    338  C   ALA P  68      47.024  42.728  47.989  1.00 68.00           C  
+ATOM    339  O   ALA P  68      46.746  43.266  49.059  1.00 68.00           O  
+ATOM    340  CB  ALA P  68      46.323  42.960  45.587  1.00 68.00           C  
+ATOM    341  N   ALA P  69      48.246  42.371  47.668  1.00 69.00           N  
+ATOM    342  CA  ALA P  69      49.413  42.944  48.303  1.00 69.00           C  
+ATOM    343  C   ALA P  69      50.492  43.042  47.239  1.00 69.00           C  
+ATOM    344  O   ALA P  69      50.552  42.226  46.321  1.00 69.00           O  
+ATOM    345  CB  ALA P  69      49.842  42.112  49.504  1.00 69.00           C  
+ATOM    346  N   ALA P  70      51.365  44.028  47.363  1.00 70.00           N  
+ATOM    347  CA  ALA P  70      52.145  44.467  46.222  1.00 70.00           C  
+ATOM    348  C   ALA P  70      53.411  43.645  46.145  1.00 70.00           C  
+ATOM    349  O   ALA P  70      54.308  43.798  46.974  1.00 70.00           O  
+ATOM    350  CB  ALA P  70      52.486  45.948  46.329  1.00 70.00           C  
+ATOM    351  N   ALA P  71      53.454  42.760  45.162  1.00 71.00           N  
+ATOM    352  CA  ALA P  71      54.628  42.085  44.641  1.00 71.00           C  
+ATOM    353  C   ALA P  71      54.617  41.909  43.141  1.00 71.00           C  
+ATOM    354  O   ALA P  71      55.663  41.759  42.515  1.00 71.00           O  
+ATOM    355  CB  ALA P  71      54.678  40.638  45.101  1.00 71.00           C  
+ATOM    356  N   ALA P  72      53.416  41.772  42.601  1.00 72.00           N  
+ATOM    357  CA  ALA P  72      53.104  41.953  41.201  1.00 72.00           C  
+ATOM    358  C   ALA P  72      51.703  42.528  41.270  1.00 72.00           C  
+ATOM    359  O   ALA P  72      51.235  42.908  42.341  1.00 72.00           O  
+ATOM    360  CB  ALA P  72      53.161  40.691  40.345  1.00 72.00           C  
+ATOM    361  N   ALA P  73      51.035  42.616  40.129  1.00 73.00           N  
+ATOM    362  CA  ALA P  73      49.782  43.353  40.014  1.00 73.00           C  
+ATOM    363  C   ALA P  73      48.551  42.465  40.223  1.00 73.00           C  
+ATOM    364  O   ALA P  73      48.349  41.481  39.498  1.00 73.00           O  
+ATOM    365  CB  ALA P  73      49.711  44.039  38.653  1.00 73.00           C  
+ATOM    366  N   ALA P  74      47.731  42.833  41.218  1.00 74.00           N  
+ATOM    367  CA  ALA P  74      46.341  42.411  41.386  1.00 74.00           C  
+ATOM    368  C   ALA P  74      45.624  43.423  42.273  1.00 74.00           C  
+ATOM    369  O   ALA P  74      46.249  44.264  42.921  1.00 74.00           O  
+ATOM    370  CB  ALA P  74      46.223  41.011  41.978  1.00 74.00           C  
+ATOM    371  N   ALA P  75      44.296  43.353  42.258  1.00 75.00           N  
+ATOM    372  CA  ALA P  75      43.413  44.193  43.070  1.00 75.00           C  
+ATOM    373  C   ALA P  75      42.120  43.419  43.280  1.00 75.00           C  
+ATOM    374  O   ALA P  75      42.047  42.222  42.999  1.00 75.00           O  
+ATOM    375  CB  ALA P  75      43.164  45.558  42.421  1.00 75.00           C  
+ATOM    376  N   ALA P  76      41.093  44.078  43.794  1.00 76.00           N  
+ATOM    377  CA  ALA P  76      39.915  43.311  44.162  1.00 76.00           C  
+ATOM    378  C   ALA P  76      38.653  44.145  44.151  1.00 76.00           C  
+ATOM    379  O   ALA P  76      38.667  45.329  43.819  1.00 76.00           O  
+ATOM    380  CB  ALA P  76      40.096  42.696  45.536  1.00 76.00           C  
+ATOM    381  N   ALA P  77      37.567  43.521  44.578  1.00 77.00           N  
+ATOM    382  CA  ALA P  77      36.238  43.842  44.096  1.00 77.00           C  
+ATOM    383  C   ALA P  77      35.472  44.793  44.977  1.00 77.00           C  
+ATOM    384  O   ALA P  77      34.312  45.070  44.682  1.00 77.00           O  
+ATOM    385  CB  ALA P  77      35.436  42.563  43.958  1.00 77.00           C  
+ATOM    386  N   ALA P  78      36.087  45.314  46.025  1.00 78.00           N  
+ATOM    387  CA  ALA P  78      35.325  45.562  47.235  1.00 78.00           C  
+ATOM    388  C   ALA P  78      34.160  46.493  46.958  1.00 78.00           C  
+ATOM    389  O   ALA P  78      34.146  47.250  45.992  1.00 78.00           O  
+ATOM    390  CB  ALA P  78      36.214  46.128  48.334  1.00 78.00           C  
+ATOM    391  N   ALA P  79      33.169  46.413  47.825  1.00 79.00           N  
+ATOM    392  CA  ALA P  79      31.807  46.674  47.418  1.00 79.00           C  
+ATOM    393  C   ALA P  79      31.602  48.140  47.120  1.00 79.00           C  
+ATOM    394  O   ALA P  79      32.461  48.985  47.361  1.00 79.00           O  
+ATOM    395  CB  ALA P  79      30.850  46.319  48.544  1.00 79.00           C  
+ATOM    396  N   ALA P  80      30.429  48.445  46.639  1.00 80.00           N  
+ATOM    397  CA  ALA P  80      29.960  49.802  46.699  1.00 80.00           C  
+ATOM    398  C   ALA P  80      29.716  50.179  48.157  1.00 80.00           C  
+ATOM    399  O   ALA P  80      29.887  49.375  49.074  1.00 80.00           O  
+ATOM    400  CB  ALA P  80      28.683  49.952  45.883  1.00 80.00           C  
+ATOM    401  N   ALA P  81      29.345  51.429  48.387  1.00 81.00           N  
+ATOM    402  CA  ALA P  81      28.910  51.808  49.717  1.00 81.00           C  
+ATOM    403  C   ALA P  81      27.625  51.118  50.112  1.00 81.00           C  
+ATOM    404  O   ALA P  81      26.655  51.111  49.353  1.00 81.00           O  
+ATOM    405  CB  ALA P  81      28.703  53.308  49.829  1.00 81.00           C  
+ATOM    406  N   ALA P  82      27.624  50.506  51.279  1.00 82.00           N  
+ATOM    407  CA  ALA P  82      26.393  50.282  52.014  1.00 82.00           C  
+ATOM    408  C   ALA P  82      25.396  49.459  51.233  1.00 82.00           C  
+ATOM    409  O   ALA P  82      24.205  49.458  51.528  1.00 82.00           O  
+ATOM    410  CB  ALA P  82      25.762  51.614  52.396  1.00 82.00           C  
+ATOM    411  N   ALA P  83      25.861  48.749  50.240  1.00 83.00           N  
+ATOM    412  CA  ALA P  83      24.999  47.803  49.572  1.00 83.00           C  
+ATOM    413  C   ALA P  83      25.334  46.415  50.052  1.00 83.00           C  
+ATOM    414  O   ALA P  83      26.101  46.218  50.994  1.00 83.00           O  
+ATOM    415  CB  ALA P  83      25.145  47.870  48.055  1.00 83.00           C  
+ATOM    416  N   ALA P  84      24.724  45.450  49.382  1.00 84.00           N  
+ATOM    417  CA  ALA P  84      25.227  44.092  49.352  1.00 84.00           C  
+ATOM    418  C   ALA P  84      26.332  43.961  48.313  1.00 84.00           C  
+ATOM    419  O   ALA P  84      26.836  42.867  48.048  1.00 84.00           O  
+ATOM    420  CB  ALA P  84      24.084  43.116  49.106  1.00 84.00           C  
+ATOM    421  N   ALA P  85      26.761  45.092  47.767  1.00 85.00           N  
+ATOM    422  CA  ALA P  85      27.584  45.170  46.573  1.00 85.00           C  
+ATOM    423  C   ALA P  85      28.889  44.402  46.687  1.00 85.00           C  
+ATOM    424  O   ALA P  85      29.682  44.430  45.746  1.00 85.00           O  
+ATOM    425  CB  ALA P  85      27.849  46.623  46.201  1.00 85.00           C  
+ATOM    426  N   ALA P  86      29.188  43.805  47.836  1.00 86.00           N  
+ATOM    427  CA  ALA P  86      30.367  42.961  47.883  1.00 86.00           C  
+ATOM    428  C   ALA P  86      30.383  42.100  46.637  1.00 86.00           C  
+ATOM    429  O   ALA P  86      29.398  41.435  46.328  1.00 86.00           O  
+ATOM    430  CB  ALA P  86      30.361  42.104  49.141  1.00 86.00           C  
+ATOM    431  N   ALA P  87      31.485  42.149  45.889  1.00 87.00           N  
+ATOM    432  CA  ALA P  87      31.353  41.934  44.453  1.00 87.00           C  
+ATOM    433  C   ALA P  87      31.872  40.685  43.759  1.00 87.00           C  
+ATOM    434  O   ALA P  87      31.101  39.962  43.127  1.00 87.00           O  
+ATOM    435  CB  ALA P  87      32.042  43.062  43.696  1.00 87.00           C  
+ATOM    436  N   ALA P  88      33.148  40.362  43.924  1.00 88.00           N  
+ATOM    437  CA  ALA P  88      33.767  39.326  43.107  1.00 88.00           C  
+ATOM    438  C   ALA P  88      34.142  38.223  44.085  1.00 88.00           C  
+ATOM    439  O   ALA P  88      33.697  37.083  43.930  1.00 88.00           O  
+ATOM    440  CB  ALA P  88      35.004  39.665  42.267  1.00 88.00           C  
+ATOM    441  N   ALA P  89      34.953  38.534  45.083  1.00 89.00           N  
+ATOM    442  CA  ALA P  89      35.497  37.496  45.937  1.00 89.00           C  
+ATOM    443  C   ALA P  89      34.343  36.757  46.550  1.00 89.00           C  
+ATOM    444  O   ALA P  89      33.459  37.352  47.162  1.00 89.00           O  
+ATOM    445  CB  ALA P  89      36.366  38.102  47.033  1.00 89.00           C  
+ATOM    446  N   ALA P  90      34.324  35.463  46.346  1.00 90.00           N  
+ATOM    447  CA  ALA P  90      33.264  34.714  46.963  1.00 90.00           C  
+ATOM    448  C   ALA P  90      33.860  33.371  47.305  1.00 90.00           C  
+ATOM    449  O   ALA P  90      34.825  32.925  46.685  1.00 90.00           O  
+ATOM    450  CB  ALA P  90      32.018  34.721  46.085  1.00 90.00           C  
+ATOM    451  N   ALA P  91      33.288  32.734  48.312  1.00 91.00           N  
+ATOM    452  CA  ALA P  91      33.587  31.328  48.491  1.00 91.00           C  
+ATOM    453  C   ALA P  91      32.869  30.562  47.411  1.00 91.00           C  
+ATOM    454  O   ALA P  91      33.506  29.910  46.584  1.00 91.00           O  
+ATOM    455  CB  ALA P  91      33.068  30.860  49.840  1.00 91.00           C  
+ATOM    456  N   ALA P  92      31.555  30.707  47.344  1.00 92.00           N  
+ATOM    457  CA  ALA P  92      30.807  29.988  46.339  1.00 92.00           C  
+ATOM    458  C   ALA P  92      31.299  30.479  45.002  1.00 92.00           C  
+ATOM    459  O   ALA P  92      31.248  31.676  44.725  1.00 92.00           O  
+ATOM    460  CB  ALA P  92      29.321  30.275  46.488  1.00 92.00           C  
+ATOM    461  N   ALA P  93      31.805  29.562  44.186  1.00 93.00           N  
+ATOM    462  CA  ALA P  93      32.044  29.819  42.776  1.00 93.00           C  
+ATOM    463  C   ALA P  93      31.092  28.909  42.031  1.00 93.00           C  
+ATOM    464  O   ALA P  93      31.410  27.741  41.796  1.00 93.00           O  
+ATOM    465  CB  ALA P  93      33.489  29.523  42.398  1.00 93.00           C  
+ATOM    466  N   ALA P  94      29.972  29.454  41.569  1.00 94.00           N  
+ATOM    467  CA  ALA P  94      28.945  28.590  41.017  1.00 94.00           C  
+ATOM    468  C   ALA P  94      29.450  28.109  39.665  1.00 94.00           C  
+ATOM    469  O   ALA P  94      29.663  28.886  38.742  1.00 94.00           O  
+ATOM    470  CB  ALA P  94      27.626  29.334  40.907  1.00 94.00           C  
+ATOM    471  N   ALA P  95      29.648  26.802  39.559  1.00 95.00           N  
+ATOM    472  CA  ALA P  95      30.487  26.260  38.498  1.00 95.00           C  
+ATOM    473  C   ALA P  95      29.667  25.433  37.528  1.00 95.00           C  
+ATOM    474  O   ALA P  95      28.952  24.518  37.935  1.00 95.00           O  
+ATOM    475  CB  ALA P  95      31.610  25.408  39.080  1.00 95.00           C  
+ATOM    476  N   ALA P  96      29.778  25.745  36.249  1.00 96.00           N  
+ATOM    477  CA  ALA P  96      29.055  24.972  35.264  1.00 96.00           C  
+ATOM    478  C   ALA P  96      29.542  23.540  35.448  1.00 96.00           C  
+ATOM    479  O   ALA P  96      30.693  23.303  35.814  1.00 96.00           O  
+ATOM    480  CB  ALA P  96      29.245  25.567  33.880  1.00 96.00           C  
+ATOM    481  N   ALA P  97      28.650  22.580  35.188  1.00 97.00           N  
+ATOM    482  CA  ALA P  97      28.823  21.242  35.745  1.00 97.00           C  
+ATOM    483  C   ALA P  97      29.960  20.478  35.086  1.00 97.00           C  
+ATOM    484  O   ALA P  97      30.920  20.096  35.761  1.00 97.00           O  
+ATOM    485  CB  ALA P  97      27.580  20.374  35.607  1.00 97.00           C  
+ATOM    486  N   ALA P  98      29.887  20.257  33.774  1.00 98.00           N  
+ATOM    487  CA  ALA P  98      30.898  19.452  33.102  1.00 98.00           C  
+ATOM    488  C   ALA P  98      32.223  20.188  33.269  1.00 98.00           C  
+ATOM    489  O   ALA P  98      32.295  21.418  33.233  1.00 98.00           O  
+ATOM    490  CB  ALA P  98      30.567  19.246  31.626  1.00 98.00           C  
+ATOM    491  N   ALA P  99      33.269  19.409  33.478  1.00 99.00           N  
+ATOM    492  CA  ALA P  99      34.347  19.775  34.382  1.00 99.00           C  
+ATOM    493  C   ALA P  99      35.001  21.148  34.364  1.00 99.00           C  
+ATOM    494  O   ALA P  99      34.945  21.845  35.379  1.00 99.00           O  
+ATOM    495  CB  ALA P  99      35.507  18.793  34.211  1.00 99.00           C  
+ATOM    496  N   ALA P 100      35.544  21.589  33.229  1.00100.00           N  
+ATOM    497  CA  ALA P 100      36.565  22.636  33.237  1.00100.00           C  
+ATOM    498  C   ALA P 100      35.825  23.949  33.386  1.00100.00           C  
+ATOM    499  O   ALA P 100      36.444  25.011  33.486  1.00100.00           O  
+ATOM    500  CB  ALA P 100      37.426  22.671  31.979  1.00100.00           C  
+ATOM    501  N   ALA P 101      34.506  23.904  33.392  1.00101.00           N  
+ATOM    502  CA  ALA P 101      33.737  25.128  33.385  1.00101.00           C  
+ATOM    503  C   ALA P 101      33.474  25.598  34.808  1.00101.00           C  
+ATOM    504  O   ALA P 101      32.663  25.011  35.528  1.00101.00           O  
+ATOM    505  CB  ALA P 101      32.427  24.887  32.650  1.00101.00           C  
+ATOM    506  N   ALA P 102      34.134  26.685  35.199  1.00102.00           N  
+ATOM    507  CA  ALA P 102      33.989  27.256  36.531  1.00102.00           C  
+ATOM    508  C   ALA P 102      33.898  28.768  36.421  1.00102.00           C  
+ATOM    509  O   ALA P 102      34.857  29.413  35.998  1.00102.00           O  
+ATOM    510  CB  ALA P 102      35.167  26.861  37.417  1.00102.00           C  
+ATOM    511  N   ALA P 103      32.777  29.334  36.852  1.00103.00           N  
+ATOM    512  CA  ALA P 103      32.526  30.764  36.749  1.00103.00           C  
+ATOM    513  C   ALA P 103      32.317  31.371  38.129  1.00103.00           C  
+ATOM    514  O   ALA P 103      31.347  31.033  38.809  1.00103.00           O  
+ATOM    515  CB  ALA P 103      31.300  31.024  35.886  1.00103.00           C  
+ATOM    516  N   ALA P 104      33.196  32.287  38.531  1.00104.00           N  
+ATOM    517  CA  ALA P 104      33.086  32.895  39.848  1.00104.00           C  
+ATOM    518  C   ALA P 104      31.936  33.896  39.870  1.00104.00           C  
+ATOM    519  O   ALA P 104      31.330  34.205  38.844  1.00104.00           O  
+ATOM    520  CB  ALA P 104      34.401  33.553  40.233  1.00104.00           C  
+ATOM    521  N   ALA P 105      31.651  34.450  41.037  1.00105.00           N  
+ATOM    522  CA  ALA P 105      30.397  35.158  41.258  1.00105.00           C  
+ATOM    523  C   ALA P 105      30.653  36.584  41.706  1.00105.00           C  
+ATOM    524  O   ALA P 105      31.211  36.812  42.775  1.00105.00           O  
+ATOM    525  CB  ALA P 105      29.576  34.436  42.291  1.00105.00           C  
+ATOM    526  N   ALA P 106      30.215  37.546  40.899  1.00106.00           N  
+ATOM    527  CA  ALA P 106      30.111  38.905  41.400  1.00106.00           C  
+ATOM    528  C   ALA P 106      28.724  39.113  41.996  1.00106.00           C  
+ATOM    529  O   ALA P 106      27.713  39.118  41.292  1.00106.00           O  
+ATOM    530  CB  ALA P 106      30.381  39.930  40.301  1.00106.00           C  
+ATOM    531  N   ALA P 107      28.684  39.293  43.310  1.00107.00           N  
+ATOM    532  CA  ALA P 107      27.455  39.228  44.091  1.00107.00           C  
+ATOM    533  C   ALA P 107      26.660  40.514  43.849  1.00107.00           C  
+ATOM    534  O   ALA P 107      27.107  41.326  43.037  1.00107.00           O  
+ATOM    535  CB  ALA P 107      27.783  38.900  45.540  1.00107.00           C  
+ATOM    536  N   ALA P 108      25.557  40.766  44.539  1.00108.00           N  
+ATOM    537  CA  ALA P 108      24.552  41.697  44.060  1.00108.00           C  
+ATOM    538  C   ALA P 108      23.963  42.393  45.266  1.00108.00           C  
+ATOM    539  O   ALA P 108      24.550  42.387  46.346  1.00108.00           O  
+ATOM    540  CB  ALA P 108      23.456  41.003  43.257  1.00108.00           C  
+ATOM    541  N   ALA P 109      22.832  43.050  45.062  1.00109.00           N  
+ATOM    542  CA  ALA P 109      22.093  43.665  46.149  1.00109.00           C  
+ATOM    543  C   ALA P 109      21.620  42.591  47.114  1.00109.00           C  
+ATOM    544  O   ALA P 109      21.964  41.417  46.977  1.00109.00           O  
+ATOM    545  CB  ALA P 109      20.898  44.441  45.610  1.00109.00           C  
+ATOM    546  N   ALA P 110      20.865  42.972  48.136  1.00110.00           N  
+ATOM    547  CA  ALA P 110      20.506  41.885  49.023  1.00110.00           C  
+ATOM    548  C   ALA P 110      19.612  40.841  48.393  1.00110.00           C  
+ATOM    549  O   ALA P 110      18.389  40.913  48.514  1.00110.00           O  
+ATOM    550  CB  ALA P 110      19.839  42.410  50.282  1.00110.00           C  
+ATOM    551  N   ALA P 111      20.235  39.840  47.768  1.00111.00           N  
+ATOM    552  CA  ALA P 111      19.580  39.194  46.638  1.00111.00           C  
+ATOM    553  C   ALA P 111      20.317  37.949  46.173  1.00111.00           C  
+ATOM    554  O   ALA P 111      21.135  37.385  46.905  1.00111.00           O  
+ATOM    555  CB  ALA P 111      19.499  40.228  45.519  1.00111.00           C  
+ATOM    556  N   ALA P 112      20.002  37.512  44.954  1.00112.00           N  
+ATOM    557  CA  ALA P 112      20.821  36.576  44.195  1.00112.00           C  
+ATOM    558  C   ALA P 112      21.762  37.436  43.368  1.00112.00           C  
+ATOM    559  O   ALA P 112      21.637  38.658  43.338  1.00112.00           O  
+ATOM    560  CB  ALA P 112      19.970  35.685  43.295  1.00112.00           C  
+ATOM    561  N   ALA P 113      22.658  36.782  42.633  1.00113.00           N  
+ATOM    562  CA  ALA P 113      23.892  37.407  42.184  1.00113.00           C  
+ATOM    563  C   ALA P 113      24.250  36.996  40.762  1.00113.00           C  
+ATOM    564  O   ALA P 113      23.654  36.094  40.179  1.00113.00           O  
+ATOM    565  CB  ALA P 113      25.043  37.052  43.123  1.00113.00           C  
+ATOM    566  N   ALA P 114      25.235  37.681  40.204  1.00114.00           N  
+ATOM    567  CA  ALA P 114      25.678  37.421  38.848  1.00114.00           C  
+ATOM    568  C   ALA P 114      27.038  36.725  38.854  1.00114.00           C  
+ATOM    569  O   ALA P 114      27.652  36.524  39.901  1.00114.00           O  
+ATOM    570  CB  ALA P 114      25.711  38.728  38.078  1.00114.00           C  
+ATOM    571  N   ALA P 115      27.552  36.391  37.673  1.00115.00           N  
+ATOM    572  CA  ALA P 115      28.772  35.602  37.566  1.00115.00           C  
+ATOM    573  C   ALA P 115      29.605  36.069  36.384  1.00115.00           C  
+ATOM    574  O   ALA P 115      29.057  36.475  35.361  1.00115.00           O  
+ATOM    575  CB  ALA P 115      28.448  34.126  37.400  1.00115.00           C  
+ATOM    576  N   ALA P 116      30.924  35.966  36.512  1.00116.00           N  
+ATOM    577  CA  ALA P 116      31.849  36.535  35.540  1.00116.00           C  
+ATOM    578  C   ALA P 116      32.951  35.549  35.233  1.00116.00           C  
+ATOM    579  O   ALA P 116      33.749  35.238  36.118  1.00116.00           O  
+ATOM    580  CB  ALA P 116      32.470  37.810  36.083  1.00116.00           C  
+ATOM    581  N   ALA P 117      33.059  35.138  33.970  1.00117.00           N  
+ATOM    582  CA  ALA P 117      33.935  34.036  33.584  1.00117.00           C  
+ATOM    583  C   ALA P 117      34.798  34.382  32.384  1.00117.00           C  
+ATOM    584  O   ALA P 117      34.337  35.048  31.455  1.00117.00           O  
+ATOM    585  CB  ALA P 117      33.123  32.787  33.260  1.00117.00           C  
+ATOM    586  N   ALA P 118      36.037  33.905  32.400  1.00118.00           N  
+ATOM    587  CA  ALA P 118      36.904  34.037  31.244  1.00118.00           C  
+ATOM    588  C   ALA P 118      36.312  33.279  30.064  1.00118.00           C  
+ATOM    589  O   ALA P 118      35.848  32.153  30.221  1.00118.00           O  
+ATOM    590  CB  ALA P 118      38.284  33.494  31.591  1.00118.00           C  
+ATOM    591  N   ALA P 119      36.315  33.891  28.874  1.00119.00           N  
+ATOM    592  CA  ALA P 119      35.737  33.221  27.708  1.00119.00           C  
+ATOM    593  C   ALA P 119      36.659  32.188  27.082  1.00119.00           C  
+ATOM    594  O   ALA P 119      36.278  31.029  26.913  1.00119.00           O  
+ATOM    595  CB  ALA P 119      35.375  34.219  26.622  1.00119.00           C  
+ATOM    596  N   ALA P 120      37.881  32.585  26.728  1.00120.00           N  
+ATOM    597  CA  ALA P 120      38.902  31.623  26.309  1.00120.00           C  
+ATOM    598  C   ALA P 120      39.616  31.272  27.602  1.00120.00           C  
+ATOM    599  O   ALA P 120      39.142  31.653  28.674  1.00120.00           O  
+ATOM    600  CB  ALA P 120      39.919  32.228  25.346  1.00120.00           C  
+ATOM    601  N   ALA P 121      40.701  30.506  27.559  1.00121.00           N  
+ATOM    602  CA  ALA P 121      41.473  30.342  28.781  1.00121.00           C  
+ATOM    603  C   ALA P 121      42.948  30.639  28.613  1.00121.00           C  
+ATOM    604  O   ALA P 121      43.516  30.477  27.533  1.00121.00           O  
+ATOM    605  CB  ALA P 121      41.284  28.914  29.281  1.00121.00           C  
+ATOM    606  N   ALA P 122      43.555  31.073  29.715  1.00122.00           N  
+ATOM    607  CA  ALA P 122      44.991  31.273  29.842  1.00122.00           C  
+ATOM    608  C   ALA P 122      45.235  31.609  31.296  1.00122.00           C  
+ATOM    609  O   ALA P 122      44.319  32.014  32.012  1.00122.00           O  
+ATOM    610  CB  ALA P 122      45.525  32.350  28.911  1.00122.00           C  
+ATOM    611  N   ALA P 123      46.493  31.502  31.706  1.00123.00           N  
+ATOM    612  CA  ALA P 123      46.730  31.421  33.133  1.00123.00           C  
+ATOM    613  C   ALA P 123      47.963  32.277  33.294  1.00123.00           C  
+ATOM    614  O   ALA P 123      47.974  33.429  32.869  1.00123.00           O  
+ATOM    615  CB  ALA P 123      47.137  30.019  33.571  1.00123.00           C  
+ATOM    616  N   ALA P 124      49.032  31.727  33.849  1.00124.00           N  
+ATOM    617  CA  ALA P 124      49.958  32.619  34.524  1.00124.00           C  
+ATOM    618  C   ALA P 124      51.138  33.279  33.870  1.00124.00           C  
+ATOM    619  O   ALA P 124      51.186  34.498  33.724  1.00124.00           O  
+ATOM    620  CB  ALA P 124      50.482  31.559  35.472  1.00124.00           C  
+ATOM    621  N   ALA P 125      52.077  32.483  33.425  1.00125.00           N  
+ATOM    622  CA  ALA P 125      52.876  32.949  32.326  1.00125.00           C  
+ATOM    623  C   ALA P 125      52.034  32.336  31.225  1.00125.00           C  
+ATOM    624  O   ALA P 125      52.034  31.119  31.053  1.00125.00           O  
+ATOM    625  CB  ALA P 125      54.289  32.406  32.378  1.00125.00           C  
+ATOM    626  N   ALA P 126      51.279  33.172  30.532  1.00126.00           N  
+ATOM    627  CA  ALA P 126      49.956  32.790  30.062  1.00126.00           C  
+ATOM    628  C   ALA P 126      49.831  33.008  28.553  1.00126.00           C  
+ATOM    629  O   ALA P 126      50.687  33.695  27.993  1.00126.00           O  
+ATOM    630  CB  ALA P 126      48.895  33.597  30.801  1.00126.00           C  
+ATOM    631  N   ALA P 127      48.814  32.475  27.890  1.00127.00           N  
+ATOM    632  CA  ALA P 127      48.806  32.409  26.446  1.00127.00           C  
+ATOM    633  C   ALA P 127      47.731  33.047  25.588  1.00127.00           C  
+ATOM    634  O   ALA P 127      48.035  33.701  24.591  1.00127.00           O  
+ATOM    635  CB  ALA P 127      48.704  30.923  26.121  1.00127.00           C  
+ATOM    636  N   ALA P 128      46.475  32.886  25.967  1.00128.00           N  
+ATOM    637  CA  ALA P 128      45.428  33.155  25.007  1.00128.00           C  
+ATOM    638  C   ALA P 128      45.106  34.625  25.243  1.00128.00           C  
+ATOM    639  O   ALA P 128      45.670  35.287  26.109  1.00128.00           O  
+ATOM    640  CB  ALA P 128      44.175  32.295  25.160  1.00128.00           C  
+ATOM    641  N   ALA P 129      44.199  35.139  24.434  1.00129.00           N  
+ATOM    642  CA  ALA P 129      43.525  36.397  24.700  1.00129.00           C  
+ATOM    643  C   ALA P 129      42.270  36.007  25.464  1.00129.00           C  
+ATOM    644  O   ALA P 129      41.718  34.931  25.239  1.00129.00           O  
+ATOM    645  CB  ALA P 129      43.220  37.136  23.407  1.00129.00           C  
+ATOM    646  N   ALA P 130      41.854  36.812  26.422  1.00130.00           N  
+ATOM    647  CA  ALA P 130      41.050  36.215  27.472  1.00130.00           C  
+ATOM    648  C   ALA P 130      39.560  36.498  27.406  1.00130.00           C  
+ATOM    649  O   ALA P 130      38.831  36.006  28.265  1.00130.00           O  
+ATOM    650  CB  ALA P 130      41.510  36.733  28.811  1.00130.00           C  
+ATOM    651  N   ALA P 131      39.077  37.134  26.351  1.00131.00           N  
+ATOM    652  CA  ALA P 131      38.123  38.241  26.529  1.00131.00           C  
+ATOM    653  C   ALA P 131      37.018  37.884  27.515  1.00131.00           C  
+ATOM    654  O   ALA P 131      36.338  36.897  27.365  1.00131.00           O  
+ATOM    655  CB  ALA P 131      37.482  38.594  25.214  1.00131.00           C  
+ATOM    656  N   ALA P 132      36.835  38.740  28.510  1.00132.00           N  
+ATOM    657  CA  ALA P 132      36.010  38.463  29.684  1.00132.00           C  
+ATOM    658  C   ALA P 132      34.516  38.563  29.466  1.00132.00           C  
+ATOM    659  O   ALA P 132      34.088  39.173  28.508  1.00132.00           O  
+ATOM    660  CB  ALA P 132      36.391  39.374  30.754  1.00132.00           C  
+ATOM    661  N   ALA P 133      33.707  37.989  30.355  1.00133.00           N  
+ATOM    662  CA  ALA P 133      32.257  38.143  30.269  1.00133.00           C  
+ATOM    663  C   ALA P 133      31.593  37.939  31.626  1.00133.00           C  
+ATOM    664  O   ALA P 133      32.121  37.214  32.471  1.00133.00           O  
+ATOM    665  CB  ALA P 133      31.682  37.159  29.261  1.00133.00           C  
+ATOM    666  N   ALA P 134      30.417  38.542  31.818  1.00134.00           N  
+ATOM    667  CA  ALA P 134      29.674  38.432  33.071  1.00134.00           C  
+ATOM    668  C   ALA P 134      28.260  37.921  32.803  1.00134.00           C  
+ATOM    669  O   ALA P 134      27.483  38.586  32.114  1.00134.00           O  
+ATOM    670  CB  ALA P 134      29.616  39.784  33.771  1.00134.00           C  
+ATOM    671  N   ALA P 135      27.920  36.753  33.352  1.00135.00           N  
+ATOM    672  CA  ALA P 135      26.585  36.197  33.156  1.00135.00           C  
+ATOM    673  C   ALA P 135      25.545  37.123  33.766  1.00135.00           C  
+ATOM    674  O   ALA P 135      25.827  37.883  34.689  1.00135.00           O  
+ATOM    675  CB  ALA P 135      26.480  34.802  33.761  1.00135.00           C  
+ATOM    676  N   ALA P 136      24.332  37.060  33.238  1.00136.00           N  
+ATOM    677  CA  ALA P 136      23.486  38.244  33.241  1.00136.00           C  
+ATOM    678  C   ALA P 136      22.442  38.423  34.329  1.00136.00           C  
+ATOM    679  O   ALA P 136      21.622  39.330  34.188  1.00136.00           O  
+ATOM    680  CB  ALA P 136      22.749  38.370  31.912  1.00136.00           C  
+ATOM    681  N   ALA P 137      22.368  37.618  35.383  1.00137.00           N  
+ATOM    682  CA  ALA P 137      21.257  37.899  36.290  1.00137.00           C  
+ATOM    683  C   ALA P 137      21.479  39.149  37.143  1.00137.00           C  
+ATOM    684  O   ALA P 137      22.088  39.125  38.214  1.00137.00           O  
+ATOM    685  CB  ALA P 137      20.979  36.718  37.200  1.00137.00           C  
+ATOM    686  N   ALA P 138      20.921  40.249  36.635  1.00138.00           N  
+ATOM    687  CA  ALA P 138      21.191  41.618  37.064  1.00138.00           C  
+ATOM    688  C   ALA P 138      20.310  42.502  36.196  1.00138.00           C  
+ATOM    689  O   ALA P 138      19.516  42.015  35.392  1.00138.00           O  
+ATOM    690  CB  ALA P 138      22.662  41.986  36.886  1.00138.00           C  
+ATOM    691  N   ALA P 139      20.451  43.811  36.346  1.00139.00           N  
+ATOM    692  CA  ALA P 139      19.708  44.717  35.478  1.00139.00           C  
+ATOM    693  C   ALA P 139      20.639  45.720  34.825  1.00139.00           C  
+ATOM    694  O   ALA P 139      21.858  45.566  34.895  1.00139.00           O  
+ATOM    695  CB  ALA P 139      18.619  45.450  36.249  1.00139.00           C  
+ATOM    696  N   ALA P 140      20.083  46.734  34.174  1.00140.00           N  
+ATOM    697  CA  ALA P 140      20.865  47.797  33.563  1.00140.00           C  
+ATOM    698  C   ALA P 140      20.611  49.097  34.303  1.00140.00           C  
+ATOM    699  O   ALA P 140      19.564  49.264  34.928  1.00140.00           O  
+ATOM    700  CB  ALA P 140      20.511  47.969  32.095  1.00140.00           C  
+ATOM    701  N   ALA P 141      21.566  50.022  34.230  1.00141.00           N  
+ATOM    702  CA  ALA P 141      21.458  51.226  35.046  1.00141.00           C  
+ATOM    703  C   ALA P 141      20.889  52.486  34.409  1.00141.00           C  
+ATOM    704  O   ALA P 141      19.897  53.040  34.890  1.00141.00           O  
+ATOM    705  CB  ALA P 141      22.847  51.656  35.500  1.00141.00           C  
+ATOM    706  N   ALA P 142      21.510  52.956  33.334  1.00142.00           N  
+ATOM    707  CA  ALA P 142      20.969  54.014  32.496  1.00142.00           C  
+ATOM    708  C   ALA P 142      21.775  53.901  31.218  1.00142.00           C  
+ATOM    709  O   ALA P 142      23.004  53.983  31.234  1.00142.00           O  
+ATOM    710  CB  ALA P 142      21.008  55.439  33.040  1.00142.00           C  
+ATOM    711  N   ALA P 143      21.071  53.795  30.098  1.00143.00           N  
+ATOM    712  CA  ALA P 143      21.502  52.959  28.986  1.00143.00           C  
+ATOM    713  C   ALA P 143      22.981  53.151  28.670  1.00143.00           C  
+ATOM    714  O   ALA P 143      23.644  52.194  28.262  1.00143.00           O  
+ATOM    715  CB  ALA P 143      20.589  53.186  27.789  1.00143.00           C  
+ATOM    716  N   ALA P 144      23.517  54.356  28.878  1.00144.00           N  
+ATOM    717  CA  ALA P 144      24.900  54.658  28.520  1.00144.00           C  
+ATOM    718  C   ALA P 144      25.871  53.496  28.711  1.00144.00           C  
+ATOM    719  O   ALA P 144      26.382  52.944  27.732  1.00144.00           O  
+ATOM    720  CB  ALA P 144      25.388  55.881  29.288  1.00144.00           C  
+ATOM    721  N   ALA P 145      26.139  53.105  29.957  1.00145.00           N  
+ATOM    722  CA  ALA P 145      27.140  52.071  30.196  1.00145.00           C  
+ATOM    723  C   ALA P 145      26.763  50.754  29.539  1.00145.00           C  
+ATOM    724  O   ALA P 145      27.642  50.006  29.102  1.00145.00           O  
+ATOM    725  CB  ALA P 145      27.349  51.872  31.689  1.00145.00           C  
+ATOM    726  N   ALA P 146      25.472  50.458  29.441  1.00146.00           N  
+ATOM    727  CA  ALA P 146      25.065  49.280  28.697  1.00146.00           C  
+ATOM    728  C   ALA P 146      25.612  49.321  27.292  1.00146.00           C  
+ATOM    729  O   ALA P 146      25.732  48.285  26.641  1.00146.00           O  
+ATOM    730  CB  ALA P 146      23.545  49.180  28.650  1.00146.00           C  
+ATOM    731  N   ALA P 147      25.913  50.509  26.797  1.00147.00           N  
+ATOM    732  CA  ALA P 147      26.418  50.679  25.450  1.00147.00           C  
+ATOM    733  C   ALA P 147      27.924  50.817  25.382  1.00147.00           C  
+ATOM    734  O   ALA P 147      28.455  51.025  24.292  1.00147.00           O  
+ATOM    735  CB  ALA P 147      25.775  51.893  24.793  1.00147.00           C  
+ATOM    736  N   ALA P 148      28.628  50.745  26.504  1.00148.00           N  
+ATOM    737  CA  ALA P 148      30.081  50.680  26.443  1.00148.00           C  
+ATOM    738  C   ALA P 148      30.641  49.286  26.616  1.00148.00           C  
+ATOM    739  O   ALA P 148      31.406  48.812  25.779  1.00148.00           O  
+ATOM    740  CB  ALA P 148      30.714  51.497  27.563  1.00148.00           C  
+ATOM    741  N   ALA P 149      30.276  48.620  27.692  1.00149.00           N  
+ATOM    742  CA  ALA P 149      30.291  47.181  27.639  1.00149.00           C  
+ATOM    743  C   ALA P 149      29.203  46.835  26.647  1.00149.00           C  
+ATOM    744  O   ALA P 149      28.138  47.448  26.648  1.00149.00           O  
+ATOM    745  CB  ALA P 149      29.952  46.641  29.016  1.00149.00           C  
+ATOM    746  N   ALA P 150      29.488  45.889  25.769  1.00150.00           N  
+ATOM    747  CA  ALA P 150      28.558  45.495  24.725  1.00150.00           C  
+ATOM    748  C   ALA P 150      27.694  44.340  25.213  1.00150.00           C  
+ATOM    749  O   ALA P 150      28.205  43.370  25.777  1.00150.00           O  
+ATOM    750  CB  ALA P 150      29.311  45.142  23.447  1.00150.00           C  
+ATOM    751  N   ALA P 151      26.392  44.445  24.994  1.00151.00           N  
+ATOM    752  CA  ALA P 151      25.489  43.393  25.410  1.00151.00           C  
+ATOM    753  C   ALA P 151      25.553  42.251  24.414  1.00151.00           C  
+ATOM    754  O   ALA P 151      26.321  42.279  23.454  1.00151.00           O  
+ATOM    755  CB  ALA P 151      24.056  43.904  25.455  1.00151.00           C  
+ATOM    756  N   ALA P 152      24.734  41.233  24.653  1.00152.00           N  
+ATOM    757  CA  ALA P 152      24.622  40.100  23.742  1.00152.00           C  
+ATOM    758  C   ALA P 152      23.407  39.267  24.055  1.00152.00           C  
+ATOM    759  O   ALA P 152      22.483  39.700  24.726  0.00152.00           O  
+ATOM    760  CB  ALA P 152      25.847  39.242  23.800  1.00152.00           C  
+ATOM    761  OXT ALA P 152      23.338  38.125  23.633  0.00152.00           O  
+TER     762      ALA P 152                                                      
+MASTER      179    0    0    2    6    0    0    6  761    1    0   12          
+END                                                                             
