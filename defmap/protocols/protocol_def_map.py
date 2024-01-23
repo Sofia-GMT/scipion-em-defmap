@@ -39,8 +39,13 @@ from defmap.constants import *
 from pwem.objects import AtomStruct
 from pwem.convert.atom_struct import cifToPdb
 from pwem.emlib.image import ImageHandler
-import pyworkflow.utils as pwutils
-from pathlib import Path
+
+try:
+    from xmipp3 import Plugin as xmipp3Plugin
+    from xmipp3.protocols.protocol_preprocess import XmippProtCropResizeVolumes, XmippProtFilterVolumes, XmippProtCreateMask3D, XmippProtMaskVolumes, XmippProtPreprocessVolumes
+    haveXmipp = True
+except ImportError:
+    haveXmipp = False
 
 
 class DefMapNeuralNetwork(Protocol):
@@ -79,29 +84,38 @@ class DefMapNeuralNetwork(Protocol):
 
         form.addParam('inputStructure', params.PointerParam,
                       label='Atomic structure', allowsNull=True,
-                      help='Atomic structure of the molecule',
+                      help='Atomic structure of the molecule.',
                       pointerClass="AtomStruct",
                       allowsPointers=True)
 
         form.addParam('inputResolution', params.EnumParam,
                       label='Resolution',
-                      help='Resolution model for the inference step. There are three models according to three possible resolutions',
+                      help='Resolution model for the inference step. There are three models according to three possible resolutions.',
                       default=0, choices=["5 Å","6 Å","7 Å"]),
         
-        # form.addParam('inputThreshold', params.FloatParam,
-        #                 allowsNull=True, important = False,
-        #                 label='Threshold',
-        #                 help='Top threshold to drop voxels with a standardized intensity.\n'
-        #                       'If not given, a threshold of 0 will be used for visualization.')
+        form.addParam('inputPreprocess', params.BooleanParam, default=False,
+                      condition=haveXmipp,
+                      label='Whether to preprocess the volumes.',
+                      help="In case you want to preprocess, it will change the sampling rate to 1.5 A and the resolution to the one selected.")  
+        
+        form.addParam('inputThreshold', params.FloatParam,
+                        allowsNull=True, important = False,
+                        condition='inputPreprocess == True',
+                        label='Threshold',
+                        help='Top threshold to drop voxels with a standardized intensity.\n'
+                              'If not given, a threshold of 0 will be used for preprocessing.')
 
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('validateFormats')
-        self._insertFunctionStep('createDatasetStep')
-        self._insertFunctionStep('inferenceStep')
-        self._insertFunctionStep('postprocStepVoxel')
-        self._insertFunctionStep('postprocStepPdb')
-        self._insertFunctionStep('createOutputStep')
+        if self.inputPreprocess:
+            self._insertFunctionStep('preprocess')
+        # self._insertFunctionStep('createDatasetStep')
+        # self._insertFunctionStep('inferenceStep')
+        # self._insertFunctionStep('postprocStepVoxel')
+        # self._insertFunctionStep('postprocStepPdb')
+        # self._insertFunctionStep('createOutputStep')
+        
 
     def validateFormats(self):
 
@@ -125,19 +139,28 @@ class DefMapNeuralNetwork(Protocol):
 
             else:
                 raise Exception('The extension of the atomic structure is not suported')
+            
+    def preprocess(self):
+
+        self.cropResizeVolumes()
+        self.filterVolumes()
+        self.create3dMask()
+        self.apply3dMask()
+        self.volumesThreshold()
 
     def createDatasetStep(self):
 
         # Set arguments to create-dataset command
         
         args = [
-                '-m "%s"' % self.getResult('volumes'),
                 '-o "%s"' % self.getResult('dataset'),
                 '-p' 
                 ]
 
-        # if self.inputThreshold.hasValue():
-        #     args.append('-t %f ' % self.inputThreshold)
+        if self.inputPreprocess:
+            args.append('-m "%s" ' % self.getResult('preprocessOutput'))
+        else:
+            args.append('-m "%s" ' % self.getResult('volumes'))
 
         # Execute create-dataset
         createDatasetCommand ="python prep_dataset.py"
@@ -174,14 +197,14 @@ class DefMapNeuralNetwork(Protocol):
 
         # Set arguments to Postprocessing command
         args = [
-                '-m "%s"' % self.getResult('volumes'),
-                '-p "%s"' % self.getResult('prediction')
+                '-p "%s"' % self.getResult('prediction'),
+                '-t 0.0'
                 ]
         
-        # if self.inputThreshold.hasValue():
-        #     args.append('-t %f ' % self.inputThreshold)
-        # else:
-        args.append('-t 0.0')
+        if self.inputPreprocess:
+            args.append('-m "%s" ' % self.getResult('preprocessOutput'))
+        else:
+            args.append('-m "%s" ' % self.getResult('volumes'))
 
         command = "python " + self.getScriptLocation("postprocessing-voxel")
 
@@ -203,8 +226,12 @@ class DefMapNeuralNetwork(Protocol):
 
             pointerFileLocation = self.resultsFolder + "/sample_for_visual.list"
 
-            with open(pointerFileLocation,"w") as pointerFile:
-                pointerFile.write("structure.pdb volumes.mrc")
+            if self.inputPreprocess:
+                with open(pointerFileLocation,"w") as pointerFile:
+                    pointerFile.write("structure.pdb output_volumeT.mrc")
+            else:
+                with open(pointerFileLocation,"w") as pointerFile:
+                    pointerFile.write("structure.pdb volumes.mrc")
 
             # Set arguments to Postprocessing command
             args = [
@@ -319,6 +346,16 @@ class DefMapNeuralNetwork(Protocol):
             file = '/voxel-visualization.pdb'
         elif name == 'output-pdb':
             file = '/defmap_norm_model.pdb'
+        elif name == 'preprocessCrop':
+            file = '/output_volumeC.mrc'
+        elif name == 'preprocessFilter':
+            file = '/output_volumeF.mrc'
+        elif name == 'preprocessMask':
+            file = '/output_volumeM.mrc'
+        elif name == 'preprocessApplyMask':
+            file = '/output_volumeA.mrc'
+        elif name == 'preprocessOutput':
+            file = '/output_volumeT.mrc'
         else:
             file = ''
         return  self.resultsFolder + file
@@ -348,6 +385,118 @@ class DefMapNeuralNetwork(Protocol):
             return True
         else:
             return False
+        
+    def getResolution(self, option):
+        logger.info(type(option))
+        if option == 0:
+            return 5.0
+        elif option == 1:
+            return 6.0
+        else:
+            return 7.0
+        
+    # --------------------------- PREPROCESS functions ----------------------------------- 
+        
+    def cropResizeVolumes(self):
+
+        self.transformFilter(self.volumesLocation,self.getResult('preprocessCrop'),0.35,None)
+
+        factor = float(self.inputVolume.get().getSamplingRate()) / 1.5
+
+        args = [
+                '-i "%s"' % self.getResult('preprocessCrop'),
+                '--factor %f' % factor
+                ]
+        
+        xmipp3Plugin.runXmippProgram('xmipp_image_resize',' '.join(args))
+
+        self.imageHeader(self.getResult('preprocessCrop'))
+
+    def filterVolumes(self):
+        factor1 = 1.5 / self.getResolution(self.inputResolution)
+        factor2 = 1.5 / 100
+
+        self.transformFilter(self.getResult('preprocessCrop'),self.getResult('preprocessFilter'),factor1,factor2)
+        self.imageHeader(self.getResult('preprocessFilter'))
+
+    def create3dMask(self):
+
+        threshold = 0.0
+        if self.inputThreshold.hasValue():
+            threshold = self.inputThreshold
+
+        self.transformThreshold(self.getResult('preprocessFilter'), self.getResult('preprocessMask'), "binarize", threshold)
+
+        self.transformMorphology(self.getResult('preprocessMask'), "removeSmall 50", False)
+
+        self.transformMorphology(self.getResult('preprocessMask'), "keepBiggest", False)
+
+        self.transformMorphology(self.getResult('preprocessMask'), "dilation", True)
+
+        self.imageHeader(self.getResult('preprocessMask'))
+
+    def apply3dMask(self):
+        args = [
+                '-i "%s"' % self.getResult('preprocessFilter'),
+                '--mult "%s"' % self.getResult('preprocessMask'),
+                '-o "%s"' % self.getResult('preprocessApplyMask')
+                ]
+        
+        xmipp3Plugin.runXmippProgram('xmipp_image_operate',' '.join(args))
+
+        self.imageHeader(self.getResult('preprocessApplyMask'))
+
+    def volumesThreshold(self):
+
+        self.transformThreshold(self.getResult('preprocessApplyMask'), self.getResult('preprocessOutput'), "value 0.0", 0.0)
+
+        self.imageHeader(self.getResult('preprocessOutput'))
+
+
+    def transformFilter(self, input, output, percentage1, percentage2):
+        args = [
+                '-i "%s"' % input,
+                '-o "%s"' % output,
+                '--fourier'
+                ]
+        
+        if percentage2 != None:
+            args.append('low_pass %f %f' % (percentage1, percentage2))
+        else:
+            args.append('low_pass %f' % percentage1)
+        
+        xmipp3Plugin.runXmippProgram('xmipp_transform_filter',' '.join(args))
+
+    def imageHeader(self, input):
+        args = [
+                '-i "%s"' % input,
+                '--sampling_rate %f' % 1.5
+                ]
+        
+        xmipp3Plugin.runXmippProgram('xmipp_image_header',' '.join(args))
+
+    def transformThreshold(self, input, output, substitute, threshold):
+        args = [
+                '-i "%s"' % input,
+                '-o "%s"' % output,
+                '--substitute %s' % substitute,
+                '--select below %f' % threshold
+                ]
+        
+        xmipp3Plugin.runXmippProgram('xmipp_transform_threshold',' '.join(args))
+
+    def transformMorphology(self, input, operation, size):
+
+        args = [
+                '-i "%s"' % input,
+                '--binaryOperation %s' % operation
+                ]
+        
+        if size:
+            args.append('--size 1')
+        
+        xmipp3Plugin.runXmippProgram('xmipp_transform_morphology',' '.join(args))
+
 
 
     # --------------------------- INFO functions -----------------------------------
