@@ -110,11 +110,11 @@ class DefMapNeuralNetwork(Protocol):
         self._insertFunctionStep('validateFormats')
         if self.inputPreprocess:
             self._insertFunctionStep('preprocess')
-        # self._insertFunctionStep('createDatasetStep')
-        # self._insertFunctionStep('inferenceStep')
-        # self._insertFunctionStep('postprocStepVoxel')
-        # self._insertFunctionStep('postprocStepPdb')
-        # self._insertFunctionStep('createOutputStep')
+        self._insertFunctionStep('createDatasetStep')
+        self._insertFunctionStep('inferenceStep')
+        self._insertFunctionStep('postprocStepVoxel')
+        self._insertFunctionStep('postprocStepPdb')
+        self._insertFunctionStep('createOutputStep')
         
 
     def validateFormats(self):
