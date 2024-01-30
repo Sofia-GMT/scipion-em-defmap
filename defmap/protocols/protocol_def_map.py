@@ -201,10 +201,14 @@ class DefMapNeuralNetwork(Protocol):
                 '-t 0.0'
                 ]
         
+        name = ""
+        
         if self.inputPreprocess:
             args.append('-m "%s" ' % self.getResult('preprocessOutput'))
+            name = "output_volumeT.pdb"
         else:
             args.append('-m "%s" ' % self.getResult('volumes'))
+            name = "volumes.pdb"
 
         command = "python " + self.getScriptLocation("postprocessing-voxel")
 
@@ -215,7 +219,7 @@ class DefMapNeuralNetwork(Protocol):
 
         # move result to working directory
 
-        rename("volumes.pdb", self.getResult('output-voxel'))
+        rename(name, self.getResult('output-voxel'))
 
 
     def postprocStepPdb(self):
