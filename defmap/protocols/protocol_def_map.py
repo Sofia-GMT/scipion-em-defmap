@@ -67,12 +67,12 @@ class DefMapNeuralNetwork(Protocol):
             * resolution: resolution model for the inference step. Options: 5A, 6A o 7A.
             * threshold: top threshold to drop sub-voxels with a standardized intensity.
         """
-        form.addHidden(params.GPU_LIST, params.StringParam, default='',
-                       expertLevel=constants.LEVEL_ADVANCED,
-                       label='Choose GPU IDs',
-                       help="GPU may have several cores. Set it to zero"
-                            " if you do not know what we are talking about."
-                            " First core index is 0, second 1 and so on.")
+        # form.addHidden(params.GPU_LIST, params.StringParam, default='',
+        #                expertLevel=constants.LEVEL_ADVANCED,
+        #                label='Choose GPU IDs',
+        #                help="GPU may have several cores. Set it to zero"
+        #                     " if you do not know what we are talking about."
+        #                     " First core index is 0, second 1 and so on.")
 
         form.addSection(label=Message.LABEL_INPUT)
 
@@ -292,8 +292,11 @@ class DefMapNeuralNetwork(Protocol):
 
         with open(pointerFileLocation,"w") as pointerFile:
             pointerFile.write("load " + self.pdbFileName + "\n"
-                                "spectrum b, blue_white_red \n"
-                                "cartoon tube")
+                              "load " + self.getResult('atomic-structure') + "\n"
+                              "set grid_mode,1 \n"
+                              "spectrum b, blue_white_red, selection="+ self.pdbFileName+ "\n"
+                              "spectrum b, blue_white_red, selection="+ self.getResult('atomic-structure')
+                              )
 
     
     # --------------------------- UTILS functions -----------------------------------
