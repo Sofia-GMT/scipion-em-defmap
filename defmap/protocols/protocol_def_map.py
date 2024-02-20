@@ -291,12 +291,11 @@ class DefMapNeuralNetwork(Protocol):
         pointerFileLocation = self.resultsFolder + "/pointer_for_pymol.pml"
 
         with open(pointerFileLocation,"w") as pointerFile:
-            pointerFile.write("load " + self.pdbFileName + "\n"
-                              "load " + self.getResult('atomic-structure') + "\n"
+            pointerFile.write("load defmap_norm_model.pdb"+"\n"
+                              "load structure.pdb" "\n"
                               "set grid_mode,1 \n"
-                              # probar en local este último comando
-                              "spectrum b, slate_orange_red, minimum=-1, maximum=2, selection="+ self.pdbFileName+ "\n"
-                              "spectrum b, slate_orange_red, selection="+ self.getResult('atomic-structure')
+                              "spectrum b, slate_orange_red, minimum=-1, maximum=2, selection=defmap_norm_model"+"\n"
+                              "spectrum b, slate_orange_red, selection=structure"
                               )
 
     
