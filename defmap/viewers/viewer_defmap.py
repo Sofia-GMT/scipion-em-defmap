@@ -50,10 +50,10 @@ class DefmapViewer(ProtocolViewer):
                       pointerClass="AtomStruct",
                       allowsPointers=True)
      form.addParam('openPymol', params.LabelParam,
-                      label='See n results in Pymol',
+                      label='See results in Pymol'
                       )
      form.addParam('makeGraph', params.LabelParam,
-                      label='See a graph comparing the b-factors from Defmap output with an Atomic Structure',
+                      label='See a graph comparing the b-factors from Defmap output with an Atomic Structure'
                       )
      # open graphs
      #pointer to another Atomic Structure
