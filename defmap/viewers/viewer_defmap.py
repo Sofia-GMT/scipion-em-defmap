@@ -27,10 +27,15 @@
 
 #from pwem.viewers import ChimeraViewer
 from pyworkflow.viewer import ProtocolViewer
+from pwem.viewers.plotter import EmPlotter
 from defmap.protocols import DefMapNeuralNetwork
 from pyworkflow.protocol import params
 from pwchem.viewers import PyMolViewer
 from os import path
+from biopandas.pdb import PandasPdb
+import matplotlib.pyplot as plt
+from pandas import DataFrame
+
 
 class DefmapViewer(ProtocolViewer):
   _targets = [DefMapNeuralNetwork]
@@ -39,19 +44,47 @@ class DefmapViewer(ProtocolViewer):
 
   def _defineParams(self, form):
      form.addSection(label='Visualization')
+     form.addParam('inputSecondStructure', params.PointerParam,
+                      label='Atomic structure', allowsNull=True,
+                      help='Atomic struture to compare withthe output from Defmap the graphs. If not provided, it will  ',
+                      pointerClass="AtomStruct",
+                      allowsPointers=True)
      form.addParam('openPymol', params.LabelParam,
-                      label='See results in Pymol',
-                      ),
+                      label='See n results in Pymol',
+                      )
+     form.addParam('makeGraph', params.LabelParam,
+                      label='See a graph comparing the b-factors from Defmap output with an Atomic Structure',
+                      )
+     # open graphs
+     #pointer to another Atomic Structure
+
     #  form.addParam('openChimeraX', params.LabelParam,
     #                   label="See results in Chimera")
   
   def _getVisualizeDict(self):
-        return {'openPymol': self._viewPymol}
-                #'openChimeraX': self._viewChimeraX}
+        return {'openPymol': self._viewPymol,
+                'makeGraph': self._viewGraph}
   
   def _viewPymol(self, *args):
    folder = path.split(self.protocol.outputStructure.getFileName())[0]
    files = folder + "/pointer_for_pymol.pml"
    view = PyMolViewer(project=self.getProject())
    return view._visualize(files)
+  
+  def _viewGraph(self,*args):
+     folder = path.split(self.protocol.outputStructure.getFileName())[0]
+     defmapFile = folder + "/pointer_for_pymol.pml"
+     pdb_df =  PandasPdb().read_pdb(defmapFile)
+     atom_df = pdb_df.df['ATOM']
+
+     title="Frequencies of B-Factors in Defmap output"
+     xlabel="B-factor"
+
+     # atom_df['b_factor'].plot(kind='hist')
+
+     plotter = EmPlotter()
+     plotter.createSubPlot(title,xlabel)
+     plotter.plotHist(atom_df['b_factor'])
+
+     return [plotter]
   

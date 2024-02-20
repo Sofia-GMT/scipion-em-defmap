@@ -294,8 +294,9 @@ class DefMapNeuralNetwork(Protocol):
             pointerFile.write("load " + self.pdbFileName + "\n"
                               "load " + self.getResult('atomic-structure') + "\n"
                               "set grid_mode,1 \n"
-                              "spectrum b, blue_white_red, selection="+ self.pdbFileName+ "\n"
-                              "spectrum b, blue_white_red, selection="+ self.getResult('atomic-structure')
+                              # probar en local este último comando
+                              "spectrum b, slate_orange_red, minimum=-1, maximum=2, selection="+ self.pdbFileName+ "\n"
+                              "spectrum b, slate_orange_red, selection="+ self.getResult('atomic-structure')
                               )
 
     
