@@ -183,8 +183,8 @@ class DefMapNeuralNetwork(Protocol):
                 '-o "%s"' % trainedModelLocation
                 ]
         
-        if self.gpuList.get() != '':
-            args.append('-g "%s"' % self.gpuList.get())
+        # if self.gpuList.get() != '':
+        #     args.append('-g "%s"' % self.gpuList.get())
 
         # execute inference
 
