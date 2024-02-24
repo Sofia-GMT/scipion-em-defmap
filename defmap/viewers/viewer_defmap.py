@@ -70,22 +70,20 @@ class DefmapViewer(ProtocolViewer):
   def _viewGraph(self,*args):
      # defmapFile = path.abspath(self.protocol.outputStructure.getFileName())
      defmapFile = self.inputSecondStructure.get().getFileName()
-     pdb_df =  PandasPdb().read_pdb(defmapFile)
-     atom_df = pdb_df.df['ATOM']
+     defmap_df =  PandasPdb().read_pdb(defmapFile)
+     defmap_atom_df = defmap_df.df['ATOM']
 
-     title="Frequencies of B-Factors in Defmap output"
-     xlabel="B-factor"
-     ylabel="Frequencies"
-
-     # atom_df['b_factor'].plot(kind='hist')
+     second_atom_df = defmap_df.df['ATOM']
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title,xlabel,ylabel)
-     plotter.plotHist(yValues=atom_df['b_factor'],nbins=100)
+     plotter.createSubPlot(title="Frequencies of B-Factors in Defmap output",
+                           xlabel="B-factor",ylabel="Frequencies")
+     plotter.plotHist(yValues=defmap_atom_df['b_factor'],nbins=100)
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title,xlabel,ylabel)
-     plotter.plotHist(yValues=atom_df['b_factor'],nbins=20)
 
+     plotter.createSubPlot(title="B-Factors Defmap output vs Atomic Structure",
+                           xlabel="Defmap output",ylabel="Atomic Structure")
+     plotter.plotScatter(xValues=defmap_atom_df['b_factor'], yValues=second_atom_df['b_factor'])
      return [plotter]
   
