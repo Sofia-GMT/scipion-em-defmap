@@ -95,7 +95,7 @@ class DefMapNeuralNetwork(Protocol):
         
         form.addParam('inputPreprocess', params.BooleanParam, default=False,
                       condition=haveXmipp,
-                      label='Whether to preprocess the volumes.',
+                      label='Whether to preprocess the volumes',
                       help="In case you want to preprocess, it will change the sampling rate to 1.5 A and the resolution to the one selected.")  
         
         form.addParam('inputThreshold', params.FloatParam,
@@ -187,6 +187,8 @@ class DefMapNeuralNetwork(Protocol):
         #     args.append('-g "%s"' % self.gpuList.get())
 
         # execute inference
+
+        args.append('-g "%s"' % "2")
 
         inferenceCommand = "python " + self.getScriptLocation("inference")
 
