@@ -5,5 +5,4 @@
 # **************************************************************************
 
 from .protocol_def_map import DefMapNeuralNetwork
-from pwem.protocols.protocol_import import ProtImportVolumes
-from pwem.protocols.protocol_import import ProtImportPdb
+from .protocol_test_viewer import DefmapTestViewer

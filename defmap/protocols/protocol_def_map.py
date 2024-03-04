@@ -295,7 +295,9 @@ class DefMapNeuralNetwork(Protocol):
                               "load structure.pdb" "\n"
                               "set grid_mode,1 \n"
                               "spectrum b, slate_orange_red, minimum=-1, maximum=2, selection=defmap_norm_model"+"\n"
-                              "spectrum b, slate_orange_red, selection=structure"
+                              "spectrum b, slate_orange_red, selection=structure"+"\n"
+                              "as cartoon, defmap_norm_model"+"\n"
+                              "as cartoon, structure"
                               )
 
     
