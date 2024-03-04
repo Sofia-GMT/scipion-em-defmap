@@ -188,7 +188,7 @@ class DefMapNeuralNetwork(Protocol):
 
         # execute inference
 
-        args.append('-g "%s"' % "2")
+        args.append('-g 2')
 
         inferenceCommand = "python " + self.getScriptLocation("inference")
 
