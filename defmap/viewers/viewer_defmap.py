@@ -26,24 +26,27 @@
 # **************************************************************************
 
 #from pwem.viewers import ChimeraViewer
-from pyworkflow.viewer import ProtocolViewer
+from pyworkflow.viewer import ProtocolViewer, DESKTOP_TKINTER, WEB_DJANGO
 from pwem.viewers.plotter import EmPlotter
 from defmap.protocols import DefMapNeuralNetwork, DefmapTestViewer
 from pyworkflow.protocol import params
 from pwchem.viewers import PyMolViewer
 from os import path, readlink
-from biopandas.pdb import PandasPdb
 from pyworkflow.utils import logger
 import numpy as np
-from pwem.convert.atom_struct import AtomicStructHandler
-import pandas as pd
 from Bio.PDB.PDBParser import PDBParser
+from pwem.objects import AtomStruct
+from scipy.stats import pearsonr
 
 
 class DefmapViewer(ProtocolViewer):
-  _targets = [DefMapNeuralNetwork, DefmapTestViewer]
+  _targets = [DefMapNeuralNetwork, DefmapTestViewer, AtomStruct]
+  _environments = [DESKTOP_TKINTER,WEB_DJANGO]
 
   _label = 'Structure and predictions viewer'
+
+  def __init__(self, *args, **kwargs):
+     ProtocolViewer.__init__(self, *args, **kwargs)  
 
   def _defineParams(self, form):
      form.addSection(label='Visualization')
@@ -94,8 +97,8 @@ class DefmapViewer(ProtocolViewer):
      # plot histogram
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title="Frequencies of RMS in Defmap output",
-                           xlabel="RMS",ylabel="Frequencies")
+     plotter.createSubPlot(title="Frequencies of RMSD in Defmap output",
+                           xlabel="RMSD",ylabel="Frequencies")
      plotter.plotHist(yValues=defmap_atoms,nbins=100)
 
       # set dataframe of second structure
@@ -116,12 +119,15 @@ class DefmapViewer(ProtocolViewer):
       second_atoms = self.getAtomList(second_st[0])
       second_atoms_arr = np.array(object=second_atoms)
 
-      # plot RMS vs b-factor
+      # plot RMSD vs b-factor
 
       plotter = EmPlotter()
 
-      plotter.createSubPlot(title="Defmap output vs Atomic Structure",
-                              xlabel="RMS Defmap output",ylabel=" B-factors Atomic Structure")
+      matrix = pearsonr(x=defmap_atoms_arr,y=second_atoms_arr)
+      subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
+
+      plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
+                              xlabel="RMSD Defmap output",ylabel=" B-factors Atomic Structure")
       plotter.plotScatter(xValues=defmap_atoms_A, yValues=second_atoms_A,alpha=0.7, label='Chain A', edgecolors="gray",color='cyan')
       plotter.plotScatter(xValues=defmap_atoms_B, yValues=second_atoms_B,alpha=0.7, label='Chain B',edgecolors="gray",color='orange')
       plotter.legend()
@@ -129,7 +135,7 @@ class DefmapViewer(ProtocolViewer):
       b, a = np.polyfit(x=defmap_atoms_arr,y=second_atoms_arr,deg=1)
       plotter.plotData(xValues=defmap_atoms_arr,yValues= a + b * defmap_atoms_arr,color="k", lw=1)
 
-     # plot RMS vs local resolution
+     # plot RMSD vs local resolution
 
      if self.inputLocalRes.hasValue():
         # set dataframe of local resolutions
@@ -140,9 +146,12 @@ class DefmapViewer(ProtocolViewer):
          localRes_atoms = self.getAtomList(localRes_st[0])
          localRes_atoms_arr = np.array(object=localRes_atoms)
 
+         matrix = pearsonr(x=defmap_atoms_arr,y=localRes_atoms_arr)
+         subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
+
          plotter = EmPlotter()
-         plotter.createSubPlot(title="Defmap output vs Local Resolution",
-                                 xlabel="RMS Defmap output",ylabel="Local resolution")
+         plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
+                                 xlabel="RMSD Defmap output",ylabel="Local resolution")
          plotter.plotScatter(xValues=defmap_atoms_A, yValues=localRes_atoms_A,alpha=0.7, label='Chain A', edgecolors="gray",color='cyan')
          plotter.plotScatter(xValues=defmap_atoms_B, yValues=localRes_atoms_B,alpha=0.7, label='Chain B',edgecolors="gray",color='orange')
          plotter.legend()

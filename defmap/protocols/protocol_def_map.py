@@ -410,13 +410,17 @@ class DefMapNeuralNetwork(Protocol):
         
     def cropResizeVolumes(self):
 
-        self.transformFilter(self.volumesLocation,self.getResult('preprocessCrop'),0.35,None)
+        samplingRate = float(self.inputVolume.get().getSamplingRate())
 
-        factor = float(self.inputVolume.get().getSamplingRate()) / 1.5
+        factorTransform = samplingRate / 3
+
+        self.transformFilter(self.volumesLocation,self.getResult('preprocessCrop'),factorTransform,None)
+
+        factorResize = samplingRate / 1.5
 
         args = [
                 '-i "%s"' % self.getResult('preprocessCrop'),
-                '--factor %f' % factor
+                '--factor %f' % factorResize
                 ]
         
         xmipp3Plugin.runXmippProgram('xmipp_image_resize',' '.join(args))
