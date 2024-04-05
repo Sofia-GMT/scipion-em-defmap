@@ -367,6 +367,8 @@ class DefMapNeuralNetwork(Protocol):
             file = '/output_volumeA.mrc'
         elif name == 'preprocessOutput':
             file = '/output_volumeT.mrc'
+        elif name == 'transformedMask':
+            file = '/mask.vol'
         else:
             file = ''
         return  self.resultsFolder + file
@@ -451,15 +453,20 @@ class DefMapNeuralNetwork(Protocol):
         self.imageHeader(self.getResult('preprocessMask'))
 
     def apply3dMask(self):
+
+        self.transformMask()
         args = [
                 '-i "%s"' % self.getResult('preprocessFilter'),
-                '--mult "%s"' % self.getResult('preprocessMask'),
+                '--mult "%s"' % self.getResult('transformedMask'),
                 '-o "%s"' % self.getResult('preprocessApplyMask')
                 ]
         
         xmipp3Plugin.runXmippProgram('xmipp_image_operate',' '.join(args))
 
         self.imageHeader(self.getResult('preprocessApplyMask'))
+
+    def transformMask(self):
+        ImageHandler().convert(self.getResult('preprocessMask'), self.getResult('transformedMask'))
 
     def volumesThreshold(self):
 
