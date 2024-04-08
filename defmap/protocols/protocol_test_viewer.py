@@ -30,23 +30,14 @@
 Protocol to run DefMap neural network
 """
 
-from pyworkflow.protocol import Protocol, params, constants
+from pyworkflow.protocol import Protocol, params
 from pyworkflow.utils import Message, logger
-from os import path, rename, readlink, symlink
-from pyworkflow import Config
-from defmap import Plugin
+from os import path, readlink, symlink
 from defmap.constants import *
 from pwem.objects import AtomStruct
 from pwem.convert.atom_struct import cifToPdb
-from pwem.emlib.image import ImageHandler
 from shutil import copyfile
 
-try:
-    from xmipp3 import Plugin as xmipp3Plugin
-    from xmipp3.protocols.protocol_preprocess import XmippProtCropResizeVolumes, XmippProtFilterVolumes, XmippProtCreateMask3D, XmippProtMaskVolumes, XmippProtPreprocessVolumes
-    haveXmipp = True
-except ImportError:
-    haveXmipp = False
 
 
 class DefmapTestViewer(Protocol):

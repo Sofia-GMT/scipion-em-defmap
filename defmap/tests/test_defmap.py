@@ -1,9 +1,7 @@
 # imports
-import os
 
-from pyworkflow.tests import BaseTest, setupTestProject, DataSet
+from pyworkflow.tests import BaseTest, setupTestProject
 from defmap.constants import *
-from pyworkflow.utils import magentaStr
 from defmap.protocols import DefMapNeuralNetwork
 from pyworkflow import Config
 

@@ -66,13 +66,14 @@ class DefMapNeuralNetwork(Protocol):
             * resolution: resolution model for the inference step. Options: 5A, 6A o 7A.
             * threshold: top threshold to drop sub-voxels with a standardized intensity.
         """
+
+        form.addSection(label=Message.LABEL_INPUT)
+        
         form.addHidden(params.GPU_LIST, params.StringParam, default='',
                        expertLevel=constants.LEVEL_ADVANCED,
                        label='Constrain GPU',
                        default='1',
                        help="Constrain GPU usage at inference step")
-
-        form.addSection(label=Message.LABEL_INPUT)
 
         form.addParam('inputVolume', params.PointerParam,
                       label='Volume', important=True,
