@@ -36,13 +36,12 @@ from os import path, rename, readlink, symlink
 from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
-from pwem.objects import AtomStruct
+from pwem.objects import AtomStruct, Volume
 from pwem.convert.atom_struct import cifToPdb
 from pwem.emlib.image import ImageHandler
 
 try:
     from xmipp3 import Plugin as xmipp3Plugin
-    from xmipp3.protocols.protocol_preprocess import XmippProtCropResizeVolumes, XmippProtFilterVolumes, XmippProtCreateMask3D, XmippProtMaskVolumes, XmippProtPreprocessVolumes
     haveXmipp = True
 except ImportError:
     haveXmipp = False
@@ -55,7 +54,7 @@ class DefMapNeuralNetwork(Protocol):
         return "defmap"
 
     _label = 'Defmap prediction'
-    _possibleOutputs = {'outputStructure': AtomStruct, 'outputStructureVoxel':AtomStruct}
+    _possibleOutputs = {'outputStructure': AtomStruct, 'outputStructureVoxel':AtomStruct, 'outputVolume':Volume}
 
     # -------------------------- INPUT PARAMETERS ----------------------
     def _defineParams(self, form):
@@ -67,12 +66,11 @@ class DefMapNeuralNetwork(Protocol):
             * resolution: resolution model for the inference step. Options: 5A, 6A o 7A.
             * threshold: top threshold to drop sub-voxels with a standardized intensity.
         """
-        # form.addHidden(params.GPU_LIST, params.StringParam, default='',
-        #                expertLevel=constants.LEVEL_ADVANCED,
-        #                label='Choose GPU IDs',
-        #                help="GPU may have several cores. Set it to zero"
-        #                     " if you do not know what we are talking about."
-        #                     " First core index is 0, second 1 and so on.")
+        form.addHidden(params.GPU_LIST, params.StringParam, default='',
+                       expertLevel=constants.LEVEL_ADVANCED,
+                       label='Constrain GPU',
+                       default='1',
+                       help="Constrain GPU usage at inference step")
 
         form.addSection(label=Message.LABEL_INPUT)
 
@@ -104,16 +102,22 @@ class DefMapNeuralNetwork(Protocol):
                         label='Threshold',
                         help='Top threshold to drop voxels with a standardized intensity.\n'
                               'If not given, a threshold of 0 will be used for preprocessing.')
+        
+        form.addParam('inputRunNeuralNetwork', params.BooleanParam, default=True,
+                      condition='inputPreprocess == True',
+                      label='Would you like to run also the neural network?',
+                      help="Whether to only preprocess the volumes or also run the neural network")  
 
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('validateFormats')
         if self.inputPreprocess:
             self._insertFunctionStep('preprocess')
-        self._insertFunctionStep('createDatasetStep')
-        self._insertFunctionStep('inferenceStep')
-        self._insertFunctionStep('postprocStepVoxel')
-        self._insertFunctionStep('postprocStepPdb')
+        if self.inputRunNeuralNetwork:
+            self._insertFunctionStep('createDatasetStep')
+            self._insertFunctionStep('inferenceStep')
+            self._insertFunctionStep('postprocStepVoxel')
+            self._insertFunctionStep('postprocStepPdb')
         self._insertFunctionStep('createOutputStep')
         
 
@@ -183,12 +187,10 @@ class DefMapNeuralNetwork(Protocol):
                 '-o "%s"' % trainedModelLocation
                 ]
         
-        # if self.gpuList.get() != '':
-        #     args.append('-g "%s"' % self.gpuList.get())
+        if self.gpuList.get():
+            args.append('-g %s' % self.gpuList.get())
 
         # execute inference
-
-        args.append('-g 2')
 
         inferenceCommand = "python " + self.getScriptLocation("inference")
 
@@ -263,31 +265,29 @@ class DefMapNeuralNetwork(Protocol):
         
     
     def createOutputStep(self):
-        self.voxelFileName = self.getResult("output-voxel")
-        self.pdbFileName = self.getResult("output-pdb")
 
-        if path.exists(self.pdbFileName) and path.exists(self.voxelFileName):
-            outputPdbVoxel = AtomStruct()
-            outputPdbVoxel.setFileName(self.voxelFileName)
-            self.definePdbOutput(outputPdbVoxel)
+        voxelFileName = self.getResult("output-voxel")
+        pdbFileName = self.getResult("output-pdb")
+        extraVolumes = self.getResult("preprocessOutput")
 
-        elif path.exists(self.voxelFileName):
-            outputPdbVoxel = AtomStruct()
-            outputPdbVoxel.setFileName(self.voxelFileName)
-            self._defineOutputs(outputStructure=None,outputStructureVoxel=outputPdbVoxel)
+        outputPdbVoxel = None
+        outputPdb = None
+        outputVolume = None
 
-        elif path.exists(self.pdbFileName):
-            self.definePdbOutput()
+        if path.exists(voxelFileName):
+            outputPdbVoxel = AtomStruct(filename=voxelFileName)
 
-        else:
-            self._defineOutputs(outputStructure=None, outputStructureVoxel=None)
-        
-        logger.info("Results in %s" % self.resultsFolder)
+        if path.exists(pdbFileName):
+            outputPdb = AtomStruct(filename=pdbFileName)
 
-    def definePdbOutput(self,otherStructure = None):
-        outputPdb = AtomStruct()
-        outputPdb.setFileName(self.pdbFileName)
-        self._defineOutputs(outputStructure=outputPdb,outputStructureVoxel=otherStructure)
+        if path.exists(extraVolumes): 
+            outputVolume = Volume(location=extraVolumes)
+
+        self.defineDefmapOutput(outputPdbVoxel, outputPdb, outputVolume)
+
+    def defineDefmapOutput(self,outputPdbVoxel, outputPdb, outputVolume):
+
+        self._defineOutputs(outputStructure=outputPdb,outputStructureVoxel=outputPdbVoxel,outputVolume=outputVolume)
 
         # create file with pymol commands:
         pointerFileLocation = self.resultsFolder + "/pointer_for_pymol.pml"
