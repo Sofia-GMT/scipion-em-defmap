@@ -68,8 +68,8 @@ class DefMapNeuralNetwork(Protocol):
         """
 
         form.addSection(label=Message.LABEL_INPUT)
-        
-        form.addHidden(params.GPU_LIST, params.StringParam, default='',
+
+        form.addHidden(params.GPU_LIST, params.StringParam,
                        expertLevel=constants.LEVEL_ADVANCED,
                        label='Constrain GPU',
                        default='1',
@@ -188,8 +188,8 @@ class DefMapNeuralNetwork(Protocol):
                 '-o "%s"' % trainedModelLocation
                 ]
         
-        if self.gpuList.get():
-            args.append('-g %s' % self.gpuList.get())
+        # if self.gpuList.get():
+        #     args.append('-g %s' % self.gpuList.get())
 
         # execute inference
 
