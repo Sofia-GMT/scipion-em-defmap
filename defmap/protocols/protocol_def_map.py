@@ -287,9 +287,7 @@ class DefMapNeuralNetwork(Protocol):
         if path.exists(extraVolumes): 
             logger.info('Setting volume')
             outputVolume = Volume(location=extraVolumes)
-            logger.info('filename: ' + outputVolume.getFileName())
-            logger.info('filename: ' + outputVolume.getSamplingRate())
-            # outputVolume.setFileName(extraVolumes)
+            logger.info(outputVolume.getSamplingRate())
             # outputVolume.setSamplingRate(1.50)
             # outputVolume.setMRCSamplingRate()
 
