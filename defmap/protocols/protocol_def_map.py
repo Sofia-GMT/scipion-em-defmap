@@ -36,9 +36,10 @@ from os import path, rename, readlink, symlink
 from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
-from pwem.objects import AtomStruct, Volume
+from pwem.objects import AtomStruct, Volume, Transform
 from pwem.convert.atom_struct import cifToPdb
 from pwem.emlib.image import ImageHandler
+from pwem.convert import Ccp4Header
 
 try:
     from xmipp3 import Plugin as xmipp3Plugin
@@ -283,6 +284,15 @@ class DefMapNeuralNetwork(Protocol):
 
         if path.exists(extraVolumes): 
             outputVolume = Volume(location=extraVolumes)
+            outputVolume.setMRCSamplingRate()
+            logger.info('sampling rate output volume: '+ outputVolume.getSamplingRate())
+            x, y, z = outputVolume.getDimensions()
+            origin = Transform()
+            origin.setShiftsTuple(-x/2.0, -y/2.0, -z/2.0)
+            outputVolume.setOrigin(origin)
+            
+            Ccp4Header.fixFile(inFileName=extraVolumes, outFileName=self.getResult('fixed-volune'),
+                               scipionOriginShifts=origin,sampling=outputVolume.getSamplingRate(),originField=Ccp4Header.ORIGIN)
 
         self.defineDefmapOutput(outputPdbVoxel, outputPdb, outputVolume)
 
@@ -370,6 +380,8 @@ class DefMapNeuralNetwork(Protocol):
             file = '/output_volumeT.mrc'
         elif name == 'transformedMask':
             file = '/mask.vol'
+        elif name == 'fixed-volune':
+            file == '/preprocessed_volume.mrc'
         else:
             file = ''
         return  self.resultsFolder + file
