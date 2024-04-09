@@ -277,12 +277,15 @@ class DefMapNeuralNetwork(Protocol):
         outputVolume = None
 
         if path.exists(voxelFileName):
+            logger.info('Setting voxel file')
             outputPdbVoxel = AtomStruct(filename=voxelFileName)
 
         if path.exists(pdbFileName):
+            logger.info('Setting pdb file')
             outputPdb = AtomStruct(filename=pdbFileName)
 
         if path.exists(extraVolumes): 
+            logger.info('Setting volume')
             outputVolume = Volume(location=extraVolumes)
             outputVolume.setSamplingRate(1.50)
 
@@ -372,8 +375,6 @@ class DefMapNeuralNetwork(Protocol):
             file = '/output_volumeT.mrc'
         elif name == 'transformedMask':
             file = '/mask.vol'
-        elif name == 'fixed-volune':
-            file == '/preprocessed_volume.mrc'
         else:
             file = ''
         return  self.resultsFolder + file
