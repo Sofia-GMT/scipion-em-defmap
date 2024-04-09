@@ -284,15 +284,7 @@ class DefMapNeuralNetwork(Protocol):
 
         if path.exists(extraVolumes): 
             outputVolume = Volume(location=extraVolumes)
-            outputVolume.setMRCSamplingRate()
-            logger.info('sampling rate output volume: '+ outputVolume.getSamplingRate())
-            x, y, z = outputVolume.getDimensions()
-            origin = Transform()
-            origin.setShiftsTuple(-x/2.0, -y/2.0, -z/2.0)
-            outputVolume.setOrigin(origin)
-            
-            Ccp4Header.fixFile(inFileName=extraVolumes, outFileName=self.getResult('fixed-volune'),
-                               scipionOriginShifts=origin,sampling=outputVolume.getSamplingRate(),originField=Ccp4Header.ORIGIN)
+            outputVolume.setSamplingRate(1.50)
 
         self.defineDefmapOutput(outputPdbVoxel, outputPdb, outputVolume)
 
