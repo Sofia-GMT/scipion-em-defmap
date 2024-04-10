@@ -298,8 +298,11 @@ class DefMapNeuralNetwork(Protocol):
             outputVolume.setOrigin(origin)
             outputVolume.setSamplingRate(1.5)
             outputVolume.setObjComment(outputVolume.getBaseName())
+            outputVolume.fixMRCVolume(True)
 
-        self._defineOutputs(outputStructure=outputPdb,outputStructureVoxel=outputPdbVoxel,outputVolume=outputVolume)
+        self._defineOutputs(outputStructure=outputPdb,
+                            outputStructureVoxel=outputPdbVoxel,
+                            outputVolume=outputVolume)
 
         self.createPymolFile()
 
