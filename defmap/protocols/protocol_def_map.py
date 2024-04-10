@@ -287,9 +287,17 @@ class DefMapNeuralNetwork(Protocol):
         if path.exists(extraVolumes): 
             logger.info('Setting volume')
             outputVolume = Volume(location=extraVolumes)
-            outputVolume.setOrigin()
+            x, y, z, n = ImageHandler.getDimensions(extraVolumes)
+
+            logger.info(ImageHandler.getDimensions(extraVolumes))
+
+            origin = Transform()
+            origin.setShifts( x / -2.0 * 1.5, 
+                             y / -2.0 * 1.5,
+                             z / -2.0 * 1.5)
+            outputVolume.setOrigin(origin)
             outputVolume.setSamplingRate(1.5)
-            outputVolume.fixMRCVolume(True)
+            outputVolume.setObjComment(outputVolume.getBaseName())
 
         self._defineOutputs(outputStructure=outputPdb,outputStructureVoxel=outputPdbVoxel,outputVolume=outputVolume)
 
