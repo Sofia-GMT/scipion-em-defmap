@@ -272,17 +272,15 @@ class DefMapNeuralNetwork(Protocol):
         pdbFileName = self.getResult("output-pdb")
         extraVolumes = self.getResult("preprocessOutput")
 
-        outputPdbVoxel = None
-        outputPdb = None
-        outputVolume = None
-
         if path.exists(voxelFileName):
             logger.info('Setting voxel file')
             outputPdbVoxel = AtomStruct(filename=voxelFileName)
+            self._defineOutputs(outputStructureVoxel=outputPdbVoxel)
 
         if path.exists(pdbFileName):
             logger.info('Setting pdb file')
             outputPdb = AtomStruct(filename=pdbFileName)
+            self._defineOutputs(outputStructure=outputPdb)
 
         if path.exists(extraVolumes): 
             logger.info('Setting volume')
@@ -299,10 +297,7 @@ class DefMapNeuralNetwork(Protocol):
             outputVolume.setSamplingRate(1.5)
             outputVolume.setObjComment(outputVolume.getBaseName())
             outputVolume.fixMRCVolume(True)
-
-        self._defineOutputs(outputStructure=outputPdb,
-                            outputStructureVoxel=outputPdbVoxel,
-                            outputVolume=outputVolume)
+            self._defineOutputs(outputVolume=outputVolume)
 
         self.createPymolFile()
 
