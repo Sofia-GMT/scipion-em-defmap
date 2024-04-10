@@ -287,14 +287,15 @@ class DefMapNeuralNetwork(Protocol):
         if path.exists(extraVolumes): 
             logger.info('Setting volume')
             outputVolume = Volume(location=extraVolumes)
-            outputVolume.setSamplingRate(1.50)
+            outputVolume.setOrigin()
+            outputVolume.setSamplingRate(1.5)
             outputVolume.fixMRCVolume(True)
 
-        self.defineDefmapOutput(outputPdbVoxel, outputPdb, outputVolume)
-
-    def defineDefmapOutput(self,outputPdbVoxel, outputPdb, outputVolume):
-
         self._defineOutputs(outputStructure=outputPdb,outputStructureVoxel=outputPdbVoxel,outputVolume=outputVolume)
+
+        self.createPymolFile()
+
+    def createPymolFile(self):
 
         # create file with pymol commands:
         pointerFileLocation = self.resultsFolder + "/pointer_for_pymol.pml"
