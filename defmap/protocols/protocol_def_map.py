@@ -37,7 +37,7 @@ from pyworkflow import Config
 from defmap import Plugin
 from defmap.constants import *
 from pwem.objects import AtomStruct, Volume, Transform
-from pwem.convert.atom_struct import cifToPdb
+from pwem.convert.atom_struct import cifToPdb, AtomicStructHandler
 from pwem.emlib.image import ImageHandler
 from pwem.convert import Ccp4Header
 
@@ -287,7 +287,11 @@ class DefMapNeuralNetwork(Protocol):
             outputVolume = Volume(location=extraVolumes)
             x, y, z, n = ImageHandler.getDimensions(extraVolumes)
 
-            logger.info(ImageHandler.getDimensions(extraVolumes))
+            pdbReference = AtomicStructHandler(pdbFileName)
+            x_ref,y_ref,z_ref = pdbReference.centerOfMass(True)
+
+            logger.info("volume: "+ ImageHandler.getDimensions(extraVolumes))
+            logger.info("pdb: " + pdbReference.centerOfMass(True))
 
             origin = Transform()
             origin.setShifts( x / -2.0 * 1.5, 
