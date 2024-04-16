@@ -286,12 +286,14 @@ class DefMapNeuralNetwork(Protocol):
             logger.info('Setting volume')
             outputVolume = Volume(location=extraVolumes)
             x, y, z, n = ImageHandler.getDimensions(extraVolumes)
+            
 
             pdbReference = AtomicStructHandler(self.getResult('atomic-structure'))
             x_ref,y_ref,z_ref = pdbReference.centerOfMass(True)
 
             logger.info("volume")
             logger.info(ImageHandler.getDimensions(extraVolumes))
+            logger.info(outputVolume.getOrigin())
             logger.info("atomic structure")
             logger.info(pdbReference.centerOfMass(True))
 
