@@ -290,8 +290,10 @@ class DefMapNeuralNetwork(Protocol):
             pdbReference = AtomicStructHandler(self.getResult('atomic-structure'))
             x_ref,y_ref,z_ref = pdbReference.centerOfMass(True)
 
-            logger.info("volume: "+ ImageHandler.getDimensions(extraVolumes))
-            logger.info("pdb: " + pdbReference.centerOfMass(True))
+            logger.info("volume")
+            logger.info(ImageHandler.getDimensions(extraVolumes))
+            logger.info("atomic structure")
+            logger.info(pdbReference.centerOfMass(True))
 
             # origin = Transform()
             # origin.setShifts( x / -2.0 * 1.5, 
