@@ -293,11 +293,11 @@ class DefMapNeuralNetwork(Protocol):
             logger.info("volume: "+ ImageHandler.getDimensions(extraVolumes))
             logger.info("pdb: " + pdbReference.centerOfMass(True))
 
-            origin = Transform()
-            origin.setShifts( x / -2.0 * 1.5, 
-                             y / -2.0 * 1.5,
-                             z / -2.0 * 1.5)
-            outputVolume.setOrigin(origin)
+            # origin = Transform()
+            # origin.setShifts( x / -2.0 * 1.5, 
+            #                  y / -2.0 * 1.5,
+            #                  z / -2.0 * 1.5)
+            # outputVolume.setOrigin(origin)
             outputVolume.setSamplingRate(1.5)
             outputVolume.setObjComment(outputVolume.getBaseName())
             outputVolume.fixMRCVolume(True)
