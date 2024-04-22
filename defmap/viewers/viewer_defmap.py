@@ -88,10 +88,11 @@ class DefmapViewer(ProtocolViewer):
         defmapFile = self.protocol.outputStructureVoxel.getFileName()
         
      logger.info("defmap structure: %s" % defmapFile)
-     defmap_st =  handler.get_structure(id='DEFMAP',file=defmapFile)
-     defmap_atoms_A = self.getAtomList(defmap_st[0],'A')
-     defmap_atoms_B = self.getAtomList(defmap_st[0],'B')
-     defmap_atoms = self.getAtomList(defmap_st[0])
+     defmap_st =  handler.get_structure(id='DEFMAP',file=defmapFile)[0]
+     defmap_chainList= self.getChainList(defmap_st)
+   #   defmap_atoms_A = self.getAtomList(defmap_st[0],'A')
+   #   defmap_atoms_B = self.getAtomList(defmap_st[0],'B')
+     defmap_atoms = self.getAtomList(defmap_st)
      defmap_atoms_arr = np.array(object=defmap_atoms)
 
      # plot histogram
@@ -99,6 +100,7 @@ class DefmapViewer(ProtocolViewer):
      plotter = EmPlotter()
      plotter.createSubPlot(title="Frequencies of RMSD in Defmap output",
                            xlabel="RMSD",ylabel="Frequencies")
+
      plotter.plotHist(yValues=defmap_atoms,nbins=100)
 
       # set dataframe of second structure
@@ -113,10 +115,8 @@ class DefmapViewer(ProtocolViewer):
 
      if secondFile is not None:
       logger.info("second structure: %s" % secondFile)
-      second_st =  handler.get_structure(id='SECOND',file=secondFile)
-      second_atoms_A = self.getAtomList(second_st[0],'A')
-      second_atoms_B = self.getAtomList(second_st[0],'B')
-      second_atoms = self.getAtomList(second_st[0])
+      second_st =  handler.get_structure(id='SECOND',file=secondFile)[0]
+      second_atoms = self.getAtomList(second_st)
       second_atoms_arr = np.array(object=second_atoms)
 
       # plot RMSD vs b-factor
@@ -127,23 +127,20 @@ class DefmapViewer(ProtocolViewer):
       subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
 
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
-                              xlabel="RMSD Defmap output",ylabel=" B-factors Atomic Structure")
-      plotter.plotScatter(xValues=defmap_atoms_A, yValues=second_atoms_A,alpha=0.7, label='Chain A', edgecolors="gray",color='cyan')
-      plotter.plotScatter(xValues=defmap_atoms_B, yValues=second_atoms_B,alpha=0.7, label='Chain B',edgecolors="gray",color='orange')
+                              xlabel="RMSD Defmap output",ylabel="B-factors Atomic Structure")
+      self.plotChains(plotter,defmap_chainList,defmap_st,second_st)
       plotter.legend()
 
       b, a = np.polyfit(x=defmap_atoms_arr,y=second_atoms_arr,deg=1)
       plotter.plotData(xValues=defmap_atoms_arr,yValues= a + b * defmap_atoms_arr,color="k", lw=1)
 
-     # plot RMSD vs local resolution
+   #   # plot RMSD vs local resolution 
 
      if self.inputLocalRes.hasValue():
         # set dataframe of local resolutions
          localResFile = self.inputLocalRes.get().getFileName()
-         localRes_st =  handler.get_structure(id='LOCALRES',file=localResFile)
-         localRes_atoms_A = self.getAtomList(localRes_st[0],'A')
-         localRes_atoms_B = self.getAtomList(localRes_st[0],'B')
-         localRes_atoms = self.getAtomList(localRes_st[0])
+         localRes_st =  handler.get_structure(id='LOCALRES',file=localResFile)[0]
+         localRes_atoms = self.getAtomList(localRes_st)
          localRes_atoms_arr = np.array(object=localRes_atoms)
 
          matrix = pearsonr(x=defmap_atoms_arr,y=localRes_atoms_arr)
@@ -152,14 +149,44 @@ class DefmapViewer(ProtocolViewer):
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
                                  xlabel="RMSD Defmap output",ylabel="Local resolution")
-         plotter.plotScatter(xValues=defmap_atoms_A, yValues=localRes_atoms_A,alpha=0.7, label='Chain A', edgecolors="gray",color='cyan')
-         plotter.plotScatter(xValues=defmap_atoms_B, yValues=localRes_atoms_B,alpha=0.7, label='Chain B',edgecolors="gray",color='orange')
+         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
          plotter.legend()
 
          b, a = np.polyfit(x=defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
          plotter.plotData(xValues=defmap_atoms_arr,yValues= a + b * defmap_atoms_arr,color="k", lw=1)
 
      return [plotter]
+  
+  def plotChains(self, plotter, idList,defmapModel,extraModel):
+     for chain in idList:  
+      defmap_atoms_chain = self.getAtomList(defmapModel, chain)
+      extra_atoms_chain = self.getAtomList(extraModel, chain)
+      label = 'Chain %s' % chain
+      color = self.getColor(chain)
+      plotter.plotScatter(xValues=defmap_atoms_chain, yValues=extra_atoms_chain,alpha=0.7, label=label, edgecolors="gray",color=color)
+
+  def getColor(self, chain):
+     if chain == 'A':
+        return 'cyan'
+     elif chain == 'B':
+        return 'orange'
+     elif chain == 'C':
+        return 'yellowgreen'
+     elif chain == 'D':
+        return 'pink'
+     elif chain == 'E':
+        return 'steelblue'
+     elif chain == 'F':
+        return 'tomato'
+     else :
+        return 'blue'
+     
+  
+  def getChainList(self,model):
+     list = []
+     for chain in model.get_chains():
+        list.append(chain.get_id())
+     return list
   
   def getAtomList(self,model,chain=None):
      if chain is None:

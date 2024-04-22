@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 # **************************************************************************
 # *
-# * Authors:     Sofia Gonzalez Matatoros (sofia.gonzalezm@estudiante.uam.es)
+# * Authors:     Sofía González Matatoros (sofia.gonzalezm@estudiante.uam.es)
 # *
-# * your institution
+# * Centro Nacional de Biotecnología CNB - Universidad Autónoma de Madrid UAM
 # *
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
