@@ -37,7 +37,7 @@ import numpy as np
 from Bio.PDB.PDBParser import PDBParser
 from pwem.objects import AtomStruct
 from scipy.stats import pearsonr
-
+import os
 
 class DefmapViewer(ProtocolViewer):
   _targets = [DefMapNeuralNetwork, DefmapTestViewer, AtomStruct]
@@ -90,10 +90,8 @@ class DefmapViewer(ProtocolViewer):
      logger.info("defmap structure: %s" % defmapFile)
      defmap_st =  handler.get_structure(id='DEFMAP',file=defmapFile)[0]
      defmap_chainList= self.getChainList(defmap_st)
-   #   defmap_atoms_A = self.getAtomList(defmap_st[0],'A')
-   #   defmap_atoms_B = self.getAtomList(defmap_st[0],'B')
-     defmap_atoms = self.getAtomList(defmap_st)
-     defmap_atoms_arr = np.array(object=defmap_atoms)
+     self.defmap_atoms = self.getAtomList(defmap_st)
+     self.defmap_atoms_arr = self.getBfactors(self.defmap_atoms)
 
      # plot histogram
 
@@ -101,7 +99,7 @@ class DefmapViewer(ProtocolViewer):
      plotter.createSubPlot(title="Frequencies of RMSD in Defmap output",
                            xlabel="RMSD",ylabel="Frequencies")
 
-     plotter.plotHist(yValues=defmap_atoms,nbins=100)
+     plotter.plotHist(yValues=self.defmap_atoms_arr,nbins=100)
 
       # set dataframe of second structure
      folder = path.split(defmapFile)[0]
@@ -117,22 +115,25 @@ class DefmapViewer(ProtocolViewer):
       logger.info("second structure: %s" % secondFile)
       second_st =  handler.get_structure(id='SECOND',file=secondFile)[0]
       second_atoms = self.getAtomList(second_st)
-      second_atoms_arr = np.array(object=second_atoms)
+      second_atoms_arr = self.checkAtomsSize(second_atoms)
 
       # plot RMSD vs b-factor
 
       plotter = EmPlotter()
 
-      matrix = pearsonr(x=defmap_atoms_arr,y=second_atoms_arr)
+      matrix = pearsonr(x=self.defmap_atoms_arr,y=second_atoms_arr)
       subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
 
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
-                              xlabel="RMSD Defmap output",ylabel="B-factors Atomic Structure")
+         xlabel="RMSD Defmap output",ylabel="B-factors Atomic Structure")
+      
+
       self.plotChains(plotter,defmap_chainList,defmap_st,second_st)
       plotter.legend()
 
-      b, a = np.polyfit(x=defmap_atoms_arr,y=second_atoms_arr,deg=1)
-      plotter.plotData(xValues=defmap_atoms_arr,yValues= a + b * defmap_atoms_arr,color="k", lw=1)
+      b, a = np.polyfit(x=self.defmap_atoms_arr,y=second_atoms_arr,deg=1)
+
+      plotter.plotData(xValues=self.defmap_atoms_arr,yValues= a + b * np.array(self.defmap_atoms_arr),color="k", lw=1)
 
    #   # plot RMSD vs local resolution 
 
@@ -141,9 +142,9 @@ class DefmapViewer(ProtocolViewer):
          localResFile = self.inputLocalRes.get().getFileName()
          localRes_st =  handler.get_structure(id='LOCALRES',file=localResFile)[0]
          localRes_atoms = self.getAtomList(localRes_st)
-         localRes_atoms_arr = np.array(object=localRes_atoms)
+         localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
-         matrix = pearsonr(x=defmap_atoms_arr,y=localRes_atoms_arr)
+         matrix = pearsonr(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
          subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
 
          plotter = EmPlotter()
@@ -152,8 +153,8 @@ class DefmapViewer(ProtocolViewer):
          self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
          plotter.legend()
 
-         b, a = np.polyfit(x=defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
-         plotter.plotData(xValues=defmap_atoms_arr,yValues= a + b * defmap_atoms_arr,color="k", lw=1)
+         b, a = np.polyfit(x=self.defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
+         plotter.plotData(xValues=self.defmap_atoms_arr,yValues= a + b * np.array(self.defmap_atoms_arr),color="k", lw=1)
 
      return [plotter]
   
@@ -163,7 +164,49 @@ class DefmapViewer(ProtocolViewer):
       extra_atoms_chain = self.getAtomList(extraModel, chain)
       label = 'Chain %s' % chain
       color = self.getColor(chain)
-      plotter.plotScatter(xValues=defmap_atoms_chain, yValues=extra_atoms_chain,alpha=0.7, label=label, edgecolors="gray",color=color)
+      if(len(defmap_atoms_chain) == len(extra_atoms_chain)):
+         defmap_bfactors = self.getBfactors(defmap_atoms_chain)
+         extra_bfactors = self.getBfactors(extra_atoms_chain)
+
+      elif (len(defmap_atoms_chain) > len(extra_atoms_chain)):
+         defmap_bfactors = self.removeAtoms(defmap_atoms_chain, extra_atoms_chain)
+         extra_bfactors = self.getBfactors(extra_atoms_chain)
+      else:
+         defmap_bfactors = self.getBfactors(defmap_atoms_chain)
+         extra_bfactors = self.removeAtoms(extra_atoms_chain, defmap_atoms_chain)
+
+
+      plotter.plotScatter(xValues=defmap_bfactors, yValues=extra_bfactors,alpha=0.7, label=label, edgecolors="gray",color=color)
+
+
+  def checkAtomsSize(self,listToCompare):
+     if len(listToCompare) == len(self.defmap_atoms):
+        return self.getBfactors(listToCompare)
+     elif len(listToCompare) > len(self.defmap_atoms):
+        return self.removeAtoms(listToCompare,self.defmap_atoms)
+     else:
+        self.defmap_atoms_arr = self.removeAtoms(self.defmap_atoms,listToCompare)
+        return self.getBfactors(listToCompare)
+         
+
+
+  def getBfactors(self, list):
+     result = []
+     for tuple in list:
+        result.append(tuple[1])
+     return result
+
+
+  def removeAtoms(self, listToChange, reference):
+     result = []
+     for i in range(len(reference)):
+        if reference[i][0] != listToChange[i][0]:
+           listToChange.remove(listToChange[i])
+
+        if len(listToChange)>i:
+           result.append(listToChange[i][1])
+
+     return result
 
   def getColor(self, chain):
      if chain == 'A':
@@ -196,7 +239,7 @@ class DefmapViewer(ProtocolViewer):
      result = []
      for atom in atomList:
         if atom.get_name() == 'CA':
-           result.append(atom.get_bfactor())
+         result.append((atom.get_parent().get_resname(),atom.get_bfactor()))
      return result
 
 
