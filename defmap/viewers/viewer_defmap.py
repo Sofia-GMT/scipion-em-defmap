@@ -141,7 +141,7 @@ class DefmapViewer(ProtocolViewer):
         # set dataframe of local resolutions
          localResFile = self.inputLocalRes.get().getFileName()
          localRes_st =  handler.get_structure(id='LOCALRES',file=localResFile)[0]
-         localRes_atoms = self.getAtomList(model=localRes_st,localRes=True)
+         localRes_atoms = self.getAtomList(model=localRes_st)
          localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
          matrix = pearsonr(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
@@ -150,7 +150,7 @@ class DefmapViewer(ProtocolViewer):
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
                                  xlabel="RMSD Defmap output",ylabel="Local resolution")
-         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,True)
+         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
          plotter.legend()
 
          b, a = np.polyfit(x=self.defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
@@ -158,10 +158,10 @@ class DefmapViewer(ProtocolViewer):
 
      return [plotter]
   
-  def plotChains(self, plotter, idList,defmapModel,extraModel,localRes=False):
+  def plotChains(self, plotter, idList,defmapModel,extraModel):
      for chain in idList:  
-      defmap_atoms_chain = self.getAtomList(defmapModel, chain,localRes)
-      extra_atoms_chain = self.getAtomList(extraModel, chain,localRes)
+      defmap_atoms_chain = self.getAtomList(defmapModel, chain)
+      extra_atoms_chain = self.getAtomList(extraModel, chain)
       label = 'Chain %s' % chain
       color = self.getColor(chain)
       if(len(defmap_atoms_chain) == len(extra_atoms_chain)):
@@ -231,7 +231,7 @@ class DefmapViewer(ProtocolViewer):
         list.append(chain.get_id())
      return list
   
-  def getAtomList(self,model,chain=None,localRes=False):
+  def getAtomList(self,model,chain=None):
      if chain is None:
         atomList = model.get_atoms()
      else:
@@ -239,11 +239,7 @@ class DefmapViewer(ProtocolViewer):
      result = []
      for atom in atomList:
         if atom.get_name() == 'CA':
-         if localRes:
-            if(atom.get_bfactor()>2.):
-              result.append((atom.get_parent().get_resname(),atom.get_bfactor())) 
-         else:
-            result.append((atom.get_parent().get_resname(),atom.get_bfactor()))
+         result.append((atom.get_parent().get_resname(),atom.get_bfactor()))
      return result
 
 
