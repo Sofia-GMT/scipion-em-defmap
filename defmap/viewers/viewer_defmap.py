@@ -97,7 +97,7 @@ class DefmapViewer(ProtocolViewer):
 
      plotter = EmPlotter()
      plotter.createSubPlot(title="Frequencies of RMSD in Defmap output",
-                           xlabel="RMSD",ylabel="Frequencies")
+                           xlabel="RMSD (Å)",ylabel="Frequencies")
 
      plotter.plotHist(yValues=self.defmap_atoms_arr,nbins=100)
 
@@ -128,7 +128,7 @@ class DefmapViewer(ProtocolViewer):
       
 
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
-         xlabel="RMSD Defmap output",ylabel="B-factors Atomic Structure")
+         xlabel="RMSD Defmap output (Å)",ylabel="B-factors Atomic Structure (Å^2)")
       
 
       self.plotChains(plotter,defmap_chainList,defmap_st,second_st)
@@ -153,7 +153,7 @@ class DefmapViewer(ProtocolViewer):
 
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
-                                 xlabel="RMSD Defmap output",ylabel="Local resolution")
+                                 xlabel="RMSD Defmap output (Å)",ylabel="Local resolution (Å)")
          self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
          plotter.legend()
 
