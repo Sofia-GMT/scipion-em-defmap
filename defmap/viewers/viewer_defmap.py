@@ -122,7 +122,10 @@ class DefmapViewer(ProtocolViewer):
       plotter = EmPlotter()
 
       matrix = pearsonr(x=self.defmap_atoms_arr,y=second_atoms_arr)
-      subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
+      b, a = np.polyfit(x=self.defmap_atoms_arr,y=second_atoms_arr,deg=1)
+
+      subtitle = 'Pearson correlation coefficient %f with pvalue %f \n Linear regression y = %f x + %f' % (matrix[0], matrix[1], b, a)
+      
 
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
          xlabel="RMSD Defmap output",ylabel="B-factors Atomic Structure")
@@ -131,7 +134,7 @@ class DefmapViewer(ProtocolViewer):
       self.plotChains(plotter,defmap_chainList,defmap_st,second_st)
       plotter.legend()
 
-      b, a = np.polyfit(x=self.defmap_atoms_arr,y=second_atoms_arr,deg=1)
+      
 
       plotter.plotData(xValues=self.defmap_atoms_arr,yValues= a + b * np.array(self.defmap_atoms_arr),color="k", lw=1)
 
@@ -145,7 +148,8 @@ class DefmapViewer(ProtocolViewer):
          localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
          matrix = pearsonr(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
-         subtitle = 'Pearson correlation coefficient %s with pvalue %s' % matrix
+         b, a = np.polyfit(x=self.defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
+         subtitle = 'Pearson correlation coefficient %f with pvalue %f \n Linear regression y = %f x + %f' % (matrix[0], matrix[1], b, a)
 
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
@@ -153,7 +157,7 @@ class DefmapViewer(ProtocolViewer):
          self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
          plotter.legend()
 
-         b, a = np.polyfit(x=self.defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
+         
          plotter.plotData(xValues=self.defmap_atoms_arr,yValues= a + b * np.array(self.defmap_atoms_arr),color="k", lw=1)
 
      return [plotter]
