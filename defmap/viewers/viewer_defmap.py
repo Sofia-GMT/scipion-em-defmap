@@ -148,8 +148,19 @@ class DefmapViewer(ProtocolViewer):
          localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
          matrix = pearsonr(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
-         b, a = np.polyfit(x=self.defmap_atoms_arr,y=localRes_atoms_arr,deg=1)
-         subtitle = 'Pearson correlation coefficient %f with pvalue %f \n Linear regression y = %f x + %f' % (matrix[0], matrix[1], b, a)
+
+         matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
+
+         regression = linregress(x=self.defmap_atoms_arr,y=second_atoms_arr)
+
+         regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %f""" % (
+         regression.slope, regression.stderr, regression.intercept, regression.intercept_stderr,
+         regression.rvalue, regression.pvalue)
+
+         subtitle = '%s %s' % (matrixSubtitle, regressionSubtitle)
+
+         b = regression.slope
+         a = regression.intercept
 
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
