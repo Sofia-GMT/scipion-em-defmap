@@ -151,13 +151,14 @@ class DefmapViewer(ProtocolViewer):
 
          matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
 
-         regression = linregress(x=self.defmap_atoms_arr,y=second_atoms_arr)
+         regression = linregress(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
 
          regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %f""" % (
          regression.slope, regression.stderr, regression.intercept, regression.intercept_stderr,
          regression.rvalue, regression.pvalue)
 
          subtitle = '%s %s' % (matrixSubtitle, regressionSubtitle)
+
 
          b = regression.slope
          a = regression.intercept
