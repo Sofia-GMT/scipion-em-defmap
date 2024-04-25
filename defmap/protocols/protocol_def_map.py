@@ -105,21 +105,21 @@ class DefMapNeuralNetwork(Protocol):
                         help='Top threshold to drop voxels with a standardized intensity.\n'
                               'If not given, a threshold of 0 will be used for preprocessing.')
         
-        form.addParam('inputRunNeuralNetwork', params.BooleanParam, default=True,
-                      condition='inputPreprocess == True',
-                      label='Would you like to run also the neural network?',
-                      help="Whether to only preprocess the volumes or also run the neural network")  
+        # form.addParam('inputRunNeuralNetwork', params.BooleanParam, default=True,
+        #               condition='inputPreprocess == True',
+        #               label='Would you like to run also the neural network?',
+        #               help="Whether to only preprocess the volumes or also run the neural network")  
 
     # --------------------------- STEPS ------------------------------
     def _insertAllSteps(self):
         self._insertFunctionStep('validateFormats')
         if self.inputPreprocess:
             self._insertFunctionStep('preprocess')
-        if self.inputRunNeuralNetwork:
-            self._insertFunctionStep('createDatasetStep')
-            self._insertFunctionStep('inferenceStep')
-            self._insertFunctionStep('postprocStepVoxel')
-            self._insertFunctionStep('postprocStepPdb')
+        #if self.inputRunNeuralNetwork:
+        self._insertFunctionStep('createDatasetStep')
+        self._insertFunctionStep('inferenceStep')
+        self._insertFunctionStep('postprocStepVoxel')
+        self._insertFunctionStep('postprocStepPdb')
         self._insertFunctionStep('createOutputStep')
         
 
@@ -296,12 +296,6 @@ class DefMapNeuralNetwork(Protocol):
             logger.info(outputVolume.getOrigin())
             logger.info("atomic structure")
             logger.info(pdbReference.centerOfMass(True))
-
-            # origin = Transform()
-            # origin.setShifts( x / -2.0 * 1.5, 
-            #                  y / -2.0 * 1.5,
-            #                  z / -2.0 * 1.5)
-            # outputVolume.setOrigin(origin)
             outputVolume.setSamplingRate(1.5)
             outputVolume.setObjComment(outputVolume.getBaseName())
             outputVolume.fixMRCVolume(True)

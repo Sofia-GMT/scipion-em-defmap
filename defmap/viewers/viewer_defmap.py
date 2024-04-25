@@ -36,7 +36,7 @@ from pyworkflow.utils import logger
 import numpy as np
 from Bio.PDB.PDBParser import PDBParser
 from pwem.objects import AtomStruct
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, linregress
 import os
 
 class DefmapViewer(ProtocolViewer):
@@ -50,11 +50,6 @@ class DefmapViewer(ProtocolViewer):
 
   def _defineParams(self, form):
      form.addSection(label='Visualization')
-     form.addParam('inputSecondStructure', params.PointerParam,
-                      label='Atomic structure', allowsNull=True,
-                      help='Atomic struture to compare with the output from Defmap. Only works with pdb extension.',
-                      pointerClass="AtomStruct",
-                      allowsPointers=True)
      form.addParam('inputLocalRes', params.PointerParam,
                       label='Local resolutions', allowsNull=True,
                       help='Local resolutions to compare with the output from Defmap. Only works with pdb extension.',
@@ -96,8 +91,8 @@ class DefmapViewer(ProtocolViewer):
      # plot histogram
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title="Frequencies of RMSD in Defmap output",
-                           xlabel="RMSD (Å)",ylabel="Frequencies")
+     plotter.createSubPlot(title="Occurrencies of RMSF in Defmap output",
+                           xlabel="log(RMSF)",ylabel="Count")
 
      plotter.plotHist(yValues=self.defmap_atoms_arr,nbins=100)
 
@@ -106,9 +101,7 @@ class DefmapViewer(ProtocolViewer):
      secondPath = folder+"/structure.pdb"
      secondFile = None
 
-     if self.inputSecondStructure.hasValue():
-        secondFile = self.inputSecondStructure.get().getFileName()
-     elif path.exists(secondPath) :
+     if path.exists(secondPath) :
         secondFile = readlink(secondPath)
 
      if secondFile is not None:
@@ -117,28 +110,35 @@ class DefmapViewer(ProtocolViewer):
       second_atoms = self.getAtomList(second_st)
       second_atoms_arr = self.checkAtomsSize(second_atoms)
 
-      # plot RMSD vs b-factor
+      # plot RMSF vs b-factor
 
       plotter = EmPlotter()
 
       matrix = pearsonr(x=self.defmap_atoms_arr,y=second_atoms_arr)
-      b, a = np.polyfit(x=self.defmap_atoms_arr,y=second_atoms_arr,deg=1)
 
-      subtitle = 'Pearson correlation coefficient %f with pvalue %f \n Linear regression y = %f x + %f' % (matrix[0], matrix[1], b, a)
+      matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
+
+      regression = linregress(x=self.defmap_atoms_arr,y=second_atoms_arr)
+
+      regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %f""" % (
+         regression.slope, regression.stderr, regression.intercept, regression.intercept_stderr,
+         regression.rvalue, regression.pvalue)
+
+      subtitle = '%s %s' % (matrixSubtitle, regressionSubtitle)
       
 
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
-         xlabel="RMSD Defmap output (Å)",ylabel="B-factors Atomic Structure (Å^2)")
+         xlabel="log(RMSF) Defmap output",ylabel="B-factors Atomic Structure (Å^2)")
       
-
       self.plotChains(plotter,defmap_chainList,defmap_st,second_st)
       plotter.legend()
 
-      
+      b = regression.slope
+      a = regression.intercept
 
       plotter.plotData(xValues=self.defmap_atoms_arr,yValues= a + b * np.array(self.defmap_atoms_arr),color="k", lw=1)
 
-   #   # plot RMSD vs local resolution 
+   #   # plot RMSF vs local resolution 
 
      if self.inputLocalRes.hasValue():
         # set dataframe of local resolutions
@@ -153,7 +153,7 @@ class DefmapViewer(ProtocolViewer):
 
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
-                                 xlabel="RMSD Defmap output (Å)",ylabel="Local resolution (Å)")
+                                 xlabel="log(RMSF) Defmap output",ylabel="Local resolution (Å)")
          self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
          plotter.legend()
 
