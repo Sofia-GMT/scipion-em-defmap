@@ -38,6 +38,7 @@ from Bio.PDB.PDBParser import PDBParser
 from pwem.objects import AtomStruct
 from scipy.stats import pearsonr, linregress
 import os
+from math import exp
 
 class DefmapViewer(ProtocolViewer):
   _targets = [DefMapNeuralNetwork, DefmapTestViewer, AtomStruct]
@@ -51,7 +52,7 @@ class DefmapViewer(ProtocolViewer):
   def _defineParams(self, form):
      form.addSection(label='Visualization')
      form.addParam('inputLocalRes', params.PointerParam,
-                      label='Local resolutions', allowsNull=True,
+                      label='Atomic structure to compare', allowsNull=True,
                       help='Local resolutions to compare with the output from Defmap. Only works with pdb extension.',
                       pointerClass="AtomStruct",
                       allowsPointers=True)
@@ -59,12 +60,16 @@ class DefmapViewer(ProtocolViewer):
                       label='See results in Pymol'
                       )
      form.addParam('makeGraph', params.LabelParam,
-                      label='See a graph with b-factors'
+                      label='See a graph with b-factors vs log(RMSF)'
+                      )
+     form.addParam('makeGraphExp', params.LabelParam,
+                      label='See a graph with b-factors vs RMSF'
                       )
   
   def _getVisualizeDict(self):
         return {'openPymol': self._viewPymol,
-                'makeGraph': self._viewGraph}
+                'makeGraph': self._viewGraph,
+                'makeGraphExp': self._viewGraph}
   
   def _viewPymol(self, *args):
    folder = path.split(self.protocol.outputStructure.getFileName())[0]
@@ -72,7 +77,13 @@ class DefmapViewer(ProtocolViewer):
    view = PyMolViewer(project=self.getProject())
    return view._visualize(pymolFile=files, cwd=folder)
   
+  
   def _viewGraph(self,*args):
+     
+     if len(args) > 0 :
+        exponential = args[0] == "makeGraphExp"
+     else:
+        exponential = False
      
      handler = PDBParser()
      
@@ -85,7 +96,7 @@ class DefmapViewer(ProtocolViewer):
      logger.info("defmap structure: %s" % defmapFile)
      defmap_st =  handler.get_structure(id='DEFMAP',file=defmapFile)[0]
      defmap_chainList= self.getChainList(defmap_st)
-     self.defmap_atoms = self.getAtomList(defmap_st)
+     self.defmap_atoms = self.getAtomList(defmap_st,log=exponential)
      self.defmap_atoms_arr = self.getBfactors(self.defmap_atoms)
 
      # plot histogram
@@ -130,7 +141,7 @@ class DefmapViewer(ProtocolViewer):
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
          xlabel="log(RMSF) Defmap output",ylabel="B-factors Atomic Structure (Å^2)")
       
-      self.plotChains(plotter,defmap_chainList,defmap_st,second_st)
+      self.plotChains(plotter,defmap_chainList,defmap_st,second_st,exponential)
       plotter.legend()
 
       b = regression.slope
@@ -166,7 +177,7 @@ class DefmapViewer(ProtocolViewer):
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
                                  xlabel="log(RMSF) Defmap output",ylabel="Local resolution (Å)")
-         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st)
+         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,exponential)
          plotter.legend()
 
          
@@ -174,9 +185,9 @@ class DefmapViewer(ProtocolViewer):
 
      return [plotter]
   
-  def plotChains(self, plotter, idList,defmapModel,extraModel):
+  def plotChains(self, plotter, idList,defmapModel,extraModel,exp=False):
      for chain in idList:  
-      defmap_atoms_chain = self.getAtomList(defmapModel, chain)
+      defmap_atoms_chain = self.getAtomList(defmapModel, chain, exp)
       extra_atoms_chain = self.getAtomList(extraModel, chain)
       label = 'Chain %s' % chain
       color = self.getColor(chain)
@@ -247,7 +258,7 @@ class DefmapViewer(ProtocolViewer):
         list.append(chain.get_id())
      return list
   
-  def getAtomList(self,model,chain=None):
+  def getAtomList(self,model,chain=None,log=False):
      if chain is None:
         atomList = model.get_atoms()
      else:
@@ -255,7 +266,11 @@ class DefmapViewer(ProtocolViewer):
      result = []
      for atom in atomList:
         if atom.get_name() == 'CA':
-         result.append((atom.get_parent().get_resname(),atom.get_bfactor()))
+         if log:
+            value = exp(atom.get_bfactor())
+         else:
+            value = atom.get_bfactor()
+         result.append((atom.get_parent().get_resname(),value))
      return result
 
 
