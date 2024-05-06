@@ -38,7 +38,8 @@ from Bio.PDB.PDBParser import PDBParser
 from pwem.objects import AtomStruct
 from scipy.stats import pearsonr, linregress
 import os
-from math import exp
+from math import exp, pow
+from decimal import Decimal
 
 class DefmapViewer(ProtocolViewer):
   _targets = [DefMapNeuralNetwork, DefmapTestViewer, AtomStruct]
@@ -52,7 +53,7 @@ class DefmapViewer(ProtocolViewer):
   def _defineParams(self, form):
      form.addSection(label='Visualization')
      form.addParam('inputLocalRes', params.PointerParam,
-                      label='Atomic structure to compare', allowsNull=True,
+                      label='Local resolutions', allowsNull=True,
                       help='Local resolutions to compare with the output from Defmap. Only works with pdb extension.',
                       pointerClass="AtomStruct",
                       allowsPointers=True)
@@ -84,6 +85,11 @@ class DefmapViewer(ProtocolViewer):
         exponential = args[0] == "makeGraphExp"
      else:
         exponential = False
+
+     if exponential:
+        header = "log(RMSF(Å))"
+     else:
+        header = "RMSF (Å)"
      
      handler = PDBParser()
      
@@ -102,10 +108,23 @@ class DefmapViewer(ProtocolViewer):
      # plot histogram
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title="Occurrencies of RMSF in Defmap output",
-                           xlabel="log(RMSF)",ylabel="Count")
+     plotter.createSubPlot(title="Occurrencies of Defmap output values",
+                           xlabel=header,ylabel="Count")
 
      plotter.plotHist(yValues=self.defmap_atoms_arr,nbins=100)
+
+      # plot RMSF vs serial number
+     plotter = EmPlotter()
+   
+     plotter.createSubPlot(title="Defmap vs Residue position",xlabel="residue",ylabel=header)
+     for chain in defmap_chainList:  
+        label = 'Chain %s' % chain
+        color = self.getColor(chain)
+        atomList = self.getAtomList(defmap_st, chain, exponential) 
+        plotter.plotScatter(xValues=self.getAtomSerialNumbers(atomList), yValues=self.getBfactors(atomList),alpha=0.7, label=label, edgecolors="gray",color=color)
+     
+     plotter.legend()
+
 
       # set dataframe of second structure
      folder = path.split(defmapFile)[0]
@@ -125,21 +144,21 @@ class DefmapViewer(ProtocolViewer):
 
       plotter = EmPlotter()
 
-      matrix = pearsonr(x=self.defmap_atoms_arr,y=second_atoms_arr)
+      matrix = pearsonr(x=self.defmap_atoms_arr,y=second_atoms_arr )
 
-      matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
+      matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %.2E.' % (matrix[0], Decimal(matrix[1]))
 
       regression = linregress(x=self.defmap_atoms_arr,y=second_atoms_arr)
 
-      regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %f""" % (
+      regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %.2E""" % (
          regression.slope, regression.stderr, regression.intercept, regression.intercept_stderr,
-         regression.rvalue, regression.pvalue)
+         pow(regression.rvalue,2), Decimal(regression.pvalue))
 
       subtitle = '%s %s' % (matrixSubtitle, regressionSubtitle)
       
 
       plotter.createSubPlot(title="Defmap output vs Atomic Structure", subtitle=subtitle,
-         xlabel="log(RMSF) Defmap output",ylabel="B-factors Atomic Structure (Å^2)")
+         xlabel= "Defmap output "+header,ylabel="Atomic Structure B-factors (Å^2)")
       
       self.plotChains(plotter,defmap_chainList,defmap_st,second_st,exponential)
       plotter.legend()
@@ -164,9 +183,9 @@ class DefmapViewer(ProtocolViewer):
 
          regression = linregress(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
 
-         regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %f""" % (
+         regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %.2E""" % (
          regression.slope, regression.stderr, regression.intercept, regression.intercept_stderr,
-         regression.rvalue, regression.pvalue)
+         pow(regression.rvalue,2), Decimal(regression.pvalue))
 
          subtitle = '%s %s' % (matrixSubtitle, regressionSubtitle)
 
@@ -176,7 +195,7 @@ class DefmapViewer(ProtocolViewer):
 
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
-                                 xlabel="log(RMSF) Defmap output",ylabel="Local resolution (Å)")
+                                 xlabel="Defmap output "+header,ylabel="Local resolution (Å)")
          self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,exponential)
          plotter.legend()
 
@@ -221,6 +240,12 @@ class DefmapViewer(ProtocolViewer):
      result = []
      for tuple in list:
         result.append(tuple[1])
+     return result
+  
+  def getAtomSerialNumbers(self, list):
+     result = []
+     for tuple in list:
+        result.append(tuple[2])
      return result
 
 
@@ -270,7 +295,9 @@ class DefmapViewer(ProtocolViewer):
             value = exp(atom.get_bfactor())
          else:
             value = atom.get_bfactor()
-         result.append((atom.get_parent().get_resname(),value))
+            
+         residueIndex = atom.get_full_id()[3][1]
+         result.append((atom.get_parent().get_resname(),value,residueIndex))
      return result
 
 
