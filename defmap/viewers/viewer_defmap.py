@@ -86,10 +86,10 @@ class DefmapViewer(ProtocolViewer):
      else:
         exponential = False
 
-     if exponential:
-        header = "log(RMSF(Å))"
-     else:
+     if exponential == True:
         header = "RMSF (Å)"
+     else:
+        header = "log(RMSF(Å))"
      
      handler = PDBParser()
      
@@ -108,8 +108,8 @@ class DefmapViewer(ProtocolViewer):
      # plot histogram
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title="Occurrencies of Defmap output values",
-                           xlabel=header,ylabel="Count")
+     plotter.createSubPlot(title=exponential,
+                           xlabel=header,ylabel="Counts")
 
      plotter.plotHist(yValues=self.defmap_atoms_arr,nbins=100)
 
