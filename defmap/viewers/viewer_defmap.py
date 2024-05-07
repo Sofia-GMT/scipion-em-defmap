@@ -108,7 +108,7 @@ class DefmapViewer(ProtocolViewer):
      # plot histogram
 
      plotter = EmPlotter()
-     plotter.createSubPlot(title="Occurrencies of Defmap output values",
+     plotter.createSubPlot(title="Occurrences of Defmap output values",
                            xlabel=header,ylabel="Counts")
 
      plotter.plotHist(yValues=self.defmap_atoms_arr,nbins=100)
