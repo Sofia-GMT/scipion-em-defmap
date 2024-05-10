@@ -177,6 +177,10 @@ class DefmapViewer(ProtocolViewer):
          localRes_atoms = self.getAtomList(model=localRes_st)
          localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
+         index_nonzero_localRes = np.nonzero(localRes_atoms_arr)[0]
+         self.defmap_atoms_arr = self.defmap_atoms_arr[index_nonzero_localRes]
+         localRes_atoms_arr = localRes_atoms_arr[index_nonzero_localRes]
+
          matrix = pearsonr(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
 
          matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
@@ -196,7 +200,7 @@ class DefmapViewer(ProtocolViewer):
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
                                  xlabel="Defmap output "+header,ylabel="Local resolution (Å)")
-         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,exponential)
+         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,exponential,True)
          plotter.legend()
 
          
