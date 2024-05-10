@@ -227,8 +227,8 @@ class DefmapViewer(ProtocolViewer):
 
       if localRes:
          index_nonzero_localRes = np.nonzero(extra_bfactors)[0]
-         defmap_bfactors = defmap_bfactors[index_nonzero_localRes]
-         extra_bfactors = extra_bfactors[index_nonzero_localRes]
+         defmap_bfactors = np.array(defmap_bfactors)[index_nonzero_localRes]
+         extra_bfactors = np.array(extra_bfactors)[index_nonzero_localRes]
          
       plotter.plotScatter(xValues=defmap_bfactors, yValues=extra_bfactors,alpha=0.7, label=label, edgecolors="gray",color=color)
 
