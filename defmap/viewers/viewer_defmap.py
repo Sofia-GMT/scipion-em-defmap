@@ -166,7 +166,7 @@ class DefmapViewer(ProtocolViewer):
       b = regression.slope
       a = regression.intercept
 
-      plotter.plotData(xValues=self.defmap_atoms_arr,yValues= a + b * np.array(self.defmap_atoms_arr),color="k", lw=1)
+      plotter.plotData(xValues=self.defmap_atoms_arr,yValues=(a + b * np.array(self.defmap_atoms_arr)),color="k", lw=1)
 
    #   # plot RMSF vs local resolution 
 
@@ -204,7 +204,7 @@ class DefmapViewer(ProtocolViewer):
 
      return [plotter]
   
-  def plotChains(self, plotter, idList,defmapModel,extraModel,exp=False):
+  def plotChains(self, plotter, idList,defmapModel,extraModel,exp=False,localRes=False):
      for chain in idList:  
       defmap_atoms_chain = self.getAtomList(defmapModel, chain, exp)
       extra_atoms_chain = self.getAtomList(extraModel, chain)
@@ -221,7 +221,11 @@ class DefmapViewer(ProtocolViewer):
          defmap_bfactors = self.getBfactors(defmap_atoms_chain)
          extra_bfactors = self.removeAtoms(extra_atoms_chain, defmap_atoms_chain)
 
-
+      if localRes:
+         index_nonzero_localRes = np.nonzero(extra_bfactors)[0]
+         defmap_bfactors = defmap_bfactors[index_nonzero_localRes]
+         extra_bfactors = extra_bfactors[index_nonzero_localRes]
+         
       plotter.plotScatter(xValues=defmap_bfactors, yValues=extra_bfactors,alpha=0.7, label=label, edgecolors="gray",color=color)
 
 
