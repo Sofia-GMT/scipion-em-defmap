@@ -178,14 +178,14 @@ class DefmapViewer(ProtocolViewer):
          localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
          index_nonzero_localRes = np.nonzero(localRes_atoms_arr)[0]
-         self.defmap_atoms_arr = self.defmap_atoms_arr[index_nonzero_localRes]
-         localRes_atoms_arr = localRes_atoms_arr[index_nonzero_localRes]
+         defmap_atoms_arr_cleaned = np.array(self.defmap_atoms_arr)[index_nonzero_localRes]
+         localRes_atoms_arr = np.array(localRes_atoms_arr)[index_nonzero_localRes]
 
-         matrix = pearsonr(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
+         matrix = pearsonr(x=defmap_atoms_arr_cleaned,y=localRes_atoms_arr)
 
          matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
 
-         regression = linregress(x=self.defmap_atoms_arr,y=localRes_atoms_arr)
+         regression = linregress(x=defmap_atoms_arr_cleaned,y=localRes_atoms_arr)
 
          regressionSubtitle = """Linear regression: y = (%f ± %f) x + (%f ± %f); R2 %f; pvalue %.2E""" % (
          regression.slope, regression.stderr, regression.intercept, regression.intercept_stderr,
