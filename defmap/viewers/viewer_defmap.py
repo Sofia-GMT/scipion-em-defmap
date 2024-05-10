@@ -60,7 +60,7 @@ class DefmapViewer(ProtocolViewer):
 
      form.addParam('removeZeros', params.BooleanParam,
                       label='Remove zeros from local resolution',
-                      condition="inputLocalRes.hasValue()",
+                      condition="inputLocalRes is not None",
                       default=False
                       )     
 
