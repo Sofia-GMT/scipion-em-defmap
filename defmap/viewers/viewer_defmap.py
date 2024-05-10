@@ -57,6 +57,13 @@ class DefmapViewer(ProtocolViewer):
                       help='Local resolutions to compare with the output from Defmap. Only works with pdb extension.',
                       pointerClass="AtomStruct",
                       allowsPointers=True)
+
+     form.addParam('removeZeros', params.BooleanParam,
+                      label='Remove zeros from local resolution',
+                      condition="inputLocalRes.hasValue()",
+                      default=False
+                      )     
+
      form.addParam('openPymol', params.LabelParam,
                       label='See results in Pymol'
                       )
@@ -90,6 +97,8 @@ class DefmapViewer(ProtocolViewer):
         header = "RMSF (Å)"
      else:
         header = "log(RMSF(Å))"
+
+     nonzero = self.removeZeros.get()
      
      handler = PDBParser()
      
@@ -177,9 +186,13 @@ class DefmapViewer(ProtocolViewer):
          localRes_atoms = self.getAtomList(model=localRes_st)
          localRes_atoms_arr = self.checkAtomsSize(localRes_atoms)
 
-         index_nonzero_localRes = np.nonzero(localRes_atoms_arr)[0]
-         defmap_atoms_arr_cleaned = np.array(self.defmap_atoms_arr)[index_nonzero_localRes]
-         localRes_atoms_arr = np.array(localRes_atoms_arr)[index_nonzero_localRes]
+         if nonzero:
+            index_nonzero_localRes = np.nonzero(localRes_atoms_arr)[0]
+            defmap_atoms_arr_cleaned = np.array(self.defmap_atoms_arr)[index_nonzero_localRes]
+            localRes_atoms_arr = np.array(localRes_atoms_arr)[index_nonzero_localRes]
+         else:
+            defmap_atoms_arr_cleaned = np.array(self.defmap_atoms_arr)
+            localRes_atoms_arr = np.array(localRes_atoms_arr)
 
          matrix = pearsonr(x=defmap_atoms_arr_cleaned,y=localRes_atoms_arr)
 
@@ -200,7 +213,7 @@ class DefmapViewer(ProtocolViewer):
          plotter = EmPlotter()
          plotter.createSubPlot(title="Defmap output vs Local Resolution", subtitle=subtitle,
                                  xlabel="Defmap output "+header,ylabel="Local resolution (Å)")
-         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,exponential,True)
+         self.plotChains(plotter,defmap_chainList,defmap_st,localRes_st,exponential,nonzero)
          plotter.legend()
 
          
@@ -208,7 +221,7 @@ class DefmapViewer(ProtocolViewer):
 
      return [plotter]
   
-  def plotChains(self, plotter, idList,defmapModel,extraModel,exp=False,localRes=False):
+  def plotChains(self, plotter, idList,defmapModel,extraModel,exp=False,removeZeros=False):
      for chain in idList:  
       defmap_atoms_chain = self.getAtomList(defmapModel, chain, exp)
       extra_atoms_chain = self.getAtomList(extraModel, chain)
@@ -225,7 +238,7 @@ class DefmapViewer(ProtocolViewer):
          defmap_bfactors = self.getBfactors(defmap_atoms_chain)
          extra_bfactors = self.removeAtoms(extra_atoms_chain, defmap_atoms_chain)
 
-      if localRes:
+      if removeZeros:
          index_nonzero_localRes = np.nonzero(extra_bfactors)[0]
          defmap_bfactors = np.array(defmap_bfactors)[index_nonzero_localRes]
          extra_bfactors = np.array(extra_bfactors)[index_nonzero_localRes]
