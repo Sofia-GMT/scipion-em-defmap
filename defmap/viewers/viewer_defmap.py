@@ -65,7 +65,7 @@ class DefmapViewer(ProtocolViewer):
                       )     
 
      form.addParam('openPymol', params.LabelParam,
-                      label='See results in Pymol'
+                      label='See results in PyMOL'
                       )
      form.addParam('makeGraph', params.LabelParam,
                       label='See a graph with b-factors vs log(RMSF)'
