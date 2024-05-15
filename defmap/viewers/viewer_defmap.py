@@ -38,7 +38,7 @@ from Bio.PDB.PDBParser import PDBParser
 from pwem.objects import AtomStruct
 from scipy.stats import pearsonr, linregress
 import os
-from math import exp, pow
+from math import pow
 from decimal import Decimal
 
 class DefmapViewer(ProtocolViewer):
@@ -125,7 +125,7 @@ class DefmapViewer(ProtocolViewer):
       # plot RMSF vs serial number
      plotter = EmPlotter()
    
-     plotter.createSubPlot(title="Defmap vs Residue position",xlabel="residue",ylabel=header)
+     plotter.createSubPlot(title="Defmap vs Residue number",xlabel="residue",ylabel=header)
      for chain in defmap_chainList:  
         label = 'Chain %s' % chain
         color = self.getColor(chain)
@@ -313,7 +313,7 @@ class DefmapViewer(ProtocolViewer):
      for atom in atomList:
         if atom.get_name() == 'CA':
          if log:
-            value = pow(10,atom.get_bfactor())
+            value = pow(10,atom.get_bfactor()/10)
          else:
             value = atom.get_bfactor()
             
