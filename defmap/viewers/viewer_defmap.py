@@ -196,7 +196,7 @@ class DefmapViewer(ProtocolViewer):
 
          matrix = pearsonr(x=defmap_atoms_arr_cleaned,y=localRes_atoms_arr)
 
-         matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %f.' % matrix
+         matrixSubtitle = 'Pearson correlation coefficient %f with pvalue %.2E.' % (matrix[0], Decimal(matrix[1]))
 
          regression = linregress(x=defmap_atoms_arr_cleaned,y=localRes_atoms_arr)
 
