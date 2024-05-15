@@ -313,7 +313,7 @@ class DefmapViewer(ProtocolViewer):
      for atom in atomList:
         if atom.get_name() == 'CA':
          if log:
-            value = pow(10,atom.get_bfactor()/10)
+            value = pow(10,atom.get_bfactor())
          else:
             value = atom.get_bfactor()
             
